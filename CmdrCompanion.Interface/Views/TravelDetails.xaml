@@ -1,0 +1,52 @@
+﻿<Window x:Class="CmdrCompanion.Interface.Views.TravelDetails"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding PlanText}" Height="300" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListBox ItemsSource="{Binding StepsView}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock x:Name="stepContainer">
+                        <Run x:Name="stepHeader" /> <Run Text="{Binding Text}" />
+                    </TextBlock>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Type}" Value="initial">
+                            <Setter TargetName="stepHeader" Property="Text" Value="~" />
+                            <Setter TargetName="stepContainer" Property="FontStyle" Value="Italic" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="buy">
+                            <Setter TargetName="stepHeader" Property="Text" Value="+" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="jump">
+                            <Setter TargetName="stepHeader" Property="Text" Value="#" />
+                            <Setter TargetName="stepContainer" Property="FontWeight" Value="Bold" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="sell">
+                            <Setter TargetName="stepHeader" Property="Text" Value="-" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="final">
+                            <Setter TargetName="stepHeader" Property="Text" Value="~" />
+                            <Setter TargetName="stepContainer" Property="FontStyle" Value="Italic" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Grid.Row="1">
+            Total Profit per loop: <Run Text="{Binding TotalProfit}" FontWeight="Bold" />
+        </TextBlock>
+        <TextBlock Grid.Row="2">
+            Average profit per jump: <Run Text="{Binding AvgProfitPerJump}" FontWeight="Bold" />
+        </TextBlock>
+        <TextBlock Grid.Row="3">
+            Data freshness: <Run Text="{Binding DataDate, Converter={StaticResource converterAge}}" FontWeight="Bold" />
+        </TextBlock>
+    </Grid>
+</Window>

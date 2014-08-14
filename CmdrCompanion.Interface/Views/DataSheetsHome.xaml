@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="CmdrCompanion.Interface.Views.DataSheetsHome"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:core="clr-namespace:CmdrCompanion.Core;assembly=CmdrCompanion.Core"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600"
+             DataContext="{Binding CommodityAnalyzer, Source={StaticResource Locator}}">
+    <TabControl>
+        <TabItem Header="Commodities">
+            <ListView ItemsSource="{Binding CommoditiesView}">
+                <ListView.GroupStyle>
+                    <GroupStyle ContainerStyle="{StaticResource collapsingGroup}" />
+                </ListView.GroupStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="core:Commodity">
+                        <TextBlock>
+                            <Hyperlink Command="{Binding CommodityAnalyzer.ShowCommodityCommand, Source={StaticResource Locator}}" CommandParameter="{Binding}">
+                                <Run Text="{Binding Name}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </TabItem>
+        <TabItem Header="Places">
+            <ListView ItemsSource="{Binding PlacesView}" />
+        </TabItem>
+    </TabControl>
+</UserControl>

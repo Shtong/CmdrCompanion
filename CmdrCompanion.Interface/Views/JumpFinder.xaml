@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="CmdrCompanion.Interface.Views.JumpFinder"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ex="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400"
+             DataContext="{Binding JumpFinder, Source={StaticResource Locator}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <GroupBox Header="Jump ends">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                
+                <TextBlock FontWeight="Bold" VerticalAlignment="Center">From: </TextBlock>
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <ComboBox ItemsSource="{Binding FromStationsView}" SelectedItem="{Binding FromStation}" Width="200" />
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding FromDistanceEnabled, Converter={StaticResource converterVisibility}}">
+                        <TextBlock> station within </TextBlock>
+                        <ex:SingleUpDown AutoSelectBehavior="OnFocus" Value="{Binding FromDistance}" />
+                        <TextBlock>Ly of the destination system</TextBlock>
+                    </StackPanel>
+                    <Button Visibility="{Binding FromAnyEnabled, Converter={StaticResource converterVisibility}}" Command="{Binding FromAnyCommand}">Any</Button>
+                </StackPanel>
+
+                <TextBlock FontWeight="Bold" Grid.Row="1" VerticalAlignment="Center">To: </TextBlock>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+                    <ComboBox ItemsSource="{Binding ToStationsView}" SelectedItem="{Binding ToStation}" Width="200" />
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ToDistanceEnabled, Converter={StaticResource converterVisibility}}">
+                        <TextBlock VerticalAlignment="Center"> station within</TextBlock>
+                        <ex:SingleUpDown AutoSelectBehavior="OnFocus" Value="{Binding ToDistance}" />
+                        <TextBlock VerticalAlignment="Center">Ly of the starting system</TextBlock>
+                    </StackPanel>
+                    <Button Visibility="{Binding ToAnyEnabled, Converter={StaticResource converterVisibility}}" Command="{Binding ToAnyCommand}">Any</Button>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <Expander Header="Trades grid options" Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                
+                <CheckBox VerticalAlignment="Center">Show the Total Cost/Sell/Profit columns for a cargo of </CheckBox>
+                <ex:IntegerUpDown Grid.Column="1" />
+                
+                <CheckBox VerticalAlignment="Center" Grid.Row="1">Filter entries with profit per unit below this limit</CheckBox>
+                <ex:SingleUpDown x:Name="minProfitBox" Grid.Column="1" Grid.Row="1" />
+                
+                <CheckBox VerticalAlignment="Center" Grid.Row="2">Filter entries with a Cargo Price exceeding </CheckBox>
+                <ex:SingleUpDown Grid.Column="1" Grid.Row="2" />
+            </Grid>
+        </Expander>
+        <DataGrid Grid.Row="2">
+            
+        </DataGrid>
+    </Grid>
+</UserControl>

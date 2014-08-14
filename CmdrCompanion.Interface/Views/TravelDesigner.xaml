@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="CmdrCompanion.Interface.Views.TravelDesigner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ex="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="500"
+             DataContext="{Binding TravelDesigner, Source={StaticResource Locator}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="Select the possible systems you want to travel to, and click compute. The planner will check what is the jumping loop with the best " TextWrapping="Wrap" />
+        <GroupBox Header="Your ship" Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label Target="{Binding ElementName=budgetBox, Mode=OneTime}">Budget: </Label>
+                <ex:IntegerUpDown x:Name="budgetBox" Grid.Column="1" Text="{Binding Budget}" Minimum="1" AutoSelectBehavior="OnFocus" />
+                <Label Grid.Row="1" Target="{Binding ElementName=cargoBox, Mode=OneTime}">Cargo size: </Label>
+                <ex:IntegerUpDown x:Name="cargoBox" Grid.Column="1" Grid.Row="1" Text="{Binding Cargo}" Minimum="1" AutoSelectBehavior="OnFocus" />
+                <Label Grid.Row="2" Target="{Binding ElementName=startSystemBox}">Search systems around: </Label>
+                <ComboBox Grid.Row="2" Grid.Column="1" x:Name="startSystemBox" ItemsSource="{Binding StationsView}" SelectedItem="{Binding SelectedOrigin}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding Star.Name}" /> - <Run Text="{Binding Name}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Label Grid.Row="3" Target="{Binding ElementName=maxStartDistanceBox, Mode=OneTime}">
+                    <TextBlock>Only consider systems within this distance of <Run Text="{Binding SelectedOrigin.Name}" /> :</TextBlock>
+                </Label>
+                <ex:SingleUpDown x:Name="maxStartDistanceBox" Grid.Row="3" Grid.Column="1" Text="{Binding MaxDistanceFromOrigin}" AutoSelectBehavior="OnFocus" Minimum="2" Maximum="500" />
+                <Label Grid.Row="4" Target="{Binding ElementName=maxJumpsBox, Mode=OneTime}">Maximum jump count: </Label>
+                <ex:IntegerUpDown x:Name="maxJumpsBox" Grid.Row="4" Grid.Column="1" Text="{Binding MaxJumpsPerTravel}" AutoSelectBehavior="OnFocus" Minimum="2" Maximum="20" />
+                <Label Grid.Row="5" Target="{Binding ElementName=maxJumpDistanceBox, Mode=OneTime}">Maximum jump distance: </Label>
+                <ex:SingleUpDown x:Name="maxJumpDistanceBox" Grid.Row="5" Grid.Column="1" Text="{Binding MaxDistancePerjump}" AutoSelectBehavior="OnFocus" Minimum="2" Maximum="500" />
+            </Grid>
+        </GroupBox>
+        <Button Grid.Row="2" Command="{Binding ComputeCommand}">Compute</Button>
+        <DataGrid Grid.Row="3" ItemsSource="{Binding ResultsView}" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Plan">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Hyperlink Command="{Binding TravelDesigner.ShowDetailedResultCommand, Source={StaticResource Locator}}" CommandParameter="{Binding}">
+                                    <Run Text="{Binding PlanText, Mode=OneTime}" />
+                                </Hyperlink>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Jump count" Binding="{Binding JumpCount, Mode=OneTime}" />
+                <DataGridTextColumn Header="Avg. Profit / Jump" Binding="{Binding AvgProfitPerJump, Mode=OneTime}" />
+                <DataGridTextColumn Header="Total Profit" Binding="{Binding TotalProfit, Mode=OneTime}" SortDirection="Descending" />
+                <DataGridTextColumn Header="Data age" Binding="{Binding DataDate, Converter={StaticResource converterAge}}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
