@@ -102,10 +102,6 @@
     <Compile Include="Views\TravelDetails.xaml.cs">
       <DependentUpon>TravelDetails.xaml</DependentUpon>
     </Compile>
-    <Page Include="DataTemplates.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\DataSheetsHome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
