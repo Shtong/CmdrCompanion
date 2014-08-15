@@ -15,6 +15,7 @@
         <conv:AgeConverter x:Key="converterAge" />
         <conv:BooleanToVisibilityConverter x:Key="converterVisibility" />
         <conv:BooleanToVisibilityConverter x:Key="converterVisibilityHiding" UseHiding="true" />
+        <conv:NullableBooleanConverter x:Key="converterNullableBoolean" />
 
         <!-- Data templates -->
         <DataTemplate DataType="{x:Type core:Station}">

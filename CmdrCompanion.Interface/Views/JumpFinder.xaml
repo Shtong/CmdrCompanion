@@ -69,8 +69,8 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
-                <CheckBox VerticalAlignment="Center">Show the Total Cost/Sell/Profit columns for a cargo of </CheckBox>
-                <ex:IntegerUpDown Grid.Column="1" />
+                <CheckBox VerticalAlignment="Center" IsChecked="{Binding ShowCargoIndicators, Converter={StaticResource converterNullableBoolean}}">Show the Total Cost/Sell/Profit columns for a cargo of </CheckBox>
+                <ex:IntegerUpDown Grid.Column="1" Value="{Binding CargoReference}" />
                 
                 <CheckBox VerticalAlignment="Center" Grid.Row="1">Filter entries with profit per unit below this limit</CheckBox>
                 <ex:SingleUpDown x:Name="minProfitBox" Grid.Column="1" Grid.Row="1" />
@@ -105,6 +105,9 @@
                 <DataGridTextColumn Binding="{Binding RawData.From.SellingPrice}" Header="Source Price" />
                 <DataGridTextColumn Binding="{Binding RawData.To.BuyingPrice}" Header="Destination Price" />
                 <DataGridTextColumn Binding="{Binding RawData.ProfitPerUnit}" Header="Profit / Ton" SortDirection="Descending" />
+                <DataGridTextColumn Binding="{Binding TotalCost}" Header="Total Cost" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
+                <DataGridTextColumn Binding="{Binding TotalProfit}" Header="Total Profit" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
+                <DataGridTextColumn Binding="{Binding TotalRevenue}" Header="Total Revenue" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
                 <DataGridTextColumn Binding="{Binding RawData.DataDate, Converter={StaticResource converterAge}}" Header="Data Freshness" />
             </DataGrid.Columns>
         </DataGrid>

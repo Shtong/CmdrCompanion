@@ -32,6 +32,7 @@ namespace CmdrCompanion.Interface.ViewModel
 
             ToDistance = 500;
             FromDistance = 500;
+            CargoReference = 4;
         }
 
         private Station _fromStation;
@@ -164,6 +165,34 @@ namespace CmdrCompanion.Interface.ViewModel
             }
         }
 
+        private bool _showCargoIndicators;
+        public bool ShowCargoIndicators
+        {
+            get { return _showCargoIndicators; }
+            set
+            {
+                if(value != _showCargoIndicators)
+                {
+                    _showCargoIndicators = value;
+                    RaisePropertyChanged("ShowCargoIndicators");
+                }
+            }
+        }
+
+        private int _cargoReference;
+        public int CargoReference
+        {
+            get { return _cargoReference; }
+            set
+            {
+                if(value != _cargoReference)
+                {
+                    _cargoReference = value;
+                    RaisePropertyChanged("CargoReference");
+                }
+            }
+        }
+
         public RelayCommand ToAnyCommand { get; private set; }
         public RelayCommand FromAnyCommand { get; private set; }
 
@@ -248,7 +277,7 @@ namespace CmdrCompanion.Interface.ViewModel
                             if (!s1.Star.KnownStarProximities.ContainsKey(s2.Star) || s1.Star.KnownStarProximities[s2.Star] > data.maxDistance)
                                 continue;
 
-                            IEnumerable<TradeJumpDataViewModel> results = s1.FindTradesWith(s2).Select(tjd => new TradeJumpDataViewModel(tjd));
+                            IEnumerable<TradeJumpDataViewModel> results = s1.FindTradesWith(s2).Select(tjd => new TradeJumpDataViewModel(tjd, this));
                             DispatcherHelper.UIDispatcher.BeginInvoke(new Action<IEnumerable<TradeJumpDataViewModel>>(AddResult), results);
                         }
                     }
@@ -267,7 +296,7 @@ namespace CmdrCompanion.Interface.ViewModel
                         if (!s.Star.KnownStarProximities.ContainsKey(data.to.Star) || s.Star.KnownStarProximities[data.to.Star] > data.maxDistance)
                             continue;
 
-                        IEnumerable<TradeJumpDataViewModel> results = s.FindTradesWith(data.to).Select(tjd => new TradeJumpDataViewModel(tjd));
+                        IEnumerable<TradeJumpDataViewModel> results = s.FindTradesWith(data.to).Select(tjd => new TradeJumpDataViewModel(tjd, this));
                         DispatcherHelper.UIDispatcher.BeginInvoke(new Action<IEnumerable<TradeJumpDataViewModel>>(AddResult), results);
                     }
                 }
@@ -287,14 +316,14 @@ namespace CmdrCompanion.Interface.ViewModel
                         if (!data.from.Star.KnownStarProximities.ContainsKey(s.Star) || data.from.Star.KnownStarProximities[s.Star] > data.maxDistance)
                             continue;
 
-                        IEnumerable<TradeJumpDataViewModel> results = data.from.FindTradesWith(s).Select(tjd => new TradeJumpDataViewModel(tjd));
+                        IEnumerable<TradeJumpDataViewModel> results = data.from.FindTradesWith(s).Select(tjd => new TradeJumpDataViewModel(tjd, this));
                         DispatcherHelper.UIDispatcher.BeginInvoke(new Action<IEnumerable<TradeJumpDataViewModel>>(AddResult), results);
                     }
                 }
                 else
                 {
                     // EZ
-                    IEnumerable<TradeJumpDataViewModel> results = data.from.FindTradesWith(data.to).Select(tjd => new TradeJumpDataViewModel(tjd));
+                    IEnumerable<TradeJumpDataViewModel> results = data.from.FindTradesWith(data.to).Select(tjd => new TradeJumpDataViewModel(tjd, this));
                     DispatcherHelper.UIDispatcher.BeginInvoke(new Action<IEnumerable<TradeJumpDataViewModel>>(AddResult), results);
                 }
             }
@@ -308,17 +337,64 @@ namespace CmdrCompanion.Interface.ViewModel
 
         public class TradeJumpDataViewModel : ViewModelBase
         {
-            internal TradeJumpDataViewModel(TradeJumpData data)
+            internal TradeJumpDataViewModel(TradeJumpData data, JumpFinderViewModel container)
             {
                 RawData = data;
 
                 if (data.From.Station.Star.KnownStarProximities.ContainsKey(data.To.Station.Star))
                     Distance = data.From.Station.Star.KnownStarProximities[data.To.Station.Star];
+
+                container.PropertyChanged += ContainerPropertyChanged;
+                _container = container;
             }
+
+            void ContainerPropertyChanged(object sender, PropertyChangedEventArgs e)
+            {
+                if (!_container.ShowCargoIndicators)
+                    return;
+
+                if(e.PropertyName == "CargoReference")
+                {
+                    RaisePropertyChanged("TotalCost");
+                    RaisePropertyChanged("TotalProfit");
+                    RaisePropertyChanged("TotalRevenue");
+                }
+            }
+
+            private JumpFinderViewModel _container;
 
             public TradeJumpData RawData { get; private set; }
 
             public float Distance { get; private set; }
+
+            public float TotalCost
+            {
+                get
+                {
+                    return _container.CargoReference * RawData.From.SellingPrice;
+                }
+            }
+
+            public float TotalProfit { 
+                get 
+                { 
+                    return _container.CargoReference * RawData.To.BuyingPrice; 
+                } 
+            }
+
+            public float TotalRevenue { 
+                get
+                {
+                    return _container.CargoReference * RawData.ProfitPerUnit;
+                }
+            }
+
+            public override void Cleanup()
+            {
+                _container.PropertyChanged -= ContainerPropertyChanged;
+
+                base.Cleanup();
+            }
         }
 
         private sealed class UpdateResultsData
