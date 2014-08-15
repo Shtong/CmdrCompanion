@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +15,9 @@ namespace CmdrCompanion.Core
             DataDate = DateTime.Now;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the station has this commodity available for sale
+        /// </summary>
         public bool CanSell
         { 
             get
@@ -23,6 +26,9 @@ namespace CmdrCompanion.Core
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the station can buy this commodity
+        /// </summary>
         public bool CanBuy 
         { 
             get
@@ -32,6 +38,9 @@ namespace CmdrCompanion.Core
         }
 
         private float _sellingPrice;
+        /// <summary>
+        /// Gets of sets the price at which the station will sell this commodity to traders
+        /// </summary>
         public float SellingPrice 
         { 
             get
@@ -53,6 +62,9 @@ namespace CmdrCompanion.Core
         }
 
         private float _buyingPrice;
+        /// <summary>
+        /// Gets of sets the price at which the station will buy this commodity from traders
+        /// </summary>
         public float BuyingPrice 
         { 
             get
@@ -74,6 +86,9 @@ namespace CmdrCompanion.Core
         }
 
         private int _stock;
+        /// <summary>
+        /// Gets of sets the amount of units available for sale
+        /// </summary>
         public int Stock 
         { 
             get
@@ -99,6 +114,9 @@ namespace CmdrCompanion.Core
         public Commodity Commodity { get; private set; }
 
         private DateTime _dataDate;
+        /// <summary>
+        /// Gets or sets the date at which the data in this instance was extracted from the game
+        /// </summary>
         public DateTime DataDate
         {
             get
