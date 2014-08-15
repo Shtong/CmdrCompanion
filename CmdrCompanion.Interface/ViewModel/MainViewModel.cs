@@ -21,7 +21,7 @@ namespace CmdrCompanion.Interface.ViewModel
     /// See http://www.galasoft.ch/mvvm
     /// </para>
     /// </summary>
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : LocalViewModelBase
     {
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
@@ -51,22 +51,30 @@ namespace CmdrCompanion.Interface.ViewModel
             {
                 PluginManager pm = new PluginManager();
                 pm.ScanForPlugins();
-
-                // Auto-start previously started plugins
-                if (Settings.Default.ActivatedPlugins != null)
-                {
-                    foreach (string name in Settings.Default.ActivatedPlugins)
-                    {
-                        PluginContainer container = pm.AvailablePlugins.FirstOrDefault(pc => pc.Name == name);
-                        if (container != null)
-                        {
-                            container.Initialize();
-                            container.Activate();
-                        }
-                    }
-                }
                 return pm;
             });
+        }
+
+        /// <summary>
+        /// Starts all the application logic that should run form the main UI thread
+        /// </summary>
+        public void Start()
+        {
+            PluginManager pm = CurrentServiceLocator.GetInstance<PluginManager>();
+            // Auto-start previously started plugins
+            if (Settings.Default.ActivatedPlugins != null)
+            {
+                foreach (string name in Settings.Default.ActivatedPlugins)
+                {
+                    PluginContainer container = pm.AvailablePlugins.FirstOrDefault(pc => pc.Name == name);
+                    if (container != null)
+                    {
+                        container.Initialize();
+                        container.Activate();
+                    }
+                }
+            }
+
         }
 
         public EliteEnvironment Environment { get; private set; }

@@ -1,4 +1,4 @@
-﻿using CmdrCompanion.Interface.ViewModel;
+using CmdrCompanion.Interface.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +25,7 @@ namespace CmdrCompanion.Interface.Views
         {
             InitializeComponent();
 
+            Loaded += (sender, e) => ((MainViewModel)DataContext).Start();
             Closing += (sender, e) => ((ViewModelLocator)FindResource("Locator")).Cleanup();
         }
     }
