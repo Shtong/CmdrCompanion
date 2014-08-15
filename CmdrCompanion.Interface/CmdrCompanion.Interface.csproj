@@ -84,7 +84,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\AgeConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="ViewModel\JumpFinderViewModel.cs" />
+    <Compile Include="ViewModel\LocalViewModelBase.cs" />
     <Compile Include="ViewModel\TravelDetailsViewModel.cs" />
     <Compile Include="ViewModel\TravelDesignerViewModel.cs" />
     <Compile Include="Views\JumpFinder.xaml.cs">
@@ -178,6 +180,9 @@
       <Project>{1b909cc2-a4b2-43e5-9cb5-0113e5eb03d8}</Project>
       <Name>CmdrCompanion.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\loader.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

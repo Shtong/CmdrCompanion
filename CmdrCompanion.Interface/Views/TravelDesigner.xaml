@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CmdrCompanion.Interface.Views.TravelDesigner"
+<UserControl x:Class="CmdrCompanion.Interface.Views.TravelDesigner"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -68,8 +68,8 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Jump count" Binding="{Binding JumpCount, Mode=OneTime}" />
-                <DataGridTextColumn Header="Avg. Profit / Jump" Binding="{Binding AvgProfitPerJump, Mode=OneTime}" />
-                <DataGridTextColumn Header="Total Profit" Binding="{Binding TotalProfit, Mode=OneTime}" SortDirection="Descending" />
+                <DataGridTextColumn Header="Avg. Profit / Jump" Binding="{Binding AvgProfitPerJump, Mode=OneTime}" SortDirection="Descending" />
+                <DataGridTextColumn Header="Total Profit" Binding="{Binding TotalProfit, Mode=OneTime}" />
                 <DataGridTextColumn Header="Data age" Binding="{Binding DataDate, Converter={StaticResource converterAge}}" />
             </DataGrid.Columns>
         </DataGrid>

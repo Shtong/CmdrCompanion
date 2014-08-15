@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +18,7 @@ namespace CmdrCompanion.Interface.Converters
                 TimeSpan age = DateTime.Now - date;
 
                 if (age.TotalMinutes < 2)
-                    return "Now";
+                    return "Moments ago";
                 else if (age.TotalMinutes < 60)
                     return String.Format("{0:N0}mins ago", age.TotalMinutes);
                 else if (age.TotalHours < 24)

@@ -1,10 +1,11 @@
-﻿using CmdrCompanion.Core;
+using CmdrCompanion.Core;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -13,19 +14,21 @@ using System.Windows.Data;
 
 namespace CmdrCompanion.Interface.ViewModel
 {
-    public class JumpFinderViewModel : ViewModelBase
+    public class JumpFinderViewModel : LocalViewModelBase
     {
         public JumpFinderViewModel()
         {
-            EliteEnvironment env = ServiceLocator.Current.GetInstance<EliteEnvironment>();
-
-            FromStationsView = new ListCollectionView(env.Stations);
+            FromStationsView = new ListCollectionView(Environment.Stations);
             FromStationsView.Filter = FromStationFilter;
-            ToStationsView = new ListCollectionView(env.Stations);
+            ToStationsView = new ListCollectionView(Environment.Stations);
             ToStationsView.Filter = ToStationFilter;
+
+            _resultsList = new ObservableCollection<TradeJumpDataViewModel>();
+            ResultsView = new ListCollectionView(_resultsList);
 
             FromAnyCommand = new RelayCommand(FromAny);
             ToAnyCommand = new RelayCommand(ToAny);
+            StartUpdatingCommand = new RelayCommand(StartUpdating);
 
             ToDistance = 500;
             FromDistance = 500;
@@ -37,7 +40,7 @@ namespace CmdrCompanion.Interface.ViewModel
             get { return _fromStation; }
             set
             {
-                if(value != _fromStation)
+                if (value != _fromStation)
                 {
                     _fromStation = value;
                     RaisePropertyChanged("FromStation");
@@ -54,7 +57,7 @@ namespace CmdrCompanion.Interface.ViewModel
             get { return _fromDistance; }
             set
             {
-                if(value != _fromDistance)
+                if (value != _fromDistance)
                 {
                     _fromDistance = value;
                     RaisePropertyChanged("FromDistance");
@@ -143,6 +146,24 @@ namespace CmdrCompanion.Interface.ViewModel
             return toStation != FromStation;
         }
 
+        private bool _isWorking;
+        public bool IsWorking
+        {
+            get
+            {
+                return _isWorking;
+            }
+
+            set
+            {
+                if(value != _isWorking)
+                {
+                    _isWorking = value;
+                    RaisePropertyChanged("IsWorking");
+                }
+            }
+        }
+
         public RelayCommand ToAnyCommand { get; private set; }
         public RelayCommand FromAnyCommand { get; private set; }
 
@@ -156,87 +177,147 @@ namespace CmdrCompanion.Interface.ViewModel
             FromStationsView.MoveCurrentToPosition(-1);
         }
 
-        private List<TradeJumpDataViewModel> _resultsView;
+        public RelayCommand StartUpdatingCommand { get; private set; }
+
+        public void StartUpdating()
+        {
+            UpdateResults();
+        }
+
+        private ObservableCollection<TradeJumpDataViewModel> _resultsList;
         public ListCollectionView ResultsView { get; private set; }
 
         private BackgroundWorker _updateResultsWorker;
 
         private void UpdateResults()
         {
-            if(_updateResultsWorker != null)
+            if (_updateResultsWorker != null)
             {
                 _updateResultsWorker.CancelAsync();
             }
 
-            foreach (TradeJumpDataViewModel data in _resultsView)
+            foreach (TradeJumpDataViewModel data in _resultsList)
                 data.Cleanup();
 
-            _resultsView.Clear();
+            _resultsList.Clear();
 
             _updateResultsWorker = new BackgroundWorker();
             _updateResultsWorker.DoWork += UpdateResultsWorker_DoWork;
             _updateResultsWorker.WorkerSupportsCancellation = true;
             _updateResultsWorker.RunWorkerCompleted += UpdateResultsWorker_RunWorkerCompleted;
 
-            _updateResultsWorker.RunWorkerAsync(new Tuple<Station, Station>(FromStation, ToStation));
+            Station[] sList = null;
+            if (FromStation == null || ToStation == null)
+                sList = Environment.Stations.ToArray();
+
+            IsWorking = true;
+            _updateResultsWorker.RunWorkerAsync(new UpdateResultsData()
+            {
+                from = FromStation,
+                to = ToStation,
+                maxDistance = ToStation == null ? ToDistance : FromDistance,
+                stationList = sList,
+            });
         }
 
         void UpdateResultsWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             _updateResultsWorker = null;
+            IsWorking = false;
         }
 
         private void UpdateResultsWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Tuple<Station, Station> sTuple = (Tuple<Station, Station>)e.Argument;
-            Station from = sTuple.Item1;
-            Station to = sTuple.Item2;
+            UpdateResultsData data = (UpdateResultsData)e.Argument;
             BackgroundWorker worker = (BackgroundWorker)sender;
 
-            if(from == null)
+            if (data.from == null)
             {
-                if(to == null)
+                if (data.to == null)
                 {
-                    throw new NotImplementedException();
+                    foreach (Station s1 in data.stationList)
+                    {
+                        foreach (Station s2 in data.stationList)
+                        {
+                            if (worker.CancellationPending)
+                                return;
+
+                            if (s1 == s2)
+                                continue;
+
+                            IEnumerable<TradeJumpDataViewModel> results = s1.FindTradesWith(s2).Select(tjd => new TradeJumpDataViewModel(tjd));
+                            DispatcherHelper.UIDispatcher.BeginInvoke(new Action<IEnumerable<TradeJumpDataViewModel>>(AddResult), results);
+                        }
+                    }
 
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    foreach (Station s in data.stationList)
+                    {
+                        if (worker.CancellationPending)
+                            return;
 
+                        if (s == data.to)
+                            continue;
+
+                        IEnumerable<TradeJumpDataViewModel> results = s.FindTradesWith(data.to).Select(tjd => new TradeJumpDataViewModel(tjd));
+                        DispatcherHelper.UIDispatcher.BeginInvoke(new Action<IEnumerable<TradeJumpDataViewModel>>(AddResult), results);
+                    }
                 }
             }
             else
             {
-                if(to == null)
+                if (data.to == null)
                 {
-                    throw new NotImplementedException();
+                    foreach (Station s in data.stationList)
+                    {
+                        if (worker.CancellationPending)
+                            return;
+
+                        if (s == data.from)
+                            continue;
+
+                        IEnumerable<TradeJumpDataViewModel> results = data.from.FindTradesWith(s).Select(tjd => new TradeJumpDataViewModel(tjd));
+                        DispatcherHelper.UIDispatcher.BeginInvoke(new Action<IEnumerable<TradeJumpDataViewModel>>(AddResult), results);
+                    }
                 }
                 else
                 {
                     // EZ
-                    IEnumerable<TradeJumpDataViewModel> data = from.FindTradesWith(to).Select(tjd => new TradeJumpDataViewModel(tjd));
-                    DispatcherHelper.UIDispatcher.BeginInvoke(new Action<IEnumerable<TradeJumpDataViewModel>>(AddResult), data);
+                    IEnumerable<TradeJumpDataViewModel> results = data.from.FindTradesWith(data.to).Select(tjd => new TradeJumpDataViewModel(tjd));
+                    DispatcherHelper.UIDispatcher.BeginInvoke(new Action<IEnumerable<TradeJumpDataViewModel>>(AddResult), results);
                 }
             }
         }
 
-        private void AddResult(TradeJumpDataViewModel result)
-        {
-            _resultsView.Add(result);
-        }
-
         private void AddResult(IEnumerable<TradeJumpDataViewModel> results)
         {
-            _resultsView.AddRange(results);
+            foreach (TradeJumpDataViewModel data in results)
+                _resultsList.Add(data);
         }
 
         public class TradeJumpDataViewModel : ViewModelBase
         {
-            public TradeJumpDataViewModel(TradeJumpData data)
+            internal TradeJumpDataViewModel(TradeJumpData data)
             {
+                RawData = data;
 
+                if (data.From.Station.Star.KnownStarProximities.ContainsKey(data.To.Station.Star))
+                    Distance = data.From.Station.Star.KnownStarProximities[data.To.Station.Star];
             }
+
+            public TradeJumpData RawData { get; private set; }
+
+            public float Distance { get; private set; }
+        }
+
+        private sealed class UpdateResultsData
+        {
+            public Station from;
+            public Station to;
+            public float maxDistance;
+            public Station[] stationList;
         }
     }
 }
