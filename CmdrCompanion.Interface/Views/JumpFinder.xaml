@@ -9,8 +9,11 @@
              d:DesignHeight="300" d:DesignWidth="400"
              DataContext="{Binding JumpFinder, Source={StaticResource Locator}}">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -56,7 +59,7 @@
                 </Button>
             </Grid>
         </GroupBox>
-        <Expander Header="Trades grid options" Grid.Row="1" IsExpanded="True">
+        <GroupBox Header="Trades grid options" Grid.Column="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -69,22 +72,22 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
-                <CheckBox VerticalAlignment="Center" Grid.Row="1" IsChecked="{Binding FilterLowerProfits, Converter={StaticResource converterNullableBoolean}}">Filter entries with profit per unit below this limit</CheckBox>
+                <CheckBox VerticalAlignment="Center" Grid.Row="1" IsChecked="{Binding FilterLowerProfits, Converter={StaticResource converterNullableBoolean}}">Minimum Profit/Unit</CheckBox>
                 <ex:SingleUpDown x:Name="minProfitBox" Grid.Column="1" Grid.Row="1" Value="{Binding LowerProfitsThreshold}" />
                 
-                <CheckBox VerticalAlignment="Center" IsChecked="{Binding ShowCargoIndicators, Converter={StaticResource converterNullableBoolean}}">Show the Total Cost/Sell/Profit columns for a cargo of </CheckBox>
+                <CheckBox VerticalAlignment="Center" IsChecked="{Binding ShowCargoIndicators, Converter={StaticResource converterNullableBoolean}}">Show Total columns for a cargo of </CheckBox>
                 <ex:IntegerUpDown Grid.Column="1" Value="{Binding CargoReference}" />
                 
                 <CheckBox VerticalAlignment="Center" 
                           Grid.Row="2" 
                           IsChecked="{Binding FilterMaximumPrice, Converter={StaticResource converterNullableBoolean}}"
                           IsEnabled="{Binding CanFilterMaximumPrice}">
-                    Filter entries with a Total Cost exceeding 
+                    Maximum Total Cost
                 </CheckBox>
                 <ex:SingleUpDown Grid.Column="1" Grid.Row="2" Value="{Binding MaximumPrice}" />
             </Grid>
-        </Expander>
-        <DataGrid Grid.Row="2" ItemsSource="{Binding ResultsView}" AutoGenerateColumns="False">
+        </GroupBox>
+        <DataGrid Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding ResultsView}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="From">
                     <DataGridTemplateColumn.CellTemplate>
@@ -109,7 +112,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding RawData.From.SellingPrice}" Header="Source Price" />
                 <DataGridTextColumn Binding="{Binding RawData.To.BuyingPrice}" Header="Destination Price" />
-                <DataGridTextColumn Binding="{Binding RawData.ProfitPerUnit}" Header="Profit / Ton" SortDirection="Descending" />
+                <DataGridTextColumn Binding="{Binding RawData.ProfitPerUnit}" Header="Profit / Unit" SortDirection="Descending" />
                 <DataGridTextColumn Binding="{Binding TotalCost}" Header="Total Cost" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
                 <DataGridTextColumn Binding="{Binding TotalProfit}" Header="Total Profit" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
                 <DataGridTextColumn Binding="{Binding TotalRevenue}" Header="Total Revenue" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
