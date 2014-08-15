@@ -25,6 +25,7 @@ namespace CmdrCompanion.Interface.ViewModel
 
             _resultsList = new ObservableCollection<TradeJumpDataViewModel>();
             ResultsView = new ListCollectionView(_resultsList);
+            ResultsView.Filter = ResultsViewFilter;
 
             FromAnyCommand = new RelayCommand(FromAny);
             ToAnyCommand = new RelayCommand(ToAny);
@@ -193,6 +194,42 @@ namespace CmdrCompanion.Interface.ViewModel
             }
         }
 
+        private bool _filterLowerProfits;
+        public bool FilterLowerProfits
+        {
+            get
+            {
+                return _filterLowerProfits;
+            }
+
+            set
+            {
+                if(value != _filterLowerProfits)
+                {
+                    _filterLowerProfits = value;
+                    RaisePropertyChanged("FilterLowerProfits");
+                    ResultsView.Refresh();
+                }
+            }
+        }
+
+        private float _lowerProfitsThreshold;
+        public float LowerProfitsThreshold
+        {
+            get { return _lowerProfitsThreshold; }
+            set
+            {
+                if(value != _lowerProfitsThreshold)
+                {
+                    _lowerProfitsThreshold = value;
+                    RaisePropertyChanged("LowerProfitsThreshold");
+
+                    if (FilterLowerProfits)
+                        ResultsView.Refresh();
+                }
+            }
+        }
+
         public RelayCommand ToAnyCommand { get; private set; }
         public RelayCommand FromAnyCommand { get; private set; }
 
@@ -215,6 +252,20 @@ namespace CmdrCompanion.Interface.ViewModel
 
         private ObservableCollection<TradeJumpDataViewModel> _resultsList;
         public ListCollectionView ResultsView { get; private set; }
+
+        private bool ResultsViewFilter(object data)
+        {
+            if(data is TradeJumpDataViewModel)
+            {
+                if (!FilterLowerProfits)
+                    return true;
+
+                TradeJumpDataViewModel vmData = (TradeJumpDataViewModel)data;
+                return vmData.RawData.ProfitPerUnit >= LowerProfitsThreshold;
+            }
+
+            return false;
+        }
 
         private BackgroundWorker _updateResultsWorker;
 

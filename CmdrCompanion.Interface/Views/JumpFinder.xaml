@@ -72,8 +72,8 @@
                 <CheckBox VerticalAlignment="Center" IsChecked="{Binding ShowCargoIndicators, Converter={StaticResource converterNullableBoolean}}">Show the Total Cost/Sell/Profit columns for a cargo of </CheckBox>
                 <ex:IntegerUpDown Grid.Column="1" Value="{Binding CargoReference}" />
                 
-                <CheckBox VerticalAlignment="Center" Grid.Row="1">Filter entries with profit per unit below this limit</CheckBox>
-                <ex:SingleUpDown x:Name="minProfitBox" Grid.Column="1" Grid.Row="1" />
+                <CheckBox VerticalAlignment="Center" Grid.Row="1" IsChecked="{Binding FilterLowerProfits, Converter={StaticResource converterNullableBoolean}}">Filter entries with profit per unit below this limit</CheckBox>
+                <ex:SingleUpDown x:Name="minProfitBox" Grid.Column="1" Grid.Row="1" Value="{Binding LowerProfitsThreshold}" />
                 
                 <CheckBox VerticalAlignment="Center" Grid.Row="2">Filter entries with a Cargo Price exceeding </CheckBox>
                 <ex:SingleUpDown Grid.Column="1" Grid.Row="2" />
