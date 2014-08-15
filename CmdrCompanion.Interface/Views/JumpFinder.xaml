@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ex="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:core="clr-namespace:CmdrCompanion.Core;assembly=CmdrCompanion.Core"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400"
              DataContext="{Binding JumpFinder, Source={StaticResource Locator}}">
@@ -80,9 +81,27 @@
         </Expander>
         <DataGrid Grid.Row="2" ItemsSource="{Binding ResultsView}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding RawData.From.Station.Name}" Header="From" />
-                <DataGridTextColumn Binding="{Binding RawData.To.Station.Name}" Header="To" />
-                <DataGridTextColumn Binding="{Binding RawData.Commodity.Name}" Header="Commodity" />
+                <DataGridTemplateColumn Header="From">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ContentControl Content="{Binding RawData.From.Station}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="To">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ContentControl Content="{Binding RawData.To.Station}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Commodity">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ContentControl Content="{Binding RawData.Commodity}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding RawData.From.SellingPrice}" Header="Source Price" />
                 <DataGridTextColumn Binding="{Binding RawData.To.BuyingPrice}" Header="Destination Price" />
                 <DataGridTextColumn Binding="{Binding RawData.ProfitPerUnit}" Header="Profit / Ton" SortDirection="Descending" />
