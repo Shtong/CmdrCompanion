@@ -38,8 +38,6 @@ namespace CmdrCompanion.Interface.ViewModel
             ////{
             ////    // Code runs "for real"
             ////}
-
-            Environment = SimpleIoc.Default.GetInstance<EliteEnvironment>();
         }
 
 
@@ -76,7 +74,5 @@ namespace CmdrCompanion.Interface.ViewModel
             }
 
         }
-
-        public EliteEnvironment Environment { get; private set; }
     }
 }
