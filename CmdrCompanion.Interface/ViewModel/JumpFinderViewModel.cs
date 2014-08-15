@@ -34,6 +34,8 @@ namespace CmdrCompanion.Interface.ViewModel
             ToDistance = 500;
             FromDistance = 500;
             CargoReference = 4;
+            MaximumPrice = 1000;
+            LowerProfitsThreshold = 1;
         }
 
         private Station _fromStation;
@@ -176,6 +178,7 @@ namespace CmdrCompanion.Interface.ViewModel
                 {
                     _showCargoIndicators = value;
                     RaisePropertyChanged("ShowCargoIndicators");
+                    RaisePropertyChanged("CanFilterMaximumPrice");
                 }
             }
         }
@@ -230,6 +233,47 @@ namespace CmdrCompanion.Interface.ViewModel
             }
         }
 
+        private bool _filterMaximumPrice;
+        public bool FilterMaximumPrice
+        {
+            get { return _filterMaximumPrice; }
+            set
+            {
+                if(value != _filterMaximumPrice)
+                {
+                    _filterMaximumPrice = value;
+                    RaisePropertyChanged("FilterMaximumPrice");
+
+                    ResultsView.Refresh();
+                }
+            }
+        }
+
+        private float _maximumPrice;
+        public float MaximumPrice
+        {
+            get { return _maximumPrice; }
+            set
+            {
+                if(value != _maximumPrice)
+                {
+                    _maximumPrice = value;
+                    RaisePropertyChanged("MaximumPrice");
+
+                    if (FilterMaximumPrice)
+                        ResultsView.Refresh();
+                }
+            }
+        }
+
+        public bool CanFilterMaximumPrice
+        {
+            get
+            {
+                return ShowCargoIndicators;
+            }
+        }
+
         public RelayCommand ToAnyCommand { get; private set; }
         public RelayCommand FromAnyCommand { get; private set; }
 
@@ -257,11 +301,8 @@ namespace CmdrCompanion.Interface.ViewModel
         {
             if(data is TradeJumpDataViewModel)
             {
-                if (!FilterLowerProfits)
-                    return true;
-
                 TradeJumpDataViewModel vmData = (TradeJumpDataViewModel)data;
-                return vmData.RawData.ProfitPerUnit >= LowerProfitsThreshold;
+                return !(FilterLowerProfits && vmData.RawData.ProfitPerUnit < LowerProfitsThreshold) && !(FilterMaximumPrice && vmData.TotalCost > MaximumPrice);
             }
 
             return false;

@@ -56,7 +56,7 @@
                 </Button>
             </Grid>
         </GroupBox>
-        <Expander Header="Trades grid options" Grid.Row="1">
+        <Expander Header="Trades grid options" Grid.Row="1" IsExpanded="True">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -69,14 +69,19 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
-                <CheckBox VerticalAlignment="Center" IsChecked="{Binding ShowCargoIndicators, Converter={StaticResource converterNullableBoolean}}">Show the Total Cost/Sell/Profit columns for a cargo of </CheckBox>
-                <ex:IntegerUpDown Grid.Column="1" Value="{Binding CargoReference}" />
-                
                 <CheckBox VerticalAlignment="Center" Grid.Row="1" IsChecked="{Binding FilterLowerProfits, Converter={StaticResource converterNullableBoolean}}">Filter entries with profit per unit below this limit</CheckBox>
                 <ex:SingleUpDown x:Name="minProfitBox" Grid.Column="1" Grid.Row="1" Value="{Binding LowerProfitsThreshold}" />
                 
-                <CheckBox VerticalAlignment="Center" Grid.Row="2">Filter entries with a Cargo Price exceeding </CheckBox>
-                <ex:SingleUpDown Grid.Column="1" Grid.Row="2" />
+                <CheckBox VerticalAlignment="Center" IsChecked="{Binding ShowCargoIndicators, Converter={StaticResource converterNullableBoolean}}">Show the Total Cost/Sell/Profit columns for a cargo of </CheckBox>
+                <ex:IntegerUpDown Grid.Column="1" Value="{Binding CargoReference}" />
+                
+                <CheckBox VerticalAlignment="Center" 
+                          Grid.Row="2" 
+                          IsChecked="{Binding FilterMaximumPrice, Converter={StaticResource converterNullableBoolean}}"
+                          IsEnabled="{Binding CanFilterMaximumPrice}">
+                    Filter entries with a Total Cost exceeding 
+                </CheckBox>
+                <ex:SingleUpDown Grid.Column="1" Grid.Row="2" Value="{Binding MaximumPrice}" />
             </Grid>
         </Expander>
         <DataGrid Grid.Row="2" ItemsSource="{Binding ResultsView}" AutoGenerateColumns="False">
