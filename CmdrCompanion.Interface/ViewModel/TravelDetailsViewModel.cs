@@ -1,4 +1,4 @@
-﻿using CmdrCompanion.Core;
+using CmdrCompanion.Core;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Windows.Threading;
 
 namespace CmdrCompanion.Interface.ViewModel
 {
-    public class TravelDetailsViewModel : ViewModelBase
+    public class TravelDetailsViewModel : LocalViewModelBase
     {
         internal TravelDetailsViewModel(IEnumerable<TradeJumpData> jumps)
         {

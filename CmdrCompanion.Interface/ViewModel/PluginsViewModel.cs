@@ -1,4 +1,4 @@
-﻿using CmdrCompanion.Interface.Properties;
+using CmdrCompanion.Interface.Properties;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Practices.ServiceLocation;
@@ -14,7 +14,7 @@ using System.Windows.Data;
 
 namespace CmdrCompanion.Interface.ViewModel
 {
-    public class PluginsViewModel : ViewModelBase
+    public class PluginsViewModel : LocalViewModelBase
     {
         public PluginsViewModel()
         {

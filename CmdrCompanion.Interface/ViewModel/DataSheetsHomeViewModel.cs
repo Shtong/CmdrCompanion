@@ -1,4 +1,4 @@
-﻿using CmdrCompanion.Core;
+using CmdrCompanion.Core;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
@@ -14,14 +14,12 @@ using System.Windows.Data;
 
 namespace CmdrCompanion.Interface.ViewModel
 {
-    public class DataSheetsHomeViewModel : ViewModelBase
+    public class DataSheetsHomeViewModel : LocalViewModelBase
     {
         public DataSheetsHomeViewModel()
         {
-            EliteEnvironment env = SimpleIoc.Default.GetInstance<EliteEnvironment>();
-
-            CommoditiesView = new ListCollectionView(env.Commodities);
-            PlacesView = new ListCollectionView(env.Stars);
+            CommoditiesView = new ListCollectionView(Environment.Commodities);
+            PlacesView = new ListCollectionView(Environment.Stars);
 
             CommoditiesView.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
 
@@ -37,14 +35,14 @@ namespace CmdrCompanion.Interface.ViewModel
 
         public void ShowCommodity(Commodity commodity)
         {
-            Messenger.Default.Send(new ShowCommodityDetailsMessage(commodity));
+            MessengerInstance.Send(new ShowCommodityDetailsMessage(commodity));
         }
 
         public RelayCommand<Station> ShowStationCommand { get; private set; }
 
         public void ShowStation(Station station)
         {
-            Messenger.Default.Send(new ShowStationDetailsMessage(station));
+            MessengerInstance.Send(new ShowStationDetailsMessage(station));
         }
 
         #region Messages

@@ -1,4 +1,4 @@
-﻿using CmdrCompanion.Core;
+using CmdrCompanion.Core;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -18,16 +18,14 @@ using System.Windows.Threading;
 
 namespace CmdrCompanion.Interface.ViewModel
 {
-    public class TravelDesignerViewModel : ViewModelBase
+    public class TravelDesignerViewModel : LocalViewModelBase
     {
         public TravelDesignerViewModel()
         {
-            EliteEnvironment env = ServiceLocator.Current.GetInstance<EliteEnvironment>();
-
             ComputeCommand = new RelayCommand(Compute, CanCompute);
             ShowDetailedResultCommand = new RelayCommand<TravelDetailsViewModel>(ShowDetailedResults);
 
-            StationsView = new ListCollectionView(env.Stations);
+            StationsView = new ListCollectionView(Environment.Stations);
 
             ResultsList = new ObservableCollection<TravelDetailsViewModel>();
             ResultsView = new ListCollectionView(ResultsList);
@@ -82,7 +80,7 @@ namespace CmdrCompanion.Interface.ViewModel
         {
             ResultsList.Clear();
 
-            Station[] stations = ServiceLocator.Current.GetInstance<EliteEnvironment>().Stations.Where(s => s.Star.KnownStarProximities.ContainsKey(SelectedOrigin.Star) && s.Star.KnownStarProximities[SelectedOrigin.Star] < MaxDistanceFromOrigin).ToArray();
+            Station[] stations = Environment.Stations.Where(s => s.Star.KnownStarProximities.ContainsKey(SelectedOrigin.Star) && s.Star.KnownStarProximities[SelectedOrigin.Star] < MaxDistanceFromOrigin).ToArray();
             ThreadPool.QueueUserWorkItem(ComputeWorker, new ComputeArgs() {
                 stations = stations,
                 cargo = Cargo,
