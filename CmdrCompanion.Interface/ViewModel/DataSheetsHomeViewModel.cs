@@ -35,7 +35,7 @@ namespace CmdrCompanion.Interface.ViewModel
 
         public void ShowCommodity(Commodity commodity)
         {
-            MessengerInstance.Send(new ShowCommodityDetailsMessage(commodity));
+            MessengerInstance.Send(new ShowCommodityDetailsMessage(new CommodityDetailsViewModel(commodity)));
         }
 
         public RelayCommand<Station> ShowStationCommand { get; private set; }
@@ -54,9 +54,9 @@ namespace CmdrCompanion.Interface.ViewModel
             }
         }
 
-        public class ShowCommodityDetailsMessage : GenericMessage<Commodity>
+        public class ShowCommodityDetailsMessage : GenericMessage<CommodityDetailsViewModel>
         {
-            public ShowCommodityDetailsMessage(Commodity content) : base(content)
+            public ShowCommodityDetailsMessage(CommodityDetailsViewModel content) : base(content)
             {
 
             }

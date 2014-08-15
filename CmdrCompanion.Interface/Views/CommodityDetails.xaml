@@ -1,0 +1,49 @@
+<Window x:Class="CmdrCompanion.Interface.Views.CommodityDetails"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Commodity.Name}" Height="300" Width="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.ColumnSpan="2">
+            Category: <Run Text="{Binding Commodity.Category}" FontWeight="Bold" />
+        </TextBlock>
+
+        <GroupBox Grid.Row="1" Header="Stations selling">
+            <DataGrid ItemsSource="{Binding SellersView}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Station">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ContentControl Content="{Binding Trade.Station}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Unit Price" Binding="{Binding Trade.SellingPrice}" />
+                    <DataGridTextColumn Header="Stock" Binding="{Binding Trade.Stock}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="Stations buying">
+            <DataGrid ItemsSource="{Binding BuyersView}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Station">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ContentControl Content="{Binding Trade.Station}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Unit Value" Binding="{Binding Trade.BuyingPrice}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+    </Grid>
+</Window>

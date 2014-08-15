@@ -86,10 +86,14 @@
     <Compile Include="Converters\AgeConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\NullableBooleanConverter.cs" />
+    <Compile Include="ViewModel\CommodityDetailsViewModel.cs" />
     <Compile Include="ViewModel\JumpFinderViewModel.cs" />
     <Compile Include="ViewModel\LocalViewModelBase.cs" />
     <Compile Include="ViewModel\TravelDetailsViewModel.cs" />
     <Compile Include="ViewModel\TravelDesignerViewModel.cs" />
+    <Compile Include="Views\CommodityDetails.xaml.cs">
+      <DependentUpon>CommodityDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\JumpFinder.xaml.cs">
       <DependentUpon>JumpFinder.xaml</DependentUpon>
     </Compile>
@@ -102,6 +106,10 @@
     <Compile Include="Views\TravelDetails.xaml.cs">
       <DependentUpon>TravelDetails.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\CommodityDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DataSheetsHome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

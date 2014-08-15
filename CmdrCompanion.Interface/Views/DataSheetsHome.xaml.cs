@@ -1,4 +1,4 @@
-﻿using CmdrCompanion.Core;
+using CmdrCompanion.Core;
 using CmdrCompanion.Interface.ViewModel;
 using GalaSoft.MvvmLight.Messaging;
 using System;
@@ -38,7 +38,9 @@ namespace CmdrCompanion.Interface.Views
 
         private void ShowCommodityDetailsHandler(DataSheetsHomeViewModel.ShowCommodityDetailsMessage message)
         {
-
+            CommodityDetails window = new CommodityDetails();
+            window.DataContext = message.Content;
+            window.Show();
         }
     }
 }
