@@ -245,6 +245,9 @@ namespace CmdrCompanion.Interface.ViewModel
                             if (s1 == s2)
                                 continue;
 
+                            if (!s1.Star.KnownStarProximities.ContainsKey(s2.Star) || s1.Star.KnownStarProximities[s2.Star] > data.maxDistance)
+                                continue;
+
                             IEnumerable<TradeJumpDataViewModel> results = s1.FindTradesWith(s2).Select(tjd => new TradeJumpDataViewModel(tjd));
                             DispatcherHelper.UIDispatcher.BeginInvoke(new Action<IEnumerable<TradeJumpDataViewModel>>(AddResult), results);
                         }
@@ -259,6 +262,9 @@ namespace CmdrCompanion.Interface.ViewModel
                             return;
 
                         if (s == data.to)
+                            continue;
+
+                        if (!s.Star.KnownStarProximities.ContainsKey(data.to.Star) || s.Star.KnownStarProximities[data.to.Star] > data.maxDistance)
                             continue;
 
                         IEnumerable<TradeJumpDataViewModel> results = s.FindTradesWith(data.to).Select(tjd => new TradeJumpDataViewModel(tjd));
@@ -276,6 +282,9 @@ namespace CmdrCompanion.Interface.ViewModel
                             return;
 
                         if (s == data.from)
+                            continue;
+
+                        if (!data.from.Star.KnownStarProximities.ContainsKey(s.Star) || data.from.Star.KnownStarProximities[s.Star] > data.maxDistance)
                             continue;
 
                         IEnumerable<TradeJumpDataViewModel> results = data.from.FindTradesWith(s).Select(tjd => new TradeJumpDataViewModel(tjd));
