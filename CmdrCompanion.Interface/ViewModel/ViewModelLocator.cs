@@ -15,6 +15,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using System;
 using System.Collections.Generic;
 
 namespace CmdrCompanion.Interface.ViewModel
@@ -55,8 +56,15 @@ namespace CmdrCompanion.Interface.ViewModel
 
         private void RegisterViewModel<TViewModel>() where TViewModel:ViewModelBase
         {
-            SimpleIoc.Default.Register<TViewModel>();
-            ViewModels.Add((ViewModelBase)ServiceLocator.Current.GetInstance<TViewModel>());
+            try
+            {
+                SimpleIoc.Default.Register<TViewModel>();
+                ViewModels.Add((ViewModelBase)ServiceLocator.Current.GetInstance<TViewModel>());
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(String.Format("Could not initialize view model {0}", typeof(TViewModel).FullName), ex);
+            }
         }
 
         public MainViewModel Main
