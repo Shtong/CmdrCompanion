@@ -1,6 +1,7 @@
 using CmdrCompanion.Core;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,12 +11,21 @@ namespace CmdrCompanion.Interface.ViewModel
 {
     public class CommodityDetailsViewModel : LocalViewModelBase
     {
-        internal CommodityDetailsViewModel(Commodity data)
+        internal CommodityDetailsViewModel()
+        {
+            _sellersList = new ObservableCollection<SellingStationViewModel>();
+            _buyersList = new ObservableCollection<BuyingStationViewModel>();
+            SellersView = new ListCollectionView(_sellersList);
+            BuyersView = new ListCollectionView(_buyersList);
+        }
+
+        public void FillWithCommodity(Commodity data)
         {
             Commodity = data;
 
-            _sellersList = new List<SellingStationViewModel>();
-            _buyersList = new List<BuyingStationViewModel>();
+            _sellersList.Clear();
+            _buyersList.Clear();
+
             foreach(Station s in Environment.Stations)
             {
                 Trade t = s.FindCommodity(data);
@@ -25,16 +35,26 @@ namespace CmdrCompanion.Interface.ViewModel
                 if (t != null && t.CanBuy)
                     _buyersList.Add(new BuyingStationViewModel(t, this));
             }
-            SellersView = new ListCollectionView(_sellersList);
-            BuyersView = new ListCollectionView(_buyersList);
         }
 
-        public Commodity Commodity { get; private set; }
+        private Commodity _commodity;
+        public Commodity Commodity 
+        {
+            get { return _commodity; }
+            private set
+            {
+                if(value != _commodity)
+                {
+                    _commodity = value;
+                    RaisePropertyChanged("Commodity");
+                }
+            }
+        }
 
-        private List<SellingStationViewModel> _sellersList;
+        private ObservableCollection<SellingStationViewModel> _sellersList;
         public ListCollectionView SellersView { get; private set; }
 
-        private List<BuyingStationViewModel> _buyersList;
+        private ObservableCollection<BuyingStationViewModel> _buyersList;
         public ListCollectionView BuyersView { get; private set; }
 
         #region Sub view models

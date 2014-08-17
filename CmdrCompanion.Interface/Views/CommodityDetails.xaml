@@ -1,7 +1,6 @@
-<Window x:Class="CmdrCompanion.Interface.Views.CommodityDetails"
+<UserControl x:Class="CmdrCompanion.Interface.Views.CommodityDetails"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="{Binding Commodity.Name}" Height="300" Width="500">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -46,4 +45,4 @@
             </DataGrid>
         </GroupBox>
     </Grid>
-</Window>
+</UserControl>

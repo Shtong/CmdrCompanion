@@ -26,21 +26,6 @@ namespace CmdrCompanion.Interface.Views
         public DataSheetsHome()
         {
             InitializeComponent();
-
-            Messenger.Default.Register<DataSheetsHomeViewModel.ShowCommodityDetailsMessage>(this, ShowCommodityDetailsHandler);
-            Messenger.Default.Register<DataSheetsHomeViewModel.ShowStationDetailsMessage>(this, ShowStationDetailsHandler);
-        }
-
-        private void ShowStationDetailsHandler(DataSheetsHomeViewModel.ShowStationDetailsMessage message)
-        {
-
-        }
-
-        private void ShowCommodityDetailsHandler(DataSheetsHomeViewModel.ShowCommodityDetailsMessage message)
-        {
-            CommodityDetails window = new CommodityDetails();
-            window.DataContext = message.Content;
-            window.Show();
         }
     }
 }

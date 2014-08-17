@@ -17,7 +17,7 @@ namespace CmdrCompanion.Interface.Views
     /// <summary>
     /// Interaction logic for CommodityDetails.xaml
     /// </summary>
-    public partial class CommodityDetails : Window
+    public partial class CommodityDetails : UserControl
     {
         public CommodityDetails()
         {
