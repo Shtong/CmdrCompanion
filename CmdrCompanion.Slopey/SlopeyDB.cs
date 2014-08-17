@@ -43,7 +43,7 @@ namespace CmdrCompanion.Slopey
 
             try
             {
-                data = await client.DownloadStringTaskAsync("http://www.slopey.com/ED187/dumpAll-2.php");
+                data = await client.DownloadStringTaskAsync("http://54.77.150.211/ED/PHP/dumpAll.php");
             }
             catch (WebException ex)
             {
@@ -152,7 +152,7 @@ namespace CmdrCompanion.Slopey
 
             try
             {
-                data = await client.DownloadStringTaskAsync("http://www.slopey.com//ED187/dumpAll-Distance.php");
+                data = await client.DownloadStringTaskAsync("http://54.77.150.211/ED/PHP/dumpAll-Distance.php");
             }
             catch(WebException ex)
             {
