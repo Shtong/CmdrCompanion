@@ -85,6 +85,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\AgeConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\DistanceDisplayConverter.cs" />
     <Compile Include="Converters\NullableBooleanConverter.cs" />
     <Compile Include="ViewModel\CommodityDetailsViewModel.cs" />
     <Compile Include="ViewModel\JumpFinderViewModel.cs" />

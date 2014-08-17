@@ -39,6 +39,13 @@ namespace CmdrCompanion.Interface.ViewModel
             CommodityDetails.FillWithCommodity((Commodity)CommoditiesView.CurrentItem);
         }
 
+        public override void Cleanup()
+        {
+            CommodityDetails.Cleanup();
+
+            base.Cleanup();
+        }
+
         public ListCollectionView CommoditiesView { get; private set; }
 
         public ListCollectionView PlacesView { get; private set; }

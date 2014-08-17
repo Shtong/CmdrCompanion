@@ -9,6 +9,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.ColumnSpan="2">
             Category: <Run Text="{Binding Commodity.Category}" FontWeight="Bold" />
@@ -26,6 +28,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Unit Price" Binding="{Binding Trade.SellingPrice}" />
                     <DataGridTextColumn Header="Stock" Binding="{Binding Trade.Stock}" />
+                    <DataGridTextColumn Header="Distance" Binding="{Binding Distance, Converter={StaticResource converterDistance}}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
@@ -41,8 +44,12 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Unit Value" Binding="{Binding Trade.BuyingPrice}" />
+                    <DataGridTextColumn Header="Distance" Binding="{Binding Distance, Converter={StaticResource converterDistance}}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
+        
+        <Label Grid.Row="2" Grid.ColumnSpan="2">Show distances with:</Label>
+        <ComboBox ItemsSource="{Binding StationsView}" SelectedItem="{Binding ReferenceStation}" Grid.Row="3" Grid.ColumnSpan="2" />
     </Grid>
 </UserControl>

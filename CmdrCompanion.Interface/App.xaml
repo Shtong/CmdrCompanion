@@ -16,6 +16,7 @@
         <conv:BooleanToVisibilityConverter x:Key="converterVisibility" />
         <conv:BooleanToVisibilityConverter x:Key="converterVisibilityHiding" UseHiding="true" />
         <conv:NullableBooleanConverter x:Key="converterNullableBoolean" />
+        <conv:DistanceDisplayConverter x:Key="converterDistance" />
 
         <!-- Data templates -->
         <DataTemplate DataType="{x:Type core:Station}">
