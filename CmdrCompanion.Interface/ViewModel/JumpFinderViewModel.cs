@@ -470,14 +470,14 @@ namespace CmdrCompanion.Interface.ViewModel
             public float TotalProfit { 
                 get 
                 { 
-                    return _container.CargoReference * RawData.To.BuyingPrice; 
+                    return _container.CargoReference * RawData.ProfitPerUnit;
                 } 
             }
 
             public float TotalRevenue { 
                 get
                 {
-                    return _container.CargoReference * RawData.ProfitPerUnit;
+                    return _container.CargoReference * RawData.To.BuyingPrice; 
                 }
             }
 
