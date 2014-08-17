@@ -113,6 +113,7 @@
                 <DataGridTextColumn Binding="{Binding RawData.From.SellingPrice}" Header="Source Price" />
                 <DataGridTextColumn Binding="{Binding RawData.To.BuyingPrice}" Header="Destination Price" />
                 <DataGridTextColumn Binding="{Binding RawData.ProfitPerUnit}" Header="Profit / Unit" SortDirection="Descending" />
+                <DataGridTextColumn Binding="{Binding Distance, Converter={StaticResource converterDistance}}" Header="Distance" />
                 <DataGridTextColumn Binding="{Binding TotalCost}" Header="Total Cost" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
                 <DataGridTextColumn Binding="{Binding TotalProfit}" Header="Total Profit" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
                 <DataGridTextColumn Binding="{Binding TotalRevenue}" Header="Total Revenue" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
