@@ -1,7 +1,9 @@
 using CmdrCompanion.Core;
 using CmdrCompanion.Interface.Properties;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,6 +40,8 @@ namespace CmdrCompanion.Interface.ViewModel
             ////{
             ////    // Code runs "for real"
             ////}
+
+            CloseCommand = new RelayCommand(Close);
         }
 
 
@@ -72,7 +76,21 @@ namespace CmdrCompanion.Interface.ViewModel
                     }
                 }
             }
+        }
 
+        public RelayCommand CloseCommand { get; private set; }
+
+        public void Close()
+        {
+            MessengerInstance.Send(new CloseMessage());
+        }
+
+        public class CloseMessage : GenericMessage<object>
+        {
+            public CloseMessage() : base(null)
+            {
+
+            }
         }
     }
 }

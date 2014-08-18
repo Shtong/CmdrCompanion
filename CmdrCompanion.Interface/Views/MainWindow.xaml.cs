@@ -1,4 +1,5 @@
 using CmdrCompanion.Interface.ViewModel;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,8 @@ namespace CmdrCompanion.Interface.Views
 
             Loaded += (sender, e) => ((MainViewModel)DataContext).Start();
             Closing += (sender, e) => ((ViewModelLocator)FindResource("Locator")).Cleanup();
+
+            Messenger.Default.Register<MainViewModel.CloseMessage>(this, (msg) => Close());
         }
     }
 }
