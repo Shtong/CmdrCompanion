@@ -9,7 +9,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TabControl TabStripPlacement="Left" Margin="0, 0, 0, 20">
+        <TabControl TabStripPlacement="Left" Margin="10, 10, 10, 20">
             <TabItem Header="Data Sheets">
                 <v:DataSheetsHome />
             </TabItem>
@@ -23,7 +23,7 @@
                 <v:JumpFinder />
             </TabItem>
         </TabControl>
-        <Button Grid.Row="1" HorizontalAlignment="Left">
+        <Button Grid.Row="1" HorizontalAlignment="Left" Margin="10">
             Close
         </Button>
     </Grid>

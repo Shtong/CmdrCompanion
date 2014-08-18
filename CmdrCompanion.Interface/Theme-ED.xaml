@@ -4,23 +4,39 @@
     <SolidColorBrush x:Key="backColor">#EE000000</SolidColorBrush>
     <SolidColorBrush x:Key="textColor">#FFEAEAEA</SolidColorBrush>
 
+    <Color x:Key="DisabledControlDarkColor">#FFC5CBF9</Color>
+    <Color x:Key="DisabledBorderLightColor">#FFAAAAAA</Color>
+    <Color x:Key="ControlMouseOverColor">#FF3843C4</Color>
+    <Color x:Key="ControlPressedColor">#FF211AA9</Color>
+    <Color x:Key="DisabledForegroundColor">#FF888888</Color>
+
+    <Thickness x:Key="containerBorderThickness" Bottom="4" Top="4" Left="2" Right="2" />
+
     <Style TargetType="Window" x:Key="mainWindow">
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="ResizeMode" Value="NoResize" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="BorderBrush" Value="{DynamicResource borderColor}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource containerBorderThickness}" />
         <Setter Property="Background" Value="{DynamicResource backColor}" />
         <Setter Property="Margin" Value="10" />
     </Style>
-    
+
     <Style TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource textColor}" />
     </Style>
-    
+
     <Style TargetType="Button">
-        <Setter Property="BorderThickness" Value="4" />
         <Setter Property="BorderBrush" Value="{DynamicResource borderColor}" />
-        <Setter Property="Padding" Value="5" />
+        <Setter Property="Padding" Value="20, 5" />
+        <Setter Property="Background" Value="Black" />
+    </Style>
+
+    <Style TargetType="TabControl">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="{DynamicResource containerBorderThickness}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource borderColor}" />
+        <Setter Property="Margin" Value="10" />
     </Style>
 
     <Style TargetType="TabItem">
@@ -30,7 +46,7 @@
                     <Border Margin="5"
                             Background="{DynamicResource backColor}"
                             BorderBrush="{DynamicResource borderColor}"
-                            BorderThickness="4"
+                            BorderThickness="2"
                             Padding="5">
                         <ContentPresenter VerticalAlignment="Center"
                                           HorizontalAlignment="Center"
@@ -41,5 +57,274 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <Style TargetType="ListView">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="{DynamicResource containerBorderThickness}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource borderColor}" />
+        <Setter Property="Margin" Value="10" />
+    </Style>
+
+    <Style TargetType="GridSplitter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <ControlTemplate x:Key="ExpanderToggleButton" TargetType="{x:Type ToggleButton}">
+        <Border x:Name="Border" CornerRadius="2,0,0,0" BorderThickness="0,0,1,0">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="{DynamicResource ControlLightColor}" />
+                    <GradientStop Color="{DynamicResource ControlMediumColor}" Offset="1" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStopCollection>
+                            <GradientStop Color="{DynamicResource BorderLightColor}" Offset="0.0" />
+                            <GradientStop Color="{DynamicResource BorderDarkColor}" Offset="1.0" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+
+            </Border.BorderBrush>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource ControlMouseOverColor}" />
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource ControlPressedColor}" />
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                          Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource DisabledControlDarkColor}" />
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                          Storyboard.TargetProperty="(Border.BorderBrush).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                <EasingColorKeyFrame KeyTime="0"
+                                                     Value="{StaticResource DisabledBorderLightColor}" />
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+                <VisualStateGroup x:Name="CheckStates">
+                    <VisualState x:Name="Checked">
+                        <Storyboard>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                           Storyboard.TargetName="CollapsedArrow">
+                                <DiscreteObjectKeyFrame KeyTime="0"
+                                      Value="{x:Static Visibility.Hidden}" />
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                           Storyboard.TargetName="ExpandededArrow">
+                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                        Value="{x:Static Visibility.Visible}" />
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Unchecked" />
+                    <VisualState x:Name="Indeterminate" />
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Grid>
+                <Path x:Name="CollapsedArrow"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Data="M 0 0 L 4 4 L 8 0 Z"
+                      Fill="{DynamicResource textColor}">
+                </Path>
+                <Path x:Name="ExpandededArrow"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Visibility="Collapsed"
+                      Data="M 0 4 L 4 0 L 8 4 Z"
+                      Fill="{DynamicResource textColor}">
+                </Path>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type Expander}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Expander}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition x:Name="ContentRow" Height="0" />
+                        </Grid.RowDefinitions>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver" />
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                                      Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource DisabledControlDarkColor}" />
+                                        </ColorAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                                      Storyboard.TargetProperty="(Border.BorderBrush).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource DisabledBorderLightColor}" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="Border"
+                                Grid.Row="0"
+                                BorderThickness="1"
+                                CornerRadius="2,2,0,0">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                    <GradientStop Color="{DynamicResource BorderLightColor}" Offset="0" />
+                                    <GradientStop Color="{DynamicResource BorderDarkColor}" Offset="1" />
+                                </LinearGradientBrush>
+
+                            </Border.BorderBrush>
+                            <Border.Background>
+
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <LinearGradientBrush.GradientStops>
+                                        <GradientStopCollection>
+                                            <GradientStop Color="{DynamicResource ControlLightColor}" Offset="0.0" />
+                                            <GradientStop Color="{DynamicResource ControlMediumColor}" Offset="1.0" />
+                                        </GradientStopCollection>
+                                    </LinearGradientBrush.GradientStops>
+                                </LinearGradientBrush>
+
+                            </Border.Background>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ToggleButton OverridesDefaultStyle="True"
+                                              Template="{StaticResource ExpanderToggleButton}"
+                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                              Background="Transparent" />
+                                <ContentPresenter Grid.Column="1"
+                                                  Margin="4"
+                                                  ContentSource="Header"
+                                                  RecognizesAccessKey="True" />
+                            </Grid>
+                        </Border>
+                        <Border x:Name="Content"
+                                Grid.Row="1"
+                                BorderThickness="1,0,1,1"
+                                CornerRadius="0,0,2,2">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
+                            </Border.BorderBrush>
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource ContentAreaColorDark}" />
+                            </Border.Background>
+                            <ContentPresenter Margin="4" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter TargetName="ContentRow" Property="Height" Value="{Binding DesiredHeight, ElementName=Content}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Scrollbar Thumbs-->
+    <Style x:Key="ScrollThumbs" TargetType="Thumb">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Grid x:Name="Grid">
+                        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Fill="Transparent" />
+                        <Border x:Name="Rectangle1" CornerRadius="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto"  Background="{TemplateBinding Background}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Tag" Value="Horizontal">
+                            <Setter TargetName="Rectangle1" Property="Width" Value="Auto" />
+                            <Setter TargetName="Rectangle1" Property="Height" Value="7" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--ScrollBars-->
+    <Style TargetType="ScrollBar">
+        <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
+        <Setter Property="Foreground" Value="#8C8C8C" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Width" Value="5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Grid x:Name="GridRoot" Width="5" Background="{TemplateBinding Background}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.00001*" />
+                        </Grid.RowDefinitions>
+                        <Border Background="{DynamicResource borderColor}" Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
+                        <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="false">
+                            <Track.Thumb>
+                                <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}" Style="{DynamicResource ScrollThumbs}" />
+                            </Track.Thumb>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton x:Name="PageUp" Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="false" />
+                            </Track.IncreaseRepeatButton>
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton x:Name="PageDown" Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="false" />
+                            </Track.DecreaseRepeatButton>
+                        </Track>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
+                            <Setter Value="{DynamicResource ButtonSelectBrush}" TargetName="Thumb" Property="Background" />
+                        </Trigger>
+                        <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
+                            <Setter Value="{DynamicResource DarkBrush}" TargetName="Thumb" Property="Background" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter TargetName="GridRoot" Property="LayoutTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="-90" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="-90" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Width" Value="Auto" />
+                            <Setter Property="Height" Value="8" />
+                            <Setter TargetName="Thumb" Property="Tag" Value="Horizontal" />
+                            <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand" />
+                            <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
