@@ -24,6 +24,8 @@
 
     <Style TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource textColor}" />
+        <Setter Property="FontFamily" Value="#Exo 2" />
+        <Setter Property="FontSize" Value="15" />
     </Style>
 
     <Style TargetType="Button">
