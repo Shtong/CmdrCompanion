@@ -27,6 +27,12 @@
         <Setter Property="FontSize" Value="15" />
     </Style>
 
+    <Style TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource textColor}" />
+        <Setter Property="FontFamily" Value="#Exo 2" />
+        <Setter Property="FontSize" Value="15" />
+    </Style>
+
     <Style TargetType="Button">
         <Setter Property="BorderBrush" Value="{DynamicResource borderColor}" />
         <Setter Property="Padding" Value="20, 5" />
