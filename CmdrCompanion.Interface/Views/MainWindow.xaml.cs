@@ -2,11 +2,13 @@ using CmdrCompanion.Interface.ViewModel;
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -30,6 +32,13 @@ namespace CmdrCompanion.Interface.Views
             Closing += (sender, e) => ((ViewModelLocator)FindResource("Locator")).Cleanup();
 
             Messenger.Default.Register<MainViewModel.CloseMessage>(this, (msg) => Close());
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Trace.WriteLine(e.OriginalSource);
+            if (e.Source == this || (e.OriginalSource.GetType() == typeof(TabPanel) && e.Source == mainTabs))
+                DragMove();
         }
     }
 }

@@ -14,12 +14,11 @@
 
     <Style TargetType="Window" x:Key="mainWindow">
         <Setter Property="WindowStyle" Value="None" />
-        <Setter Property="ResizeMode" Value="NoResize" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="BorderBrush" Value="{DynamicResource borderColor}" />
         <Setter Property="BorderThickness" Value="{DynamicResource containerBorderThickness}" />
         <Setter Property="Background" Value="{DynamicResource backColor}" />
-        <Setter Property="Margin" Value="10" />
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
     </Style>
 
     <Style TargetType="TextBlock">

@@ -3,13 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:v="clr-namespace:CmdrCompanion.Interface.Views"
         Title="Commander Companion" Height="600" Width="800"
-        DataContext="{Binding Main, Source={StaticResource Locator}}" Style="{DynamicResource mainWindow}">
+        DataContext="{Binding Main, Source={StaticResource Locator}}" Style="{DynamicResource mainWindow}" ResizeMode="CanResizeWithGrip" MouseDown="Window_MouseDown">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TabControl TabStripPlacement="Left" Margin="10, 10, 10, 20">
+        <TabControl TabStripPlacement="Left" Margin="10, 10, 10, 20" x:Name="mainTabs">
             <TabItem Header="Data Sheets">
                 <v:DataSheetsHome />
             </TabItem>
