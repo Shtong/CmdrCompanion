@@ -49,10 +49,6 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-
-                    <Style TargetType="DataGrid">
-                        <Setter Property="AutoGenerateColumns" Value="False" />
-                    </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

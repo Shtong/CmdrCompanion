@@ -36,7 +36,6 @@ namespace CmdrCompanion.Interface.Views
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Trace.WriteLine(e.OriginalSource);
             if (e.Source == this || (e.OriginalSource.GetType() == typeof(TabPanel) && e.Source == mainTabs))
                 DragMove();
         }
