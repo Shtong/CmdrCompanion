@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\.build</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
+
+  <PropertyGroup Condition=" '$(BuildConfiguration)' == '' ">
+    <BuildConfiguration>Deploy</BuildConfiguration>
+  </PropertyGroup>
+
+  <Target Name="Clean">
+    <DeleteTree Directories="**\obj\**;**\bin\**" />
+  </Target>
+
+  <Target Name="Version">
+    <Version VersionFile="$(MSBuildProjectDirectory)/version.txt" BuildType="Automatic" RevisionType="Automatic" StartDate="2014-08-22">
+      <Output TaskParameter="Major" PropertyName="Major" />
+      <Output TaskParameter="Minor" PropertyName="Minor" />
+      <Output TaskParameter="Build" PropertyName="Build" />
+      <Output TaskParameter="Revision" PropertyName="Revision" />    
+    </Version>
+    
+    <Message Text="Version: $(Major).$(Minor).$(Build).$(Revision)"/>
+
+    <Attrib Files="$(MSBuildProjectDirectory)\CmdrCompanion.Interface\GlobalAssemblyInfo.cs" ReadOnly="False" />
+
+    <AssemblyInfo CodeLanguage="CS"
+                  OutputFile="$(MSBuildProjectDirectory)\CmdrCompanion.Interface\GlobalAssemblyInfo.cs"
+                  GenerateClass="true"
+                  AssemblyConfiguration="$(BuildConfiguration)"
+                  AssemblyVersion="$(Major).$(Minor).$(Build).$(Revision)"
+                  AssemblyFileVersion="$(Major).$(Minor).$(Build).$(Revision)"
+                  AssemblyInformationalVersion="$(Major).$(Minor).$(Build).$(Revision)" />
+  </Target>
+
+  <!-- Projects to Build -->
+  <ItemGroup>
+    <ProjectFiles Include="$(MSBuildProjectDirectory)\**\*.sln">
+      <Properties>Configuration=$(BuildConfiguration)</Properties>
+    </ProjectFiles>
+  </ItemGroup>
+
+  <Target Name="Compile" DependsOnTargets="Clean;Version">
+    <MSBuild Projects="@(ProjectFiles)" />
+  </Target>
+
+  <Target Name="Build">
+    <CallTarget Targets="Compile" />
+  </Target>
+
+</Project>

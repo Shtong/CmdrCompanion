@@ -9,7 +9,6 @@ using System.Windows;
 // associated with an assembly.
 [assembly: AssemblyTitle("CmdrCompanion")]
 [assembly: AssemblyDescription("The ideal Commander companion")]
-[assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Cmdr Magic Sumadartson")]
 [assembly: AssemblyProduct("Commander Companion")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
@@ -40,16 +39,3 @@ using System.Windows;
     // app, or any theme specific resource dictionaries)
 )]
 
-
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
