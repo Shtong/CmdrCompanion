@@ -10,12 +10,17 @@
     <BuildConfiguration>Deploy</BuildConfiguration>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <VersionFile>$(MSBuildProjectDirectory)\version.txt</VersionFile>
+    <PublicationFolder>$(MSBuildProjectDirectory)\.pub</PublicationFolder>
+  </PropertyGroup>
+
   <Target Name="Clean">
-    <DeleteTree Directories="**\obj\**;**\bin\**" />
+    <DeleteTree Directories="**\obj\**;**\bin\**;**\.pub\**" />
   </Target>
 
   <Target Name="Version">
-    <Version VersionFile="$(MSBuildProjectDirectory)/version.txt" BuildType="Automatic" RevisionType="Automatic" StartDate="2014-08-22">
+    <Version VersionFile="$(VersionFile)" BuildType="Automatic" RevisionType="Automatic" StartDate="2014-08-22">
       <Output TaskParameter="Major" PropertyName="Major" />
       <Output TaskParameter="Minor" PropertyName="Minor" />
       <Output TaskParameter="Build" PropertyName="Build" />
@@ -48,6 +53,16 @@
 
   <Target Name="Build">
     <CallTarget Targets="Compile" />
+  </Target>
+
+  <Target Name="Deploy" DependsOnTargets="Build">
+    <ItemGroup>
+      <PubArchiveSource Include="$(MSBuildProjectDirectory)\CmdrCompanion.Interface\bin\$(BuildConfiguration)\**" />
+    </ItemGroup>
+    <Zip WorkingDirectory="$(MSBuildProjectDirectory)\CmdrCompanion.Interface\bin\$(BuildConfiguration)"
+         Files="@(PubArchiveSource)"
+         ZipFileName="$(PublicationFolder)\$(Major).$(Minor).$(Build).$(Revision).zip" />
+    <Copy SourceFiles="$(VersionFile)" DestinationFolder="$(PublicationFolder)" />
   </Target>
 
 </Project>

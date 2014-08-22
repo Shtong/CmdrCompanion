@@ -175,3 +175,6 @@ FakesAssemblies/
 
 # MSBuild Community files
 .build/
+
+# Publication folder
+.pub/
