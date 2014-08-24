@@ -24,12 +24,14 @@
 
     <!-- Custom base resources -->
     <Color x:Key="textColor">#FFEAEAEA</Color>
+    <Color x:Key="disabledTextColor">#FFAEAEAE</Color>
     <Color x:Key="buttonMouseOverBackgroundColor">#22FFFFFF</Color>
     <Color x:Key="buttonHighlightBackgroundColor">#33FFFFFF</Color>
     
     <SolidColorBrush x:Key="borderColor">#FF4E4E4E</SolidColorBrush>
     <SolidColorBrush x:Key="backColor">#EE000000</SolidColorBrush>
     <SolidColorBrush x:Key="textColorBrush" Color="{DynamicResource textColor}" />
+    <SolidColorBrush x:Key="disabledTextBrush" Color="{DynamicResource disabledTextColor}" />
     <SolidColorBrush x:Key="separatorColor">#FFB7B9B8</SolidColorBrush>
     <SolidColorBrush x:Key="selectedbackgroundColorBrush" Color="{DynamicResource SelectedBackgroundColor}" />
     <SolidColorBrush x:Key="buttonBackgroundBrush" Color="#11FFFFFF" />
@@ -75,24 +77,46 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}"
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="Normal" />
+                                <VisualState Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="Background.Color"
+                                                        Duration="0:0:0.1"
+                                                        To="{DynamicResource buttonMouseOverBackgroundColor}" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="Background.Color"
+                                                        Duration="0:0:0.1"
+                                                        To="{DynamicResource buttonHighlightBackgroundColor}" />
+                                    </Storyboard>                                
+                                </VisualState>
+                                <VisualState Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Border"
+                                                        Storyboard.TargetProperty="Opacity"
+                                                        Duration="0:0:0.1"
+                                                        To="0.5" />
+                                    </Storyboard>                                
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                         <ContentPresenter VerticalAlignment="Center"
                                           HorizontalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
-                <Setter Property="Background" Value="{DynamicResource buttonMouseOverBackgroundBrush}" />
-            </Trigger>
-            <Trigger Property="IsPressed" Value="true">
-                <Setter Property="Background" Value="{DynamicResource buttonHighlightBackgroundBrush}" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
     <Style TargetType="TabControl">
