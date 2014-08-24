@@ -35,10 +35,15 @@ namespace CmdrCompanion.Interface
             string asmName = String.Format("CmdrCompanion.Interface.ExternalDlls.{0}.dll", new AssemblyName(args.Name).Name);
             using(Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream(asmName))
             {
-                byte[] asmBytes = new byte[s.Length];
-                s.Read(asmBytes, 0, asmBytes.Length);
-                return Assembly.Load(asmBytes);
+                if(s != null)
+                {
+                    byte[] asmBytes = new byte[s.Length];
+                    s.Read(asmBytes, 0, asmBytes.Length);
+                    return Assembly.Load(asmBytes);
+                }
             }
+
+            return null;
         }
     }
 }
