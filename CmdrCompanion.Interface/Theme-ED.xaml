@@ -463,7 +463,6 @@
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
             <Border x:Name="Border"
-                    Margin="2"
                     Grid.ColumnSpan="2"
                     BorderThickness="2"
                     Background="{DynamicResource buttonBackgroundBrush}">
@@ -507,6 +506,7 @@
         <Setter Property="MinWidth" Value="120" />
         <Setter Property="MinHeight" Value="20" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Margin" Value="2" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
@@ -548,7 +548,9 @@
                                       Focusable="false"
                                       ClickMode="Press"
                                       IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
-                        <ContentPresenter x:Name="ContentSite"
+                        <Border BorderThickness="2, 2, 0, 2"
+                                BorderBrush="{DynamicResource borderColor}">
+                            <ContentPresenter x:Name="ContentSite"
                                           IsHitTestVisible="False"
                                           Content="{TemplateBinding SelectionBoxItem}"
                                           ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
@@ -556,7 +558,8 @@
                                           Margin="3,3,23,3"
                                           VerticalAlignment="Center"
                                           HorizontalAlignment="Left">
-                        </ContentPresenter>
+                            </ContentPresenter>
+                        </Border>
                         <TextBox x:Name="PART_EditableTextBox"
                                  Style="{x:Null}"
                                  Template="{StaticResource ComboBoxTextBox}"
