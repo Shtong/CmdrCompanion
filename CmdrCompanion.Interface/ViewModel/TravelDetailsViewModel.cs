@@ -1,5 +1,7 @@
 using CmdrCompanion.Core;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,8 @@ namespace CmdrCompanion.Interface.ViewModel
     {
         internal TravelDetailsViewModel(IEnumerable<TradeJumpData> jumps)
         {
+            CloseCommand = new RelayCommand(Close);
+
             Jumps = jumps;
             DataDate = DateTime.Now;
             int jCount = 0;
@@ -146,5 +150,24 @@ namespace CmdrCompanion.Interface.ViewModel
             // explaining the data age updates
             RaisePropertyChanged("DataDate");
         }
+
+        public RelayCommand CloseCommand { get; private set; }
+
+        public void Close()
+        {
+            MessengerInstance.Send(new CloseMessage());
+        }
+
+        #region Messages
+        public class CloseMessage : GenericMessage<object>
+        {
+            internal CloseMessage()
+                : base(null)
+            {
+
+            }
+        }
+        #endregion
+
     }
 }

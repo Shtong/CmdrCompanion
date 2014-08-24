@@ -9,6 +9,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ListBox ItemsSource="{Binding StepsView}">
             <ListBox.ItemTemplate>
@@ -48,5 +49,8 @@
         <TextBlock Grid.Row="3">
             DATA AGE: <Run Text="{Binding DataDate, Converter={StaticResource converterAge}}" FontWeight="Bold" />
         </TextBlock>
+        <Button Grid.Row="4" HorizontalAlignment="Left" Command="{Binding CloseCommand}">
+            CLOSE
+        </Button>
     </Grid>
 </Window>
