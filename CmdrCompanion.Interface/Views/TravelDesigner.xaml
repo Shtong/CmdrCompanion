@@ -14,8 +14,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Select the possible systems you want to travel to, and click compute. The planner will check what is the jumping loop with the best " TextWrapping="Wrap" />
-        <GroupBox Header="Your ship" Grid.Row="1">
+        <TextBlock Text="ENTER YOUR BUDGET AND CARGO, SELECT A SEARCH AREA AND CLICK COMPUTE" TextWrapping="Wrap" />
+        <GroupBox Header="CRITERIAS" Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -29,11 +29,11 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Label Target="{Binding ElementName=budgetBox, Mode=OneTime}">Budget: </Label>
+                <Label Target="{Binding ElementName=budgetBox, Mode=OneTime}">BUDGET: </Label>
                 <ex:IntegerUpDown x:Name="budgetBox" Grid.Column="1" Text="{Binding Budget}" Minimum="1" AutoSelectBehavior="OnFocus" />
-                <Label Grid.Row="1" Target="{Binding ElementName=cargoBox, Mode=OneTime}">Cargo size: </Label>
+                <Label Grid.Row="1" Target="{Binding ElementName=cargoBox, Mode=OneTime}">CARGO SIZE: </Label>
                 <ex:IntegerUpDown x:Name="cargoBox" Grid.Column="1" Grid.Row="1" Text="{Binding Cargo}" Minimum="1" AutoSelectBehavior="OnFocus" />
-                <Label Grid.Row="2" Target="{Binding ElementName=startSystemBox}">Search systems around: </Label>
+                <Label Grid.Row="2" Target="{Binding ElementName=startSystemBox}">SEARCH AROUND: </Label>
                 <ComboBox Grid.Row="2" Grid.Column="1" x:Name="startSystemBox" ItemsSource="{Binding StationsView}" SelectedItem="{Binding SelectedOrigin}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -44,19 +44,40 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <Label Grid.Row="3" Target="{Binding ElementName=maxStartDistanceBox, Mode=OneTime}">
-                    <TextBlock>Only consider systems within this distance of <Run Text="{Binding SelectedOrigin.Name}" /> :</TextBlock>
+                    <TextBlock>MAX DISTANCE FROM <Run Text="{Binding SelectedOrigin.Name}" /> :</TextBlock>
                 </Label>
-                <ex:SingleUpDown x:Name="maxStartDistanceBox" Grid.Row="3" Grid.Column="1" Text="{Binding MaxDistanceFromOrigin}" AutoSelectBehavior="OnFocus" Minimum="2" Maximum="500" />
-                <Label Grid.Row="4" Target="{Binding ElementName=maxJumpsBox, Mode=OneTime}">Maximum jump count: </Label>
-                <ex:IntegerUpDown x:Name="maxJumpsBox" Grid.Row="4" Grid.Column="1" Text="{Binding MaxJumpsPerTravel}" AutoSelectBehavior="OnFocus" Minimum="2" Maximum="20" />
-                <Label Grid.Row="5" Target="{Binding ElementName=maxJumpDistanceBox, Mode=OneTime}">Maximum jump distance: </Label>
-                <ex:SingleUpDown x:Name="maxJumpDistanceBox" Grid.Row="5" Grid.Column="1" Text="{Binding MaxDistancePerjump}" AutoSelectBehavior="OnFocus" Minimum="2" Maximum="500" />
+                <ex:SingleUpDown x:Name="maxStartDistanceBox" 
+                                 Grid.Row="3" 
+                                 Grid.Column="1" 
+                                 Text="{Binding MaxDistanceFromOrigin}" 
+                                 AutoSelectBehavior="OnFocus" 
+                                 Minimum="2" 
+                                 Maximum="500" />
+                <Label Grid.Row="4" Target="{Binding ElementName=maxJumpsBox, Mode=OneTime}">MAX JUMP COUNT: </Label>
+                <ex:IntegerUpDown x:Name="maxJumpsBox" 
+                                  Grid.Row="4" 
+                                  Grid.Column="1" 
+                                  Text="{Binding MaxJumpsPerTravel}" 
+                                  AutoSelectBehavior="OnFocus" 
+                                  Minimum="2" 
+                                  Maximum="20" />
+                <Label Grid.Row="5" 
+                       Target="{Binding ElementName=maxJumpDistanceBox, Mode=OneTime}">
+                    MAX JUMP DISTANCE: 
+                </Label>
+                <ex:SingleUpDown x:Name="maxJumpDistanceBox" 
+                                 Grid.Row="5" 
+                                 Grid.Column="1" 
+                                 Text="{Binding MaxDistancePerjump}" 
+                                 AutoSelectBehavior="OnFocus" 
+                                 Minimum="2" 
+                                 Maximum="500" />
             </Grid>
         </GroupBox>
-        <Button Grid.Row="2" Command="{Binding ComputeCommand}">Compute</Button>
+        <Button Grid.Row="2" Command="{Binding ComputeCommand}">COMPUTE</Button>
         <DataGrid Grid.Row="3" ItemsSource="{Binding ResultsView}" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Plan">
+                <DataGridTemplateColumn Header="PLAN">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock>
@@ -67,10 +88,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Jump count" Binding="{Binding JumpCount, Mode=OneTime}" />
-                <DataGridTextColumn Header="Avg. Profit / Jump" Binding="{Binding AvgProfitPerJump, Mode=OneTime}" SortDirection="Descending" />
-                <DataGridTextColumn Header="Total Profit" Binding="{Binding TotalProfit, Mode=OneTime}" />
-                <DataGridTextColumn Header="Data age" Binding="{Binding DataDate, Converter={StaticResource converterAge}}" />
+                <DataGridTextColumn Header="JUMP COUNT" Binding="{Binding JumpCount, Mode=OneTime}" />
+                <DataGridTextColumn Header="AVG. PROFIT/JUMP" Binding="{Binding AvgProfitPerJump, Mode=OneTime}" SortDirection="Descending" />
+                <DataGridTextColumn Header="TTL PROFIT" Binding="{Binding TotalProfit, Mode=OneTime}" />
+                <DataGridTextColumn Header="DATA AGE" Binding="{Binding DataDate, Converter={StaticResource converterAge}}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

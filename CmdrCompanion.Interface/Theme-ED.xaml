@@ -11,6 +11,7 @@
     <SolidColorBrush x:Key="backColor">#EE000000</SolidColorBrush>
     <SolidColorBrush x:Key="textColorBrush" Color="{DynamicResource textColor}" />
     <SolidColorBrush x:Key="separatorColor">#FFB7B9B8</SolidColorBrush>
+    <SolidColorBrush x:Key="selectedbackgroundColorBrush" Color="{DynamicResource selectedBackgroundColor}" />
 
     <SolidColorBrush x:Key="ControlTextBrush">#FFEAEAEA</SolidColorBrush>
 
@@ -367,8 +368,8 @@
     
     <Style TargetType="DataGridRow">
         <Style.Resources>
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource selectedBackgroundColor}" />
-            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{DynamicResource selectedBackgroundInactiveColor}" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource textColor}" />
         </Style.Resources>
         <Setter Property="Background" Value="Transparent" />
@@ -376,6 +377,11 @@
         <Setter Property="FontFamily" Value="{DynamicResource textFont}" />
         <Setter Property="FontSize" Value="{DynamicResource textFontSize}" />
         <Setter Property="Margin" Value="2" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{DynamicResource selectedbackgroundColorBrush}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
     
     <Style TargetType="ListViewItem">

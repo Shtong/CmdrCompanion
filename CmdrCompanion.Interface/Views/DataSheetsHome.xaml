@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="600"
              DataContext="{Binding CommodityAnalyzer, Source={StaticResource Locator}}">
     <TabControl BorderBrush="Transparent">
-        <TabItem Header="Commodities">
+        <TabItem Header="COMMODITIES">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -24,7 +24,7 @@
                 <v:CommodityDetails DataContext="{Binding CommodityDetails}" Grid.Row="1" />
             </Grid>
         </TabItem>
-        <TabItem Header="Places">
+        <TabItem Header="PLACES">
             <ListView ItemsSource="{Binding PlacesView}" />
         </TabItem>
     </TabControl>

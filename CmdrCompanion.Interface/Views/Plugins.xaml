@@ -12,31 +12,31 @@
         <ListView ItemsSource="{Binding PluginsView}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" Width="Auto" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" />
-                    <GridViewColumn Header="State" Width="Auto">
+                    <GridViewColumn Header="NAME" Width="Auto" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="DESCRIPTION" DisplayMemberBinding="{Binding Description}" />
+                    <GridViewColumn Header="STATE" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock x:Name="activeLabel" Text="Inactive" VerticalAlignment="Center" Foreground="Red" />
+                                <TextBlock x:Name="activeLabel" Text="INACTIVE" VerticalAlignment="Center" Foreground="Red" />
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                        <Setter TargetName="activeLabel" Property="Text" Value="Active" />
+                                        <Setter TargetName="activeLabel" Property="Text" Value="ACTIVE" />
                                         <Setter TargetName="activeLabel" Property="Foreground" Value="Green" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Action" Width="Auto">
+                    <GridViewColumn Header="ACTION" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock><Hyperlink Command="{Binding Plugins.TogglePluginCommand, Source={StaticResource Locator}}"
                                                       CommandParameter="{Binding}">
-                                    <Run x:Name="linkText" Text="Activate" />
+                                    <Run x:Name="linkText" Text="ACTIVATE" />
                                 </Hyperlink></TextBlock>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsActive}" Value="True">
-                                        <Setter TargetName="linkText" Property="Text" Value="Deactivate" />
+                                        <Setter TargetName="linkText" Property="Text" Value="DEACTIVATE" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>

@@ -10,21 +10,21 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TabControl TabStripPlacement="Left" Margin="10, 10, 10, 20" x:Name="mainTabs">
-            <TabItem Header="Data Sheets">
-                <v:DataSheetsHome />
-            </TabItem>
-            <TabItem Header="Plugins">
-                <v:Plugins />
-            </TabItem>
-            <TabItem Header="Travel Designer">
+            <TabItem Header="TRAVEL DESIGNER">
                 <v:TravelDesigner />
             </TabItem>
-            <TabItem Header="Jump finder">
+            <TabItem Header="JUMP INFO">
                 <v:JumpFinder />
+            </TabItem>
+            <TabItem Header="DATA SHEETS">
+                <v:DataSheetsHome />
+            </TabItem>
+            <TabItem Header="PLUGINS">
+                <v:Plugins />
             </TabItem>
         </TabControl>
         <Button Grid.Row="1" HorizontalAlignment="Left" Margin="10" Command="{Binding CloseCommand}">
-            Close
+            CLOSE
         </Button>
     </Grid>
 </Window>
