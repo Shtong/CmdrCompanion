@@ -375,7 +375,7 @@
         <Setter Property="Foreground" Value="{DynamicResource textColorBrush}" />
         <Setter Property="FontFamily" Value="{DynamicResource textFont}" />
         <Setter Property="FontSize" Value="{DynamicResource textFontSize}" />
-        <Setter Property="Margin" Value="8" />
+        <Setter Property="Margin" Value="2" />
     </Style>
     
     <Style TargetType="ListViewItem">
@@ -384,5 +384,20 @@
             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{DynamicResource selectedBackgroundInactiveColor}" />
             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource textColor}" />
         </Style.Resources>
+        <Setter Property="Padding" Value="3" />
+    </Style>
+    
+    <Style TargetType="GridViewColumnHeader">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0, 0, 0, 1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource separatorColor}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" HorizontalAlignment="Left" Margin="8" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>
