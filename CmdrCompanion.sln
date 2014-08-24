@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdrCompanion.Interface", "CmdrCompanion.Interface\CmdrCompanion.Interface.csproj", "{7997AE1D-26BB-4E13-B791-72F6B6C2633A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3FF43A59-BE41-4997-AA40-36F5CCC9B96E} = {3FF43A59-BE41-4997-AA40-36F5CCC9B96E}
+		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0} = {525308C9-67C4-4F6B-B28A-BB93A48E3DF0}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdrCompanion.Core", "CmdrCompanion.Core\CmdrCompanion.Core.csproj", "{1B909CC2-A4B2-43E5-9CB5-0113E5EB03D8}"
@@ -26,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{268183
 		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
 		version.txt = version.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdrCompanion.Updater", "CmdrCompanion.Updater\CmdrCompanion.Updater.csproj", "{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +55,12 @@ Global
 		{3FF43A59-BE41-4997-AA40-36F5CCC9B96E}.Deploy|Any CPU.Build.0 = Deploy|Any CPU
 		{3FF43A59-BE41-4997-AA40-36F5CCC9B96E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FF43A59-BE41-4997-AA40-36F5CCC9B96E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Deploy|Any CPU.ActiveCfg = Debug|Any CPU
+		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Deploy|Any CPU.Build.0 = Debug|Any CPU
+		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
