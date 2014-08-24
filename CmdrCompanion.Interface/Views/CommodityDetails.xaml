@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.ColumnSpan="2">
-            CATEGORY: <Run Text="{Binding Commodity.Category}" FontWeight="Bold" />
+            CATEGORY: <Run Text="{Binding Commodity.Category, Converter={StaticResource converterAllCaps}, Mode=OneWay}" FontWeight="Bold" />
         </TextBlock>
 
         <GroupBox Grid.Row="1" Header="STATIONS SELLING">

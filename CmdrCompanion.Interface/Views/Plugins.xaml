@@ -12,8 +12,8 @@
         <ListView ItemsSource="{Binding PluginsView}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="NAME" Width="Auto" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="DESCRIPTION" DisplayMemberBinding="{Binding Description}" />
+                    <GridViewColumn Header="NAME" Width="Auto" DisplayMemberBinding="{Binding Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" />
+                    <GridViewColumn Header="DESCRIPTION" DisplayMemberBinding="{Binding Description, Converter={StaticResource converterAllCaps}, Mode=OneWay}" />
                     <GridViewColumn Header="STATE" Width="Auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

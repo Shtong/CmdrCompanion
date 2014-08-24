@@ -12,7 +12,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Theme-ED.xaml" />
                 <ResourceDictionary>
-                    <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:CmdrCompanion.Interface.ViewModel" />
+                    <vm:ViewModelLocator x:Key="Locator" 
+                                         d:IsDataSource="True" 
+                                         xmlns:vm="clr-namespace:CmdrCompanion.Interface.ViewModel" />
 
                     <!-- Converters -->
 
@@ -21,16 +23,18 @@
                     <conv:BooleanToVisibilityConverter x:Key="converterVisibilityHiding" UseHiding="true" />
                     <conv:NullableBooleanConverter x:Key="converterNullableBoolean" />
                     <conv:DistanceDisplayConverter x:Key="converterDistance" />
+                    <conv:AllCapsConverter x:Key="converterAllCaps" />
 
                     <!-- Data templates -->
                     <DataTemplate DataType="{x:Type core:Station}">
                         <TextBlock>
-                            <Run Text="{Binding Star.Name}" /> - <Run Text="{Binding Name}" />
+                            <Run Text="{Binding Star.Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" /> - 
+                            <Run Text="{Binding Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" />
                         </TextBlock>
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type core:Commodity}">
-                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Text="{Binding Name, Converter={StaticResource converterAllCaps}}" />
                     </DataTemplate>
 
                     <!-- Reusable controls -->
@@ -42,7 +46,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate>
-                                    <Expander Header="{Binding Name}" IsExpanded="True">
+                                    <Expander Header="{Binding Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" IsExpanded="True">
                                         <ItemsPresenter />
                                     </Expander>
                                 </ControlTemplate>

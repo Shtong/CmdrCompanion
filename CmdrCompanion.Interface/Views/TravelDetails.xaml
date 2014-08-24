@@ -14,7 +14,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock x:Name="stepContainer">
-                        <Run x:Name="stepHeader" /> <Run Text="{Binding Text}" />
+                        <Run x:Name="stepHeader" /> <Run Text="{Binding Text, Converter={StaticResource converterAllCaps}, Mode=OneWay}" />
                     </TextBlock>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding Type}" Value="initial">

@@ -34,17 +34,9 @@
                 <Label Grid.Row="1" Target="{Binding ElementName=cargoBox, Mode=OneTime}">CARGO SIZE: </Label>
                 <ex:IntegerUpDown x:Name="cargoBox" Grid.Column="1" Grid.Row="1" Text="{Binding Cargo}" Minimum="1" AutoSelectBehavior="OnFocus" />
                 <Label Grid.Row="2" Target="{Binding ElementName=startSystemBox}">SEARCH AROUND: </Label>
-                <ComboBox Grid.Row="2" Grid.Column="1" x:Name="startSystemBox" ItemsSource="{Binding StationsView}" SelectedItem="{Binding SelectedOrigin}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock>
-                                <Run Text="{Binding Star.Name}" /> - <Run Text="{Binding Name}" />
-                            </TextBlock>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                <ComboBox Grid.Row="2" Grid.Column="1" x:Name="startSystemBox" ItemsSource="{Binding StationsView}" SelectedItem="{Binding SelectedOrigin}" />
                 <Label Grid.Row="3" Target="{Binding ElementName=maxStartDistanceBox, Mode=OneTime}">
-                    <TextBlock>MAX DISTANCE FROM <Run Text="{Binding SelectedOrigin.Name}" /> :</TextBlock>
+                    <TextBlock>MAX DISTANCE FROM <Run Text="{Binding SelectedOrigin.Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" /> :</TextBlock>
                 </Label>
                 <ex:SingleUpDown x:Name="maxStartDistanceBox" 
                                  Grid.Row="3" 
@@ -82,7 +74,7 @@
                         <DataTemplate>
                             <TextBlock>
                                 <Hyperlink Command="{Binding TravelDesigner.ShowDetailedResultCommand, Source={StaticResource Locator}}" CommandParameter="{Binding}">
-                                    <Run Text="{Binding PlanText, Mode=OneTime}" />
+                                    <Run Text="{Binding PlanText, Converter={StaticResource converterAllCaps}, Mode=OneTime}" />
                                 </Hyperlink>
                             </TextBlock>
                         </DataTemplate>
