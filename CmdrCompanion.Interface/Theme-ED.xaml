@@ -846,4 +846,19 @@
         </Setter>
     </Style>
 
+    <Style TargetType="ListBox">
+        <Setter Property="BorderThickness" Value="{DynamicResource containerBorderThickness}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource borderColor}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
+    
+    <Style TargetType="ListBoxItem">
+        <Style.Resources>
+            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource SelectedBackgroundColor}" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{DynamicResource SelectedUnfocusedColor}" />
+            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource textColor}" />
+        </Style.Resources>
+    </Style>
+    
 </ResourceDictionary>
