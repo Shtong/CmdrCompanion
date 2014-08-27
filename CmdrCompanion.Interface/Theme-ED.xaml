@@ -248,6 +248,11 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <Style TargetType="GroupBox">
+        <Setter Property="BorderBrush" Value="{DynamicResource borderColor}" />
+        <Setter Property="Margin" Value="10" />
+    </Style>
 
     <Style TargetType="ListView">
         <Setter Property="Background" Value="Transparent" />
