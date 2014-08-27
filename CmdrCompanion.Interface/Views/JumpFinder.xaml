@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <GroupBox Header="JUMP ENDS">
+        <GroupBox Header="SEARCH FILTERS">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -59,7 +59,7 @@
                 </Button>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Trades grid options" Grid.Column="1">
+        <GroupBox Header="RESULTS OPTIONS" Grid.Column="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
