@@ -23,4 +23,4 @@ make install
 ldconfig
 
 # Python packages
-pip install pyzmq Werkzeug pymongo
+pip install pyzmq Werkzeug pymongo python-daemon simplejson
