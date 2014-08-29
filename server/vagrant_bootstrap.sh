@@ -24,3 +24,14 @@ ldconfig
 
 # Python packages
 pip install pyzmq Werkzeug pymongo python-daemon simplejson
+
+# Daemon stuff
+useradd --user-group feeder
+mkdir -m 711 /var/log/feeder
+chown feeder:feeder /var/log/feeder
+mkdir -m 711 /var/run/feeder
+chown feeder:feeder /var/lrun/feeder
+mkdir -m 711 /usr/share/feeder
+chown feeder:feeder /usr/share/feeder
+
+ln -s /vagrant/feeder.py /usr/share/feeder/feeder.py
