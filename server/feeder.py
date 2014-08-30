@@ -27,7 +27,7 @@ class Feeder(object):
         self.stdin_path = '/dev/null'
         self.stdout_path = '/dev/null'
         self.stderr_path = '/dev/tty'
-        self.pidfile_path = '/var/run/feeder/feeder.pid'
+        self.pidfile_path = '/var/run/feeder.pid'
         self.pidfile_timeout = 5
         
     def run(self):

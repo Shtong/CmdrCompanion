@@ -35,3 +35,4 @@ mkdir -m 711 /usr/share/feeder
 chown feeder:feeder /usr/share/feeder
 
 ln -s /vagrant/feeder.py /usr/share/feeder/feeder.py
+ln -s /vagrant/feeder /etc/init.d/feeder
