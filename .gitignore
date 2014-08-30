@@ -178,3 +178,6 @@ FakesAssemblies/
 
 # Publication folder
 .pub/
+
+# Vagrant working folder
+.vagrant/
