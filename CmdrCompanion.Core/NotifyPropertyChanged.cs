@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CmdrCompanion.Core
 {
+    /// <summary>
+    /// Base class for core objects that notifies their properties have changed.
+    /// </summary>
     public abstract class NotifyPropertyChanged : INotifyPropertyChanged
     {
         protected void OnPropertyChanged(string propertyName = null)

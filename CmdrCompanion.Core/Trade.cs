@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace CmdrCompanion.Core
 {
+    /// <summary>
+    /// Describes the commercial availability of a <see cref="Commodity"/>
+    /// </summary>
+    /// <seealso cref="Station.CreateTrade"/>
     public class Trade : CoreObject
     {
         internal Trade(Station station, Commodity commodity)
@@ -109,8 +113,14 @@ namespace CmdrCompanion.Core
             }
         }
 
+        /// <summary>
+        /// Gets the station that conducts this trade.
+        /// </summary>
         public Station Station { get; private set; }
 
+        /// <summary>
+        /// Gets the commodity that this trade instance is about
+        /// </summary>
         public Commodity Commodity { get; private set; }
 
         private DateTime _dataDate;

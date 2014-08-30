@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace CmdrCompanion.Core
 {
+    /// <summary>
+    /// A specialized dictionnary that is used to store lists of distance between a star and a set of other stars.
+    /// </summary>
+    /// <seealso cref="Star.KnownStarProximities"/>
     public sealed class StarProximityCollection : 
         IDictionary<Star, float>, 
         ICollection<KeyValuePair<Star, float>>, 
@@ -112,7 +116,7 @@ namespace CmdrCompanion.Core
 
         public IEnumerable<Star> Keys
         {
-	        get 
+            get 
             {
                 return _sortedIndex.Values.SelectMany(v => v);
             }
@@ -125,7 +129,7 @@ namespace CmdrCompanion.Core
 
         public IEnumerable<float> Values
         {
-	        get 
+            get 
             {
                 return _sortedIndex.Keys;
             }
@@ -150,7 +154,7 @@ namespace CmdrCompanion.Core
 
         IEnumerator IEnumerable.GetEnumerator()
         {
- 	        return GetEnumerator();
+            return GetEnumerator();
         }
 
 

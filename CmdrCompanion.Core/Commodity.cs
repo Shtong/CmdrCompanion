@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CmdrCompanion.Core
 {
+    /// <summary>
+    /// Describes a tradable commodity
+    /// </summary>
     public class Commodity : CoreObject
     {
         internal Commodity(string name, string category)
@@ -49,6 +52,9 @@ namespace CmdrCompanion.Core
         }
 
         private ObservableCollection<Station> _sellers;
+        /// <summary>
+        /// Gets a list of stations that sells this commodity
+        /// </summary>
         public ObservableCollection<Station> Sellers 
         {
             get
