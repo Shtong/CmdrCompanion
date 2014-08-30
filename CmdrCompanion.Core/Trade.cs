@@ -9,7 +9,7 @@ namespace CmdrCompanion.Core
     /// <summary>
     /// Describes the commercial availability of a <see cref="Commodity"/>
     /// </summary>
-    /// <seealso cref="Station.CreateTrade"/>
+    /// <seealso cref="CmdrCompanion.Core.Station.CreateTrade"/>
     public class Trade : CoreObject
     {
         internal Trade(Station station, Commodity commodity)
@@ -144,6 +144,10 @@ namespace CmdrCompanion.Core
             }
         }
 
+        /// <summary>
+        /// Returns the string representation of this instance
+        /// </summary>
+        /// <returns>The string representation of this instance</returns>
         public override string ToString()
         {
             return String.Format("Trade of {0} between at station {1}", Commodity.Name, Station.Name);

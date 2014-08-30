@@ -91,6 +91,7 @@ namespace CmdrCompanion.Core
         /// Finds a station using its name
         /// </summary>
         /// <param name="name">The station name to look for</param>
+        /// <param name="comparisonOptions">The options used when comparing names</param>
         /// <returns>The <see cref="Station"/> instance that was found, or null if this name does not exist.</returns>
         public Station FindStationByName(string name, StringComparison comparisonOptions = StringComparison.InvariantCultureIgnoreCase)
         {
@@ -136,6 +137,10 @@ namespace CmdrCompanion.Core
             otherStar.KnownStarProximities.Set(this, distance);
         }
 
+        /// <summary>
+        /// Returns the string representation of this instance
+        /// </summary>
+        /// <returns>The string representation of this instance</returns>
         public override string ToString()
         {
             return "Star system " + Name;

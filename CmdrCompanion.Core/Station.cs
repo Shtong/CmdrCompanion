@@ -10,7 +10,7 @@ namespace CmdrCompanion.Core
     /// <summary>
     /// Describes a space station that the player can interact with
     /// </summary>
-    /// <remarks>To create a new instance of this class, use the <see cref="Star.CreateStation"/> method.</remarks>
+    /// <remarks>To create a new instance of this class, use the <see cref="CmdrCompanion.Core.Star.CreateStation"/> method.</remarks>
     public class Station : CoreObject
     {
         internal Station(string name, Star star)
@@ -180,6 +180,10 @@ namespace CmdrCompanion.Core
             return result;
         }
 
+        /// <summary>
+        /// Returns the string representation of this instance
+        /// </summary>
+        /// <returns>The string representation of this instance</returns>
         public override string ToString()
         {
             return "Station " + Name;

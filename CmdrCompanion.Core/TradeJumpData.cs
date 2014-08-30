@@ -75,6 +75,10 @@ namespace CmdrCompanion.Core
             }
         }
 
+        /// <summary>
+        /// Returns the string representation of this instance
+        /// </summary>
+        /// <returns>The string representation of this instance</returns>
         public override string ToString()
         {
             return String.Format("Trading {5} {0} between {1} ({2}) and {3} ({4})", Commodity.Name, From.Station.Name, From.SellingPrice, To.Station.Name, To.BuyingPrice, CargoSize);

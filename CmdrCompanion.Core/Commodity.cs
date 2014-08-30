@@ -20,6 +20,9 @@ namespace CmdrCompanion.Core
         }
 
         private string _name;
+        /// <summary>
+        /// Gets or sets the commodity name
+        /// </summary>
         public string Name 
         {
             get
@@ -37,6 +40,9 @@ namespace CmdrCompanion.Core
         }
 
         private string _category;
+        /// <summary>
+        /// Gets or sets the commodity category name. (warning: can be null)
+        /// </summary>
         public string Category 
         { 
             get
@@ -63,6 +69,10 @@ namespace CmdrCompanion.Core
             }
         }
 
+        /// <summary>
+        /// Returns the string representation of this instance
+        /// </summary>
+        /// <returns>The string representation of this instance</returns>
         public override string ToString()
         {
             return "Commodity " + Name;

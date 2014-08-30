@@ -12,11 +12,19 @@ namespace CmdrCompanion.Core
     /// </summary>
     public abstract class NotifyPropertyChanged : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Triggers the <see cref="PropertyChanged"/> event.
+        /// </summary>
+        /// <param name="propertyName">The name of the property that changed</param>
         protected void OnPropertyChanged(string propertyName = null)
         {
             OnPropertyChanged(new string[] { propertyName });
         }
 
+        /// <summary>
+        /// Triggers the <see cref="PropertyChanged"/> event.
+        /// </summary>
+        /// <param name="propertyNames">The name of the properties that changed</param>
         protected void OnPropertyChanged(IEnumerable<string> propertyNames = null)
         {
             if (PropertyChanged != null && propertyNames != null)
@@ -26,6 +34,9 @@ namespace CmdrCompanion.Core
             }
         }
 
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

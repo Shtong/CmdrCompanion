@@ -109,11 +109,21 @@ namespace CmdrCompanion.Core
         #endregion
 
         #region Collection interfaces
+        /// <summary>
+        /// Determines whether the <see cref="T:System.Collections.Generic.IDictionary`2" /> contains an element with the specified key.
+        /// </summary>
+        /// <param name="key">The key to locate in the <see cref="T:System.Collections.Generic.IDictionary`2" />.</param>
+        /// <returns>
+        /// true if the <see cref="T:System.Collections.Generic.IDictionary`2" /> contains an element with the key; otherwise, false.
+        /// </returns>
         public bool ContainsKey(Star key)
         {
             return _data.ContainsKey(key);
         }
 
+        /// <summary>
+        /// Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the keys of the <see cref="T:System.Collections.Generic.IDictionary`2" />.
+        /// </summary>
         public IEnumerable<Star> Keys
         {
             get 
@@ -122,11 +132,22 @@ namespace CmdrCompanion.Core
             }
         }
 
+        /// <summary>
+        /// Gets the value associated with the specified key.
+        /// </summary>
+        /// <param name="key">The key whose value to get.</param>
+        /// <param name="value">When this method returns, the value associated with the specified key, if the key is found; otherwise, the default value for the type of the <paramref name="value" /> parameter. This parameter is passed uninitialized.</param>
+        /// <returns>
+        /// true if the object that implements <see cref="T:System.Collections.Generic.IDictionary`2" /> contains an element with the specified key; otherwise, false.
+        /// </returns>
         public bool TryGetValue(Star key, out float value)
         {
             return _data.TryGetValue(key, out value);
         }
 
+        /// <summary>
+        /// Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the values in the <see cref="T:System.Collections.Generic.IDictionary`2" />.
+        /// </summary>
         public IEnumerable<float> Values
         {
             get 
@@ -135,16 +156,30 @@ namespace CmdrCompanion.Core
             }
         }
 
+        /// <summary>
+        /// Gets or sets the element with the specified key.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
         public float this[Star key]
         {
             get { return _data[key]; }
         }
 
+        /// <summary>
+        /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.
+        /// </summary>
         public int Count
         {
             get { return _data.Count; }
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
+        /// </returns>
         public IEnumerator<KeyValuePair<Star,float>> GetEnumerator()
         {
             foreach (KeyValuePair<float, List<Star>> pair in _sortedIndex)
@@ -341,6 +376,9 @@ namespace CmdrCompanion.Core
                 CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, (object)_data[changedStar], (object)new KeyValuePair<Star, float>(changedStar, previousDistance)));
         }
 
+        /// <summary>
+        /// Occurs when the collection changes.
+        /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
         #endregion
     }
