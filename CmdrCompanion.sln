@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{268183
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdrCompanion.Updater", "CmdrCompanion.Updater\CmdrCompanion.Updater.csproj", "{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdrCompanion.EmdnClient", "CmdrCompanion.EmdnClient\CmdrCompanion.EmdnClient.csproj", "{81BF37BE-5F78-4766-B3CF-289CEE15E822}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,12 @@ Global
 		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Deploy|Any CPU.Build.0 = Debug|Any CPU
 		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81BF37BE-5F78-4766-B3CF-289CEE15E822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81BF37BE-5F78-4766-B3CF-289CEE15E822}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81BF37BE-5F78-4766-B3CF-289CEE15E822}.Deploy|Any CPU.ActiveCfg = Debug|Any CPU
+		{81BF37BE-5F78-4766-B3CF-289CEE15E822}.Deploy|Any CPU.Build.0 = Debug|Any CPU
+		{81BF37BE-5F78-4766-B3CF-289CEE15E822}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81BF37BE-5F78-4766-B3CF-289CEE15E822}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
