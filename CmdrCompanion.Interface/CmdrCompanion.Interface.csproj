@@ -60,6 +60,10 @@
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -114,12 +118,14 @@
     <Compile Include="Converters\DistanceDisplayConverter.cs" />
     <Compile Include="Converters\NullableBooleanConverter.cs" />
     <Compile Include="GlobalAssemblyInfo.cs" />
+    <Compile Include="Modules\EmdnUpdater.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="ViewModel\CommodityDetailsViewModel.cs" />
     <Compile Include="ViewModel\JumpFinderViewModel.cs" />
     <Compile Include="ViewModel\LocalViewModelBase.cs" />
+    <Compile Include="ViewModel\OptionsViewModel.cs" />
     <Compile Include="ViewModel\TravelDetailsViewModel.cs" />
     <Compile Include="ViewModel\TravelDesignerViewModel.cs" />
     <Compile Include="Views\CommodityDetails.xaml.cs">
@@ -128,8 +134,8 @@
     <Compile Include="Views\JumpFinder.xaml.cs">
       <DependentUpon>JumpFinder.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Plugins.xaml.cs">
-      <DependentUpon>Plugins.xaml</DependentUpon>
+    <Compile Include="Views\Options.xaml.cs">
+      <DependentUpon>Options.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TravelDesigner.xaml.cs">
       <DependentUpon>TravelDesigner.xaml</DependentUpon>
@@ -157,11 +163,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PluginContainer.cs" />
-    <Compile Include="PluginManager.cs" />
     <Compile Include="ViewModel\DataSheetsHomeViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\PluginsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\DataSheetsHome.xaml.cs">
       <DependentUpon>DataSheetsHome.xaml</DependentUpon>
@@ -170,7 +173,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Plugins.xaml">
+    <Page Include="Views\Options.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

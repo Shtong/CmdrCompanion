@@ -49,9 +49,9 @@ namespace CmdrCompanion.Interface.ViewModel
             ViewModels = new List<ViewModelBase>();
             RegisterViewModel<MainViewModel>();
             RegisterViewModel<DataSheetsHomeViewModel>();
-            RegisterViewModel<PluginsViewModel>();
             RegisterViewModel<TravelDesignerViewModel>();
             RegisterViewModel<JumpFinderViewModel>();
+            RegisterViewModel<OptionsViewModel>();
         }
 
         private void RegisterViewModel<TViewModel>() where TViewModel:ViewModelBase
@@ -83,14 +83,6 @@ namespace CmdrCompanion.Interface.ViewModel
             }
         }
 
-        public PluginsViewModel Plugins
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<PluginsViewModel>();
-            }
-        }
-
         public TravelDesignerViewModel TravelDesigner
         {
             get
@@ -104,6 +96,14 @@ namespace CmdrCompanion.Interface.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<JumpFinderViewModel>();
+            }
+        }
+
+        public OptionsViewModel Options
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<OptionsViewModel>();
             }
         }
         

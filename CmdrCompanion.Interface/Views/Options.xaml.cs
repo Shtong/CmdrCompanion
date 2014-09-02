@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace CmdrCompanion.Interface.Views
 {
     /// <summary>
-    /// Interaction logic for Plugins.xaml
+    /// Interaction logic for Options.xaml
     /// </summary>
-    public partial class Plugins : UserControl
+    public partial class Options : UserControl
     {
-        public Plugins()
+        public Options()
         {
             InitializeComponent();
         }

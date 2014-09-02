@@ -1,4 +1,5 @@
 using CmdrCompanion.Core;
+using CmdrCompanion.Interface.Modules;
 using CmdrCompanion.Interface.Properties;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -52,12 +53,8 @@ namespace CmdrCompanion.Interface.ViewModel
         {
             SimpleIoc.Default.Register<EliteEnvironment>();
 
-            SimpleIoc.Default.Register<PluginManager>(() =>
-            {
-                PluginManager pm = new PluginManager();
-                pm.ScanForPlugins();
-                return pm;
-            });
+            // Initialize modules
+            SimpleIoc.Default.Register<EmdnUpdater>(() => new EmdnUpdater(Environment));
         }
 
         /// <summary>
@@ -65,21 +62,9 @@ namespace CmdrCompanion.Interface.ViewModel
         /// </summary>
         public void Start()
         {
-            PluginManager pm = CurrentServiceLocator.GetInstance<PluginManager>();
-            // Auto-start previously started plugins
-            if (Settings.Default.ActivatedPlugins != null)
-            {
-                foreach (string name in Settings.Default.ActivatedPlugins)
-                {
-                    PluginContainer container = pm.AvailablePlugins.FirstOrDefault(pc => pc.Name == name);
-                    if (container != null)
-                    {
-                        container.Initialize();
-                        container.Activate();
-                    }
-                }
-            }
-
+            // Configure modules
+            if (Settings.Default.EmdnEnabled)
+                CurrentServiceLocator.GetInstance<EmdnUpdater>().Enable();
         }
 
         private void InitializeUpdates()
@@ -114,6 +99,13 @@ namespace CmdrCompanion.Interface.ViewModel
                     Application.Current.Shutdown();
                 }
             }
+        }
+
+        public override void Cleanup()
+        {
+            Settings.Default.Save();
+
+            base.Cleanup();
         }
     }
 }

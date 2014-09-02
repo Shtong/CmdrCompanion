@@ -1,17 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
+# Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdrCompanion.Interface", "CmdrCompanion.Interface\CmdrCompanion.Interface.csproj", "{7997AE1D-26BB-4E13-B791-72F6B6C2633A}"
 	ProjectSection(ProjectDependencies) = postProject
-		{3FF43A59-BE41-4997-AA40-36F5CCC9B96E} = {3FF43A59-BE41-4997-AA40-36F5CCC9B96E}
 		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0} = {525308C9-67C4-4F6B-B28A-BB93A48E3DF0}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdrCompanion.Core", "CmdrCompanion.Core\CmdrCompanion.Core.csproj", "{1B909CC2-A4B2-43E5-9CB5-0113E5EB03D8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdrCompanion.Slopey", "CmdrCompanion.Slopey\CmdrCompanion.Slopey.csproj", "{3FF43A59-BE41-4997-AA40-36F5CCC9B96E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{63587DD1-0508-405A-B64D-6540A4F4715F}"
 	ProjectSection(SolutionItems) = preProject
@@ -29,8 +26,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{268183
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdrCompanion.Updater", "CmdrCompanion.Updater\CmdrCompanion.Updater.csproj", "{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdrCompanion.EmdnClient", "CmdrCompanion.EmdnClient\CmdrCompanion.EmdnClient.csproj", "{81BF37BE-5F78-4766-B3CF-289CEE15E822}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,24 +46,12 @@ Global
 		{1B909CC2-A4B2-43E5-9CB5-0113E5EB03D8}.Deploy|Any CPU.Build.0 = Deploy|Any CPU
 		{1B909CC2-A4B2-43E5-9CB5-0113E5EB03D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B909CC2-A4B2-43E5-9CB5-0113E5EB03D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3FF43A59-BE41-4997-AA40-36F5CCC9B96E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3FF43A59-BE41-4997-AA40-36F5CCC9B96E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3FF43A59-BE41-4997-AA40-36F5CCC9B96E}.Deploy|Any CPU.ActiveCfg = Deploy|Any CPU
-		{3FF43A59-BE41-4997-AA40-36F5CCC9B96E}.Deploy|Any CPU.Build.0 = Deploy|Any CPU
-		{3FF43A59-BE41-4997-AA40-36F5CCC9B96E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3FF43A59-BE41-4997-AA40-36F5CCC9B96E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Deploy|Any CPU.ActiveCfg = Debug|Any CPU
 		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Deploy|Any CPU.Build.0 = Debug|Any CPU
 		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{525308C9-67C4-4F6B-B28A-BB93A48E3DF0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{81BF37BE-5F78-4766-B3CF-289CEE15E822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81BF37BE-5F78-4766-B3CF-289CEE15E822}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81BF37BE-5F78-4766-B3CF-289CEE15E822}.Deploy|Any CPU.ActiveCfg = Debug|Any CPU
-		{81BF37BE-5F78-4766-B3CF-289CEE15E822}.Deploy|Any CPU.Build.0 = Debug|Any CPU
-		{81BF37BE-5F78-4766-B3CF-289CEE15E822}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81BF37BE-5F78-4766-B3CF-289CEE15E822}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

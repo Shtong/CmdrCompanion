@@ -8,14 +8,14 @@
         <TabItem Header="Data Sheets">
             <v:DataSheetsHome />
         </TabItem>
-        <TabItem Header="Plugins">
-            <v:Plugins />
-        </TabItem>
         <TabItem Header="Travel Designer">
             <v:TravelDesigner />
         </TabItem>
         <TabItem Header="Jump finder">
             <v:JumpFinder />
+        </TabItem>
+        <TabItem Header="Options">
+            <v:Options />
         </TabItem>
     </TabControl>
 </Window>

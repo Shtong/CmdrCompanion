@@ -35,7 +35,8 @@ namespace CmdrCompanion.EmdnClient
                         {
                             using(JsonReader jReader = new JsonTextReader(sReader))
                             {
-                                JsonSerializer serializer = JsonSerializer.CreateDefault();
+                                //JsonSerializer serializer = JsonSerializer.CreateDefault();
+                                JsonSerializer serializer = null; // TODO : jdfmqljflmdqsj
                                 data = serializer.Deserialize<List<MarketEntry>>(jReader);
                             }
                         }
