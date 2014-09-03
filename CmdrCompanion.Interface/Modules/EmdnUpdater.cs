@@ -66,6 +66,8 @@ namespace CmdrCompanion.Interface.Modules
             if (IsUpdating)
                 return;
 
+            Trace.TraceInformation("Updating");
+
             IsUpdating = true;
 
 
@@ -101,7 +103,9 @@ namespace CmdrCompanion.Interface.Modules
                 if (t.Exception != null)
                 {
                     Trace.TraceError("Unhandled exception during EMDN data download !");
-                    throw t.Exception;
+                    Trace.TraceError(t.Exception.ToString());
+                    Trace.TraceError(t.Exception.StackTrace);
+                    return;
                 }
 
                 if(data == null)
