@@ -23,6 +23,98 @@ dbport = 27017 # MongoDB port
 max_data_length = 800 # Maximum character length of a received message
 expected_version = '0.1' # The version of EMDN the script was written for
 
+categories = {
+    'foods': 'Foods',
+    'textiles': 'Textiles',
+    'industrial_materials': 'Industrial Materials',
+    'chemicals': 'Chemicals',
+    'medicines': 'Medicines',
+    'drugs': 'Drugs',
+    'machinery': 'Machinery',
+    'technology': 'Technology',
+    'consumer_items': 'Consumer Items',
+    'waste': 'Waste',
+    'metals': 'Metals',
+    'minerals': 'Minerals',
+    'weapons': 'Weapons'
+}
+
+items = {
+    'grain': 'Grain',
+    'animalmeat': 'Animal Meat',
+    'fish': 'Fish',
+    'foodcartridges': 'Food Cartridges',
+    'syntheticmeat': 'Synthetic Meat',
+    'tea': 'Tea',
+    'coffee': 'Coffee',
+    'leather': 'Leather',
+    'naturalfabrics': 'Natural Fabrics',
+    'syntheticfabrics': 'Synthetic Fabrics',
+    'polymers': 'Polymers',
+    'semiconductors': 'Semiconductors',
+    'superconductors': 'Superconductors',
+    'hydrogenfuel': 'Hydrogen Fuel',
+    'performanceenhancers': 'Performance Enhancers',
+    'basicmedicines': 'Basic Medicines',
+    'beer': 'Beer',
+    'mineralextractors': 'Mineral Extractors',
+    'cropharvesters': 'Crop Harvesters',
+    'hazardousenvironmentsuits': 'Hazardous Environment Suits',
+    'robotics': 'Robotics',
+    'autofabricators': 'Auto Fabricators',
+    'domesticappliances': 'Domestic Appliances',
+    'consumertechnology': 'Consumer Technology',
+    'clothing': 'Clothing',
+    'biowaste': 'Biowaste',
+    'scrap': 'Scrap',
+    'progenitorcells': 'Progenitor Cells',
+    'gold': 'Gold',
+    'beryllium': 'Beryllium',
+    'indium': 'Indium',
+    'gallium': 'Gallium',
+    'tantalum': 'Tantalum',
+    'uranium': 'Uranium',
+    'lithium': 'Lithium',
+    'titanium': 'Titanium',
+    'copper': 'Copper',
+    'aluminium': 'Aluminium',
+    'algae': 'Algae',
+    'fruitandvegetables': 'Fruits and Vegetables',
+    'mineraloil': 'Mineral Oil',
+    'pesticides': 'Pesticides',
+    'agriculturalmedicines': 'Agricultural Medicines',
+    'tobacco': 'Tobacco',
+    'wine': 'Wine',
+    'liquor': 'Liquor',
+    'animalmonitors': 'Animal Monitors',
+    'terrainenrichmentsystems': 'Terrain Enrichment Systems',
+    'personalweapons': 'Personal Weapons',
+    'heliostaticfurnaces': 'Heliostatic Furnaces',
+    'marinesupplies': 'Marine Supplies',
+    'computercomponents': 'Computer Components',
+    'aquaponicsystems': 'Aquaponic Systems',
+    'palladium': 'Palladium',
+    'silver': 'Silver',
+    'gallite': 'Gallite',
+    'cobalt': 'Cobalt',
+    'rutile': 'Rutile',
+    'reactivearmour': 'Reactive Armour',
+    'nonlethalweapons': 'Non-Lethal Weapons',
+    'bertrandite': 'Bertrandite',
+    'coltan': 'Coltan',
+    'bauxite': 'Bauxite',
+    'explosives': 'Explosives',
+    'bioreducinglichen': 'Bio-Reducing Lichen',
+    'indite': 'Indite',
+    'lepidolite': 'Lepidolite',
+    'uraninite': 'Uraninite',
+    'advancedcatalysers': 'Advanced Catalysers',
+    'combatstabilisers': 'Combat Stabilisers',
+    'resonatingseparators': 'Resonating Separators',
+    'basicnarcotics': 'Basic Narcotics'
+}
+
+
 class Feeder(object):
     def __init__(self):
         self.stdin_path = '/dev/null'
@@ -34,21 +126,21 @@ class Feeder(object):
     def run(self):
         """ Main loop. Connects and receives the data """
         ctx = zmq.Context()
-        logging.info('Starting')
+        logger.info('Starting')
         while(True):
             updates = ctx.socket(zmq.SUB)
             updates.linger = 0
             updates.setsockopt(zmq.SUBSCRIBE, '')
             try:
                 updates.connect(endpoint_url)
-                logging.info('Connected')
+                logger.info('Connected')
             
                 while(True):
                     market_json = zlib.decompress(updates.recv())
                     Feeder.process(market_json)
             except Exception as ex:
-                logging.warning('An error occured: {0}. Reconnecting in 10 seconds.', ex.message)
-                logging.debug(traceback.format_exc())
+                logger.warning('An error occured: {0}. Reconnecting in 10 seconds.', ex.message)
+                logger.debug(traceback.format_exc())
             
             # Something went terribly wrong D:
             # Wait 10 seconds and try again
@@ -57,8 +149,6 @@ class Feeder(object):
     @staticmethod
     def process(data):
         """ Saves the specified JSON into the database """
-        logging.debug('Received: ' + data)
-
         if len(data) > max_data_length:
             notify_dropped_frame(data, 'it is suspiciously long!')
             return
@@ -74,7 +164,7 @@ class Feeder(object):
             return
         
         if pdata['version'] != expected_version:
-            logging.info('A frame contains an unexpected version ({0}).'.format(version))
+            logger.info('A frame contains an unexpected version ({0}).'.format(version))
             
         if 'type' not in pdata:
             notify_drapped_frame(data, 'it does not contain a type descriptor')
@@ -82,6 +172,25 @@ class Feeder(object):
             
         if pdata['type'] != 'marketquote':
             notify_dropped_frame(data, 'it has an unknown type ({0})'.format(type))
+            return
+        
+        # Add display names
+        if 'categoryName' in pdata['message']:
+            if pdata['message']['categoryName'] in categories:
+                pdata['message']['categoryDisplayName'] = categories[pdata['message']['categoryName']]
+            else:
+                logger.warning('Missing category display name: ' + pdata['message']['categoryName'])
+                pdata['message']['categoryDisplayName'] = pdata['message']['categoryName']
+        
+        if 'itemName' in pdata['message']:
+            if pdata['message']['itemName'] in items:
+                pdata['message']['itemDisplayName'] = items[pdata['message']['itemName']]
+            else
+                logger.warning('Missing item display name: ' + pdata['message']['itemName']
+                return # Drop unknown item names !
+        else:
+            logger.warning('Received an item without a name !')
+            logger.debug('Frame contents: ' + data)
             return
         
         # Insert the data
@@ -96,9 +205,11 @@ class Feeder(object):
                      
     @staticmethod
     def notify_dropped_frame(data, reason):
-        logging.warning('A data frame was dropped because ' + reason)
-        logging.debug('Frame contents: ' + data)
+        logger.warning('A data frame was dropped because ' + reason)
+        logger.debug('Frame contents: ' + data)
 
+	def get_category_displayname(category):
+		
 
 app = Feeder()
 
