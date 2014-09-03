@@ -42,7 +42,7 @@
 
     <SolidColorBrush x:Key="ControlTextBrush">#FFEAEAEA</SolidColorBrush>
 
-    <FontFamily x:Key="textFont">#Exo 2</FontFamily>
+    <FontFamily x:Key="textFont">./#Exo 2</FontFamily>
     <sys:Double x:Key="textFontSize">15</sys:Double>
 
     <Thickness x:Key="containerBorderThickness" Bottom="4" Top="4" Left="2" Right="2" />
@@ -78,7 +78,7 @@
 
     <Style TargetType="Label">
         <Setter Property="Foreground" Value="{StaticResource textColorBrush}" />
-        <Setter Property="FontFamily" Value="#Exo 2" />
+        <Setter Property="FontFamily" Value="{DynamicResource textFont}" />
         <Setter Property="FontSize" Value="15" />
     </Style>
 
