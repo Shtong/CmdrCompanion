@@ -112,9 +112,6 @@ logger.addHandler(handler)
 # Get the UIDs to run the daemon
 uinfo = getpwnam('feeder')
 
-import getpass
-logger.debug('user ' + getpass.getuser())
-
 runner = runner.DaemonRunner(app)
 runner.daemon_context.files_preserve = [handler.stream]
 runner.daemon_context.uid = uinfo.pw_uid
