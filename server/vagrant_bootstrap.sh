@@ -30,7 +30,7 @@ useradd --user-group feeder
 mkdir -m 711 /var/log/feeder
 chown feeder:feeder /var/log/feeder
 mkdir -m 711 /var/run/feeder
-chown feeder:feeder /var/lrun/feeder
+chown feeder:feeder /var/run/feeder
 mkdir -m 711 /usr/share/feeder
 chown feeder:feeder /usr/share/feeder
 
