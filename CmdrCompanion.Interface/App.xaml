@@ -8,46 +8,52 @@
              d1p1:Ignorable="d" 
              xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006">
     <Application.Resources>
-        <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:CmdrCompanion.Interface.ViewModel" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme-ED.xaml" />
+                <ResourceDictionary>
+                    <vm:ViewModelLocator x:Key="Locator" 
+                                         d:IsDataSource="True" 
+                                         xmlns:vm="clr-namespace:CmdrCompanion.Interface.ViewModel" />
 
-        <!-- Converters -->
-        
-        <conv:AgeConverter x:Key="converterAge" />
-        <conv:BooleanToVisibilityConverter x:Key="converterVisibility" />
-        <conv:BooleanToVisibilityConverter x:Key="converterVisibilityHiding" UseHiding="true" />
-        <conv:NullableBooleanConverter x:Key="converterNullableBoolean" />
-        <conv:DistanceDisplayConverter x:Key="converterDistance" />
+                    <!-- Converters -->
 
-        <!-- Data templates -->
-        <DataTemplate DataType="{x:Type core:Station}">
-            <TextBlock>
-                <Run Text="{Binding Star.Name}" /> - <Run Text="{Binding Name}" />
-            </TextBlock>
-        </DataTemplate>
-        
-        <DataTemplate DataType="{x:Type core:Commodity}">
-            <TextBlock Text="{Binding Name}" />
-        </DataTemplate>
-        
-        <!-- Reusable controls -->
-        <Image x:Key="loader" Source="Resources/loader.gif" />
-        
-        <!-- Styles -->
-        
-        <Style x:Key="collapsingGroup" TargetType="{x:Type GroupItem}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Expander Header="{Binding Name}" IsExpanded="True">
-                            <ItemsPresenter />
-                        </Expander>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        
-        <Style TargetType="DataGrid">
-            <Setter Property="AutoGenerateColumns" Value="False" />
-        </Style>
+                    <conv:AgeConverter x:Key="converterAge" />
+                    <conv:BooleanToVisibilityConverter x:Key="converterVisibilityHiding" UseHiding="true" />
+                    <conv:NullableBooleanConverter x:Key="converterNullableBoolean" />
+                    <conv:DistanceDisplayConverter x:Key="converterDistance" />
+                    <conv:AllCapsConverter x:Key="converterAllCaps" />
+
+                    <!-- Data templates -->
+                    <DataTemplate DataType="{x:Type core:Station}">
+                        <TextBlock>
+                            <Run Text="{Binding Star.Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" /> - 
+                            <Run Text="{Binding Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" />
+                        </TextBlock>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type core:Commodity}">
+                        <TextBlock Text="{Binding Name, Converter={StaticResource converterAllCaps}}" />
+                    </DataTemplate>
+
+                    <!-- Reusable controls -->
+                    <Image x:Key="loader" Source="Resources/loader.gif" />
+
+                    <!-- Styles -->
+
+                    <Style x:Key="collapsingGroup" TargetType="{x:Type GroupItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Expander Header="{Binding Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" IsExpanded="True">
+                                        <ItemsPresenter />
+                                    </Expander>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

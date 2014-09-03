@@ -2,7 +2,9 @@ using CmdrCompanion.Core;
 using CmdrCompanion.Interface.Modules;
 using CmdrCompanion.Interface.Properties;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using System;
 using System.Collections.Generic;
@@ -44,7 +46,7 @@ namespace CmdrCompanion.Interface.ViewModel
             ////    // Code runs "for real"
             ////}
 
-            
+            CloseCommand = new RelayCommand(Close);
         }
 
         private DispatcherTimer _updatePollTimer;
@@ -65,6 +67,21 @@ namespace CmdrCompanion.Interface.ViewModel
             // Configure modules
             if (Settings.Default.EmdnEnabled)
                 CurrentServiceLocator.GetInstance<EmdnUpdater>().Enable();
+        }
+
+        public RelayCommand CloseCommand { get; private set; }
+
+        public void Close()
+        {
+            MessengerInstance.Send(new CloseMessage());
+        }
+
+        public class CloseMessage : GenericMessage<object>
+        {
+            public CloseMessage() : base(null)
+            {
+
+            }
         }
 
         private void InitializeUpdates()

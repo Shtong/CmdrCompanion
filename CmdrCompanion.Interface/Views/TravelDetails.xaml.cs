@@ -1,5 +1,8 @@
-﻿using System;
+﻿using CmdrCompanion.Interface.ViewModel;
+using GalaSoft.MvvmLight.Messaging;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +25,18 @@ namespace CmdrCompanion.Interface.Views
         public TravelDetails()
         {
             InitializeComponent();
+
+            Messenger.Default.Register<TravelDetailsViewModel.CloseMessage>(this, OnClose);
+        }
+
+        private void OnClose(TravelDetailsViewModel.CloseMessage message)
+        {
+            Close();
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }

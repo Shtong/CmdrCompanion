@@ -6,7 +6,7 @@
              xmlns:ex="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:core="clr-namespace:CmdrCompanion.Core;assembly=CmdrCompanion.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="400"
+             d:DesignHeight="300" d:DesignWidth="600"
              DataContext="{Binding JumpFinder, Source={StaticResource Locator}}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <GroupBox Header="Jump ends">
+        <GroupBox Header="SEARCH FILTERS">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -29,37 +29,37 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
-                <TextBlock FontWeight="Bold" VerticalAlignment="Center">From: </TextBlock>
+                <TextBlock FontWeight="Bold" VerticalAlignment="Center">FROM: </TextBlock>
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
                     <ComboBox ItemsSource="{Binding FromStationsView}" SelectedItem="{Binding FromStation}" Width="200" />
                     <StackPanel Orientation="Horizontal" Visibility="{Binding FromDistanceEnabled, Converter={StaticResource converterVisibility}}">
-                        <TextBlock> station within </TextBlock>
+                        <TextBlock> WITHIN </TextBlock>
                         <ex:SingleUpDown AutoSelectBehavior="OnFocus" Value="{Binding FromDistance}" />
-                        <TextBlock>Ly of the destination system</TextBlock>
+                        <TextBlock>LY OF DESTINATION SYSTEM</TextBlock>
                     </StackPanel>
-                    <Button Visibility="{Binding FromAnyEnabled, Converter={StaticResource converterVisibility}}" Command="{Binding FromAnyCommand}">Any</Button>
+                    <Button Visibility="{Binding FromAnyEnabled, Converter={StaticResource converterVisibility}}" Command="{Binding FromAnyCommand}">ANY</Button>
                 </StackPanel>
 
-                <TextBlock FontWeight="Bold" Grid.Row="1" VerticalAlignment="Center">To: </TextBlock>
+                <TextBlock FontWeight="Bold" Grid.Row="1" VerticalAlignment="Center">TO: </TextBlock>
                 <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
                     <ComboBox ItemsSource="{Binding ToStationsView}" SelectedItem="{Binding ToStation}" Width="200" />
                     <StackPanel Orientation="Horizontal" Visibility="{Binding ToDistanceEnabled, Converter={StaticResource converterVisibility}}">
-                        <TextBlock VerticalAlignment="Center"> station within</TextBlock>
+                        <TextBlock VerticalAlignment="Center"> WITHIN </TextBlock>
                         <ex:SingleUpDown AutoSelectBehavior="OnFocus" Value="{Binding ToDistance}" />
-                        <TextBlock VerticalAlignment="Center">Ly of the starting system</TextBlock>
+                        <TextBlock VerticalAlignment="Center">LY OF STARTING SYSTEM</TextBlock>
                     </StackPanel>
-                    <Button Visibility="{Binding ToAnyEnabled, Converter={StaticResource converterVisibility}}" Command="{Binding ToAnyCommand}">Any</Button>
+                    <Button Visibility="{Binding ToAnyEnabled, Converter={StaticResource converterVisibility}}" Command="{Binding ToAnyCommand}">ANY</Button>
                 </StackPanel>
                 
                 <Button Grid.Row="2" Grid.ColumnSpan="2" Command="{Binding StartUpdatingCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center">Search</TextBlock>
+                        <TextBlock VerticalAlignment="Center">SEARCH</TextBlock>
                         <ContentControl Content="{DynamicResource loader}" Visibility="{Binding IsWorking, Converter={StaticResource converterVisibilityHiding}}" />
                     </StackPanel>
                 </Button>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Trades grid options" Grid.Column="1">
+        <GroupBox Header="RESULTS OPTIONS" Grid.Column="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -72,52 +72,59 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
-                <CheckBox VerticalAlignment="Center" Grid.Row="1" IsChecked="{Binding FilterLowerProfits, Converter={StaticResource converterNullableBoolean}}">Minimum Profit/Unit</CheckBox>
+                <CheckBox VerticalAlignment="Center" 
+                          Grid.Row="1" 
+                          IsChecked="{Binding FilterLowerProfits, Converter={StaticResource converterNullableBoolean}}">
+                    MIN. PROFIT/UNIT
+                </CheckBox>
                 <ex:SingleUpDown x:Name="minProfitBox" Grid.Column="1" Grid.Row="1" Value="{Binding LowerProfitsThreshold}" />
                 
-                <CheckBox VerticalAlignment="Center" IsChecked="{Binding ShowCargoIndicators, Converter={StaticResource converterNullableBoolean}}">Show Total columns for a cargo of </CheckBox>
+                <CheckBox VerticalAlignment="Center" 
+                          IsChecked="{Binding ShowCargoIndicators, Converter={StaticResource converterNullableBoolean}}">
+                    SHOW TOTAL COLUMNS FOR CARGO OF
+                </CheckBox>
                 <ex:IntegerUpDown Grid.Column="1" Value="{Binding CargoReference}" />
                 
                 <CheckBox VerticalAlignment="Center" 
                           Grid.Row="2" 
                           IsChecked="{Binding FilterMaximumPrice, Converter={StaticResource converterNullableBoolean}}"
                           IsEnabled="{Binding CanFilterMaximumPrice}">
-                    Maximum Total Cost
+                    MAX. TOTAL COST
                 </CheckBox>
                 <ex:SingleUpDown Grid.Column="1" Grid.Row="2" Value="{Binding MaximumPrice}" />
             </Grid>
         </GroupBox>
         <DataGrid Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding ResultsView}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="From">
+                <DataGridTemplateColumn Header="FROM">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ContentControl Content="{Binding RawData.From.Station}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="To">
+                <DataGridTemplateColumn Header="TO">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ContentControl Content="{Binding RawData.To.Station}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Commodity">
+                <DataGridTemplateColumn Header="COMMODITY">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ContentControl Content="{Binding RawData.Commodity}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding RawData.From.SellingPrice}" Header="Source Price" />
-                <DataGridTextColumn Binding="{Binding RawData.To.BuyingPrice}" Header="Destination Price" />
-                <DataGridTextColumn Binding="{Binding RawData.ProfitPerUnit}" Header="Profit / Unit" SortDirection="Descending" />
-                <DataGridTextColumn Binding="{Binding Distance, Converter={StaticResource converterDistance}}" Header="Distance" />
-                <DataGridTextColumn Binding="{Binding TotalCost}" Header="Total Cost" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
-                <DataGridTextColumn Binding="{Binding TotalProfit}" Header="Total Profit" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
-                <DataGridTextColumn Binding="{Binding TotalRevenue}" Header="Total Revenue" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
-                <DataGridTextColumn Binding="{Binding RawData.DataDate, Converter={StaticResource converterAge}}" Header="Data Freshness" />
+                <DataGridTextColumn Binding="{Binding RawData.From.SellingPrice}" Header="SOURCE PRICE" />
+                <DataGridTextColumn Binding="{Binding RawData.To.BuyingPrice}" Header="DESTINATION PRICE" />
+                <DataGridTextColumn Binding="{Binding RawData.ProfitPerUnit}" Header="PROFIT/UNIT" SortDirection="Descending" />
+                <DataGridTextColumn Binding="{Binding Distance, Converter={StaticResource converterDistance}}" Header="DISTANCE" />
+                <DataGridTextColumn Binding="{Binding TotalCost}" Header="TOTAL COST" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
+                <DataGridTextColumn Binding="{Binding TotalProfit}" Header="TOTAL PROFIT" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
+                <DataGridTextColumn Binding="{Binding TotalRevenue}" Header="TOTAL REVENUE" Visibility="{Binding JumpFinder.ShowCargoIndicators, Source={StaticResource Locator}, Converter={StaticResource converterVisibility}}" />
+                <DataGridTextColumn Binding="{Binding RawData.DataDate, Converter={StaticResource converterAge}}" Header="DATA FRESHNESS" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

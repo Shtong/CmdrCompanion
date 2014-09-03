@@ -2,20 +2,34 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:v="clr-namespace:CmdrCompanion.Interface.Views"
-        Title="Commander Companion" Height="600" Width="800"
-        DataContext="{Binding Main, Source={StaticResource Locator}}" >
-    <TabControl>
-        <TabItem Header="Data Sheets">
-            <v:DataSheetsHome />
-        </TabItem>
-        <TabItem Header="Travel Designer">
-            <v:TravelDesigner />
-        </TabItem>
-        <TabItem Header="Jump finder">
-            <v:JumpFinder />
-        </TabItem>
-        <TabItem Header="Options">
-            <v:Options />
-        </TabItem>
-    </TabControl>
+        Title="Commander Companion"
+        DataContext="{Binding Main, Source={StaticResource Locator}}" 
+        Style="{DynamicResource mainWindow}" 
+        ResizeMode="CanResizeWithGrip" 
+        MouseDown="Window_MouseDown"
+        Width="1000"
+        Height="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TabControl TabStripPlacement="Left" Margin="10, 10, 10, 20" x:Name="mainTabs">
+            <TabItem Header="TRAVEL DESIGNER">
+                <v:TravelDesigner />
+            </TabItem>
+            <TabItem Header="JUMP INFO">
+                <v:JumpFinder />
+            </TabItem>
+            <TabItem Header="DATA SHEETS">
+                <v:DataSheetsHome />
+            </TabItem>
+            <TabItem Header="OPTIONS">
+                <v:Options />
+            </TabItem>
+        </TabControl>
+        <Button Grid.Row="1" HorizontalAlignment="Left" Margin="10" Command="{Binding CloseCommand}">
+            CLOSE
+        </Button>
+    </Grid>
 </Window>

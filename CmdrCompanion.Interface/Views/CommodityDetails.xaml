@@ -13,43 +13,43 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.ColumnSpan="2">
-            Category: <Run Text="{Binding Commodity.Category}" FontWeight="Bold" />
+            CATEGORY: <Run Text="{Binding Commodity.Category, Converter={StaticResource converterAllCaps}, Mode=OneWay}" FontWeight="Bold" />
         </TextBlock>
 
-        <GroupBox Grid.Row="1" Header="Stations selling">
+        <GroupBox Grid.Row="1" Header="STATIONS SELLING">
             <DataGrid ItemsSource="{Binding SellersView}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Station">
+                    <DataGridTemplateColumn Header="STATION">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ContentControl Content="{Binding Trade.Station}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Unit Price" Binding="{Binding Trade.SellingPrice}" />
-                    <DataGridTextColumn Header="Stock" Binding="{Binding Trade.Stock}" />
-                    <DataGridTextColumn Header="Distance" Binding="{Binding Distance, Converter={StaticResource converterDistance}}" />
+                    <DataGridTextColumn Header="UNIT PRICE" Binding="{Binding Trade.SellingPrice}" />
+                    <DataGridTextColumn Header="STOCK" Binding="{Binding Trade.Stock}" />
+                    <DataGridTextColumn Header="DISTANCE" Binding="{Binding Distance, Converter={StaticResource converterDistance}}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
         
-        <GroupBox Grid.Row="1" Grid.Column="1" Header="Stations buying">
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="STATIONS BUYING">
             <DataGrid ItemsSource="{Binding BuyersView}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Station">
+                    <DataGridTemplateColumn Header="STATION">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ContentControl Content="{Binding Trade.Station}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Unit Value" Binding="{Binding Trade.BuyingPrice}" />
-                    <DataGridTextColumn Header="Distance" Binding="{Binding Distance, Converter={StaticResource converterDistance}}" />
+                    <DataGridTextColumn Header="UNIT VALUE" Binding="{Binding Trade.BuyingPrice}" />
+                    <DataGridTextColumn Header="DISTANCE" Binding="{Binding Distance, Converter={StaticResource converterDistance}}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
         
-        <Label Grid.Row="2" Grid.ColumnSpan="2">Show distances with:</Label>
+        <Label Grid.Row="2" Grid.ColumnSpan="2">SHOW DISTANCES WITH:</Label>
         <ComboBox ItemsSource="{Binding StationsView}" SelectedItem="{Binding ReferenceStation}" Grid.Row="3" Grid.ColumnSpan="2" />
     </Grid>
 </UserControl>
