@@ -10,10 +10,11 @@ import simplejson
 import time
 import traceback
 import zlib
-from daemon import runner
+from pwd import getpwnam
 
 import pymongo
 import zmq
+from daemon import runner
 
 #Settings
 endpoint_url = 'tcp://firehose.elite-market-data.net:9500' # EMDN subscriber endpoint URL
@@ -27,7 +28,7 @@ class Feeder(object):
         self.stdin_path = '/dev/null'
         self.stdout_path = '/dev/null'
         self.stderr_path = '/dev/tty'
-        self.pidfile_path = '/var/run/feeder.pid'
+        self.pidfile_path = '/var/run/feeder/feeder.pid'
         self.pidfile_timeout = 5
         
     def run(self):
@@ -108,6 +109,14 @@ handler = logging.FileHandler('/var/log/feeder/feeder.log')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
+# Get the UIDs to run the daemon
+uinfo = getpwnam('feeder')
+
+import getpass
+logger.debug('user ' + getpass.getuser())
+
 runner = runner.DaemonRunner(app)
 runner.daemon_context.files_preserve = [handler.stream]
+runner.daemon_context.uid = uinfo.pw_uid
+runner.daemon_context.gid = uinfo.pw_gid
 runner.do_action()
