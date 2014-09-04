@@ -117,10 +117,10 @@ namespace CmdrCompanion.Interface.Modules
                 foreach (MarketEntry entry in data)
                 {
                     // Check if the commodity already exists
-                    Commodity com = Environment.FindCommodityByName(entry.itemName);
+                    Commodity com = Environment.FindCommodityByName(entry.itemDisplayName);
                     if (com == null)
                     {
-                        com = Environment.CreateCommodity(entry.itemName, entry.categoryName.Replace('_', ' '));
+                        com = Environment.CreateCommodity(entry.itemDisplayName, entry.categoryDisplayName);
                         com.DataSourceName = DATA_SOURCE_NAME;
                     }
 
@@ -177,6 +177,8 @@ namespace CmdrCompanion.Interface.Modules
             public float sellPrice = 0;
             public string itemName = null;
             public int demandLevel = 0;
+            public string itemDisplayName = null;
+            public string categoryDisplayName = null;
         }
     }
 }
