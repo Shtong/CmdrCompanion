@@ -116,6 +116,12 @@ namespace CmdrCompanion.Interface.Modules
 
                 foreach (MarketEntry entry in data)
                 {
+                    if (entry.categoryDisplayName == null)
+                        entry.categoryDisplayName = entry.categoryName;
+
+                    if (entry.itemDisplayName == null)
+                        entry.itemDisplayName = entry.itemName;
+
                     // Check if the commodity already exists
                     Commodity com = Environment.FindCommodityByName(entry.itemDisplayName);
                     if (com == null)
