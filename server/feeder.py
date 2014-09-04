@@ -6,6 +6,7 @@ This module connects to the EMDN as a subscriber and writes all the changes in t
 """
 
 import logging
+import os
 import simplejson
 import time
 import traceback
@@ -22,6 +23,9 @@ dbhost = 'localhost' # MongoDB server
 dbport = 27017 # MongoDB port
 max_data_length = 800 # Maximum character length of a received message
 expected_version = '0.1' # The version of EMDN the script was written for
+
+# Get the UIDs to run the daemon
+uinfo = getpwnam('feeder')
 
 categories = {
     'foods': 'Foods',
@@ -117,11 +121,18 @@ items = {
 
 class Feeder(object):
     def __init__(self):
+        piddir = '/var/run/feeder/'
+        
         self.stdin_path = '/dev/null'
         self.stdout_path = '/dev/null'
         self.stderr_path = '/dev/tty'
-        self.pidfile_path = '/var/run/feeder/feeder.pid'
+        self.pidfile_path = os.path.join(piddir, 'feeder.pid')
         self.pidfile_timeout = 5
+        
+        #Check that the PID folder exists
+        if not os.path.isdir(piddir):
+            os.mkdir(piddir, 711)
+            os.chown(piddir, uinfo.pw_uid, uinfo.pw_gid)
         
     def run(self):
         """ Main loop. Connects and receives the data """
@@ -185,9 +196,10 @@ class Feeder(object):
         if 'itemName' in pdata['message']:
             if pdata['message']['itemName'] in items:
                 pdata['message']['itemDisplayName'] = items[pdata['message']['itemName']]
-            else
-                logger.warning('Missing item display name: ' + pdata['message']['itemName']
-                return # Drop unknown item names !
+            else:
+                logger.warning('Missing item display name: ' + pdata['message']['itemName'])
+                # Drop unknown item names !
+                return
         else:
             logger.warning('Received an item without a name !')
             logger.debug('Frame contents: ' + data)
@@ -208,9 +220,6 @@ class Feeder(object):
         logger.warning('A data frame was dropped because ' + reason)
         logger.debug('Frame contents: ' + data)
 
-	def get_category_displayname(category):
-		
-
 app = Feeder()
 
 logger = logging.getLogger('FeederDaemonLog')
@@ -219,9 +228,6 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler = logging.FileHandler('/var/log/feeder/feeder.log')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
-
-# Get the UIDs to run the daemon
-uinfo = getpwnam('feeder')
 
 runner = runner.DaemonRunner(app)
 runner.daemon_context.files_preserve = [handler.stream]
