@@ -178,3 +178,6 @@ FakesAssemblies/
 
 # Vagrant working folder
 .vagrant/
+
+# Python compiled caches
+*.pyc
