@@ -56,6 +56,7 @@
         <Setter Property="BorderThickness" Value="{DynamicResource containerBorderThickness}" />
         <Setter Property="Background" Value="{DynamicResource backColor}" />
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+        <Setter Property="Icon" Value="/CmdrCompanion;component/Resources/icon.ico" />
     </Style>
 
     <Style TargetType="TextBlock">

@@ -46,6 +46,9 @@
   <PropertyGroup>
     <StartupObject>CmdrCompanion.Interface.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight">
       <HintPath>..\packages\MvvmLightLibs.4.4.32.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
@@ -266,6 +269,9 @@
     <EmbeddedResource Include="..\CmdrCompanion.Updater\bin\$(Configuration)\updater.exe">
       <Link>ExternalDlls\updater.exe</Link>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
