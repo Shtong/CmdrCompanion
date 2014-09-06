@@ -17,6 +17,8 @@ namespace CmdrCompanion.Core
         /// </summary>
         public EliteEnvironment()
         {
+            AutoDistanceEnabled = true;
+
             Stars = new ObservableCollection<Star>();
 
             InternalCommodities = new ObservableCollection<Commodity>();
@@ -83,6 +85,17 @@ namespace CmdrCompanion.Core
                 throw new ArgumentException("A star with the same name already exists");
 
             Star result = new Star(name, this);
+
+            if(AutoDistanceEnabled)
+            {
+                float distance = 0;
+                foreach(Star otherStar in Stars)
+                {
+                    if (DistancesDB.TryGetDistance(result, otherStar, out distance))
+                        result.RegisterDistanceFrom(otherStar, distance);
+                }
+            }
+
             Stars.Add(result);
             return result;
         }
@@ -186,6 +199,23 @@ namespace CmdrCompanion.Core
             if (result.Commodity == null)
                 return null;
             return result;
+        }
+
+        private bool _autoDistanceEnabled;
+        /// <summary>
+        /// Gets or sets whether all distances are automatically filled out when adding a new star in this system.
+        /// </summary>
+        public bool AutoDistanceEnabled
+        {
+            get { return _autoDistanceEnabled; }
+            set
+            {
+                if(value != _autoDistanceEnabled)
+                {
+                    _autoDistanceEnabled = value;
+                    OnPropertyChanged("AutoDistanceEnabled");
+                }
+            }
         }
     }
 }

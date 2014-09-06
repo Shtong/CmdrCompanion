@@ -53,6 +53,7 @@
     <Compile Include="Commodity.cs" />
     <Compile Include="CoreObject.cs" />
     <Compile Include="DataFeederAttribute.cs" />
+    <Compile Include="DistancesDB.cs" />
     <Compile Include="EliteEnvironment.cs" />
     <Compile Include="IAsyncDataFeeder.cs" />
     <Compile Include="IDataFeeder.cs" />
