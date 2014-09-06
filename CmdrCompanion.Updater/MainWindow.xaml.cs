@@ -50,7 +50,6 @@ namespace CmdrCompanion.Updater
                 string tempFolder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
                 string archivePath = Path.Combine(tempFolder, "update.zip");
                 string softPath = args[1];
-                MessageBox.Show(tempFolder + " # " + archivePath + " # " + softPath);
 
                 if (!File.Exists(softPath))
                 {
