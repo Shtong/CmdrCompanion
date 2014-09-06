@@ -88,6 +88,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource borderColor}" />
         <Setter Property="Padding" Value="20, 5" />
         <Setter Property="Background" Value="{DynamicResource buttonBackgroundBrush}" />
+        <Setter Property="Margin" Value="10, 5" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -95,7 +96,8 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}">
+                            Padding="{TemplateBinding Padding}"
+                            Margin="{TemplateBinding Margin}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup Name="CommonStates">
                                 <VisualState Name="Normal" />

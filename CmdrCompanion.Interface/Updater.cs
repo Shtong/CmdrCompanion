@@ -191,6 +191,9 @@ namespace CmdrCompanion.Interface
             string tempPath = GenerateUpdateArchivePath();
             string exePath = Path.Combine(tempPath, "updater.exe");
             // Extract the updater to the temp path
+            if (!Directory.Exists(tempPath))
+                Directory.CreateDirectory(tempPath);
+
             using(FileStream exe = new FileStream(exePath, FileMode.Create))
             {
                 using(Stream res = Assembly.GetExecutingAssembly().GetManifestResourceStream("CmdrCompanion.Interface.ExternalDlls.updater.exe"))
@@ -210,6 +213,7 @@ namespace CmdrCompanion.Interface
             // Launch the uploader
             ProcessStartInfo psi = new ProcessStartInfo(exePath, "\"" + Process.GetCurrentProcess().MainModule.FileName + "\"");
             psi.Verb = "runas"; // Launch as administrator
+            //psi.UseShellExecute = false;
             Process.Start(psi);
         }
     }

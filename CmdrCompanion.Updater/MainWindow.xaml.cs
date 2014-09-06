@@ -33,63 +33,82 @@ namespace CmdrCompanion.Updater
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Uri baseUri = new Uri(BASE_URL);
-            WebClient client = new WebClient();
-            string tempFolder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
-            string archivePath = Path.Combine(tempFolder, "update.zip");
-            string softPath = Process.GetCurrentProcess().StartInfo.Arguments;
-
-            if(!File.Exists(softPath))
-            {
-                info.Text = "Could not find the software folder :(";
-                Trace.WriteLine("Could not find folder " + softPath);
-                return;
-            }
-
             try
             {
-                // Download the version number
-                string sVersion = await client.DownloadStringTaskAsync(new Uri(baseUri, "version.txt"));
-                Version version = null;
-                if (!Version.TryParse(sVersion, out version))
+
+                string[] args = Environment.GetCommandLineArgs();
+
+                if (args.Length < 2)
                 {
-                    info.Text = "Invalid remote version :(";
-                    Trace.WriteLine("Downloaded version code: " + sVersion);
+                    info.Text = "Communication error";
+                    Trace.WriteLine("The arguments list is empty !");
                     return;
                 }
 
-                // Download the archive
-                await client.DownloadFileTaskAsync(new Uri(baseUri, version.ToString() + ".zip"), archivePath);
+                Uri baseUri = new Uri(BASE_URL);
+                WebClient client = new WebClient();
+                string tempFolder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+                string archivePath = Path.Combine(tempFolder, "update.zip");
+                string softPath = args[1];
+                MessageBox.Show(tempFolder + " # " + archivePath + " # " + softPath);
 
-                // Wait for the application to close
-                info.Text = "Waiting for the application to close...";
-                await Task.Run(() =>
+                if (!File.Exists(softPath))
                 {
-                    EventWaitHandle handle = null;
-                    if(EventWaitHandle.TryOpenExisting("CmdrCompanion#running", out handle))
-                        handle.WaitOne();
-                });
+                    info.Text = "Could not find the software :(";
+                    Trace.WriteLine("Could not find folder " + softPath);
+                    return;
+                }
 
-                info.Text = "Installing...";
-                // Remove the previous version
-                File.Delete(softPath);
+                try
+                {
+                    // Download the version number
+                    string sVersion = await client.DownloadStringTaskAsync(new Uri(baseUri, "version.txt"));
+                    Version version = null;
+                    if (!Version.TryParse(sVersion, out version))
+                    {
+                        info.Text = "Invalid remote version :(";
+                        Trace.WriteLine("Downloaded version code: " + sVersion);
+                        return;
+                    }
 
-                // Extract the new version
-                ZipFile.ExtractToDirectory(archivePath, Path.GetDirectoryName(softPath));
+                    // Download the archive
+                    await client.DownloadFileTaskAsync(new Uri(baseUri, version.ToString() + ".zip"), archivePath);
 
-                // And launch the newly installed version !
-                Process.Start(softPath);
+                    // Wait for the application to close
+                    info.Text = "Waiting for the application to close...";
+                    await Task.Run(() =>
+                    {
+                        EventWaitHandle handle = null;
+                        if (EventWaitHandle.TryOpenExisting("CmdrCompanion#running", out handle))
+                            handle.WaitOne();
+                    });
 
-                // Aaand it's done
-                Application.Current.Shutdown();
+                    info.Text = "Installing...";
+                    // Remove the previous version
+                    File.Delete(softPath);
+
+                    // Extract the new version
+                    ZipFile.ExtractToDirectory(archivePath, Path.GetDirectoryName(softPath));
+
+                    // And launch the newly installed version !
+                    Process.Start(softPath);
+
+                    // Aaand it's done
+                    Application.Current.Shutdown();
+                }
+                catch (WebException ex)
+                {
+                    info.Text = "Could not download the update :(";
+                    Trace.WriteLine("Download error: " + ex.Message);
+                    return;
+                }
             }
-            catch(WebException ex)
+            catch (Exception ex)
             {
-                info.Text = "Could not download the update :(";
-                Trace.WriteLine("Download error: " + ex.Message);
-                return;
+                MessageBox.Show("An error occured ! " + ex.ToString());
             }
         }
+
 
     }
 }
