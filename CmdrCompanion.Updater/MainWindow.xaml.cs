@@ -49,7 +49,7 @@ namespace CmdrCompanion.Updater
             string softPath = args[1];
             MessageBox.Show(tempFolder + " # " + archivePath + " # " + softPath);
 
-            if(!Directory.Exists(softPath))
+            if(!File.Exists(softPath))
             {
                 info.Text = "Could not find the software folder :(";
                 Trace.WriteLine("Could not find folder " + softPath);
@@ -82,16 +82,13 @@ namespace CmdrCompanion.Updater
 
                 info.Text = "Installing...";
                 // Remove the previous version
-                foreach (string fPath in Directory.EnumerateFiles(softPath))
-                    File.Delete(fPath);
-                foreach (string dPath in Directory.EnumerateDirectories(softPath))
-                    Directory.Delete(dPath, true);
+                File.Delete(softPath);
 
                 // Extract the new version
-                ZipFile.ExtractToDirectory(archivePath, softPath);
+                ZipFile.ExtractToDirectory(archivePath, Path.GetDirectoryName(softPath));
 
                 // And launch the newly installed version !
-                Process.Start(Path.Combine(softPath, "CmdrCompanion.exe"));
+                Process.Start(softPath);
 
                 // Aaand it's done
                 Application.Current.Shutdown();
