@@ -47,6 +47,7 @@ namespace CmdrCompanion.Interface.ViewModel
             ////}
 
             CloseCommand = new RelayCommand(Close);
+            DoUpdateCommand = new RelayCommand(DoUpdate);
         }
 
         private DispatcherTimer _updatePollTimer;
@@ -64,6 +65,8 @@ namespace CmdrCompanion.Interface.ViewModel
         /// </summary>
         public void Start()
         {
+            InitializeUpdates();
+
             // Configure modules
             if (Settings.Default.EmdnEnabled)
                 CurrentServiceLocator.GetInstance<EmdnUpdater>().Enable();
@@ -94,8 +97,7 @@ namespace CmdrCompanion.Interface.ViewModel
             Updater.Check();
 
             // Every 2 seconds see if we have a result
-            _updatePollTimer = new DispatcherTimer(new TimeSpan(0, 2, 0), DispatcherPriority.Background, PollUpdater, DispatcherHelper.UIDispatcher);
-            _updatePollTimer.Start();
+            _updatePollTimer = new DispatcherTimer(new TimeSpan(0, 0, 2), DispatcherPriority.Background, PollUpdater, DispatcherHelper.UIDispatcher);
         }
 
         private void CleanupWorker(object state)
@@ -108,14 +110,34 @@ namespace CmdrCompanion.Interface.ViewModel
             if(Updater.ShouldUpdate.HasValue)
             {
                 _updatePollTimer.Stop();
+                UpdateAvailable = true;
+            }
+        }
 
-                if(Updater.ShouldUpdate.Value)
+        private bool _updateAvailable;
+        public bool UpdateAvailable
+        {
+            get
+            {
+                return _updateAvailable;
+            }
+            set
+            {
+                if (value != _updateAvailable)
                 {
-                    Updater.StartUpdating();
-                    // Bye !
-                    Application.Current.Shutdown();
+                    _updateAvailable = value;
+                    RaisePropertyChanged("UpdateAvailable");
                 }
             }
+        }
+
+        public RelayCommand DoUpdateCommand { get; private set; }
+
+        public void DoUpdate()
+        {
+            Updater.StartUpdating();
+            // Bye !
+            Application.Current.Shutdown();
         }
 
         public override void Cleanup()
@@ -124,5 +146,6 @@ namespace CmdrCompanion.Interface.ViewModel
 
             base.Cleanup();
         }
+
     }
 }

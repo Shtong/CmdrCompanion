@@ -33,11 +33,21 @@ namespace CmdrCompanion.Updater
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            string[] args = Environment.GetCommandLineArgs();
+
+            if(args.Length < 2)
+            {
+                info.Text = "Communication error";
+                Trace.WriteLine("The arguments list is empty !");
+                return;
+            }
+
             Uri baseUri = new Uri(BASE_URL);
             WebClient client = new WebClient();
             string tempFolder = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
             string archivePath = Path.Combine(tempFolder, "update.zip");
-            string softPath = Process.GetCurrentProcess().StartInfo.Arguments;
+            string softPath = args[1];
+            MessageBox.Show(tempFolder + " # " + archivePath + " # " + softPath);
 
             if(!Directory.Exists(softPath))
             {
