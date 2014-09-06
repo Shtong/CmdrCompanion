@@ -110,7 +110,7 @@ namespace CmdrCompanion.Interface.ViewModel
             if(Updater.ShouldUpdate.HasValue)
             {
                 _updatePollTimer.Stop();
-                UpdateAvailable = true;
+                UpdateAvailable = Updater.ShouldUpdate.Value;
             }
         }
 
@@ -145,6 +145,14 @@ namespace CmdrCompanion.Interface.ViewModel
             Settings.Default.Save();
 
             base.Cleanup();
+        }
+
+        public string CurrentVersion
+        {
+            get
+            {
+                return Updater.LocalVersion.ToString();
+            }
         }
 
     }

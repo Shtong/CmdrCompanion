@@ -45,5 +45,10 @@
             <TextBlock VerticalAlignment="Center">AN UPDATE IS AVAILABLE</TextBlock>
             <Button VerticalAlignment="Center" Command="{Binding DoUpdateCommand}">UPDATE NOW</Button>
         </StackPanel>
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0, 0, 20, 0"
+                   Visibility="{Binding UpdateAvailable, Converter={StaticResource converterVisibilityNot}}"
+                   Text="{Binding CurrentVersion}"
+                   VerticalAlignment="Center"
+                   Opacity="0.4"/>
     </Grid>
 </Window>

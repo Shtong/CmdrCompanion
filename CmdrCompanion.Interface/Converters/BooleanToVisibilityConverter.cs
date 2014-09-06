@@ -15,6 +15,8 @@ namespace CmdrCompanion.Interface.Converters
             if(value is Boolean)
             {
                 bool bValue = (bool)value;
+                if (Inverted)
+                    bValue = !bValue;
                 if (bValue)
                     return Visibility.Visible;
                 else
@@ -32,5 +34,7 @@ namespace CmdrCompanion.Interface.Converters
         }
 
         public bool UseHiding { get; set; }
+
+        public bool Inverted { get; set; }
     }
 }
