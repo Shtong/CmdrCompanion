@@ -63,6 +63,7 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -221,6 +222,7 @@
     <ProjectReference Include="..\CmdrCompanion.Core\CmdrCompanion.Core.csproj">
       <Project>{1b909cc2-a4b2-43e5-9cb5-0113e5eb03d8}</Project>
       <Name>CmdrCompanion.Core</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +267,14 @@
   <ItemGroup>
     <EmbeddedResource Include="..\CmdrCompanion.Updater\bin\$(Configuration)\updater.exe">
       <Link>ExternalDlls\updater.exe</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\CmdrCompanion.Core\bin\$(Configuration)\CmdrCompanion.Core.dll">
+      <Link>ExternalDlls\CmdrCompanion.Core.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll">
+      <Link>ExternalDlls\Newtonsoft.Json.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

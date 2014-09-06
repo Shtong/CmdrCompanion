@@ -57,7 +57,7 @@
 
   <Target Name="Deploy" DependsOnTargets="Build">
     <ItemGroup>
-      <PubArchiveSource Include="$(MSBuildProjectDirectory)\CmdrCompanion.Interface\bin\$(BuildConfiguration)\**" />
+      <PubArchiveSource Include="$(MSBuildProjectDirectory)\CmdrCompanion.Interface\bin\$(BuildConfiguration)\CmdrCompanion.exe" />
     </ItemGroup>
     <Zip WorkingDirectory="$(MSBuildProjectDirectory)\CmdrCompanion.Interface\bin\$(BuildConfiguration)"
          Files="@(PubArchiveSource)"

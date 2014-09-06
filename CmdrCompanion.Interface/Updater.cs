@@ -211,7 +211,7 @@ namespace CmdrCompanion.Interface
             }
 
             // Launch the uploader
-            ProcessStartInfo psi = new ProcessStartInfo(exePath, "\"" + Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\"");
+            ProcessStartInfo psi = new ProcessStartInfo(exePath, "\"" + Process.GetCurrentProcess().MainModule.FileName + "\"");
             psi.Verb = "runas"; // Launch as administrator
             //psi.UseShellExecute = false;
             Process.Start(psi);

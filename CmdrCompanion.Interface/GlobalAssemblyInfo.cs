@@ -9,9 +9,9 @@
 //------------------------------------------------------------------------------
 
 [assembly: System.Reflection.AssemblyConfiguration("Deploy")]
-[assembly: System.Reflection.AssemblyVersion("1.0.13.53109")]
-[assembly: System.Reflection.AssemblyFileVersion("1.0.13.53109")]
-[assembly: System.Reflection.AssemblyInformationalVersion("1.0.13.53109")]
+[assembly: System.Reflection.AssemblyVersion("1.0.15.51312")]
+[assembly: System.Reflection.AssemblyFileVersion("1.0.15.51312")]
+[assembly: System.Reflection.AssemblyInformationalVersion("1.0.15.51312")]
 
 
 
@@ -19,11 +19,11 @@ internal sealed partial class ThisAssembly {
     
     internal const string AssemblyConfiguration = "Deploy";
     
-    internal const string AssemblyVersion = "1.0.13.53109";
+    internal const string AssemblyVersion = "1.0.15.51312";
     
-    internal const string AssemblyFileVersion = "1.0.13.53109";
+    internal const string AssemblyFileVersion = "1.0.15.51312";
     
-    internal const string AssemblyInformationalVersion = "1.0.13.53109";
+    internal const string AssemblyInformationalVersion = "1.0.15.51312";
     
     private ThisAssembly() {
     }
