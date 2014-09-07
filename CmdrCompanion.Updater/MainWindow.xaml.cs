@@ -87,7 +87,8 @@ namespace CmdrCompanion.Updater
                     File.Delete(softPath);
 
                     // Extract the new version
-                    ZipFile.ExtractToDirectory(archivePath, Path.GetDirectoryName(softPath));
+                    ZipArchive archive = ZipFile.Open(archivePath, ZipArchiveMode.Read);
+                    archive.Entries[0].ExtractToFile(softPath);
 
                     // And launch the newly installed version !
                     Process.Start(softPath);
