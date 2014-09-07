@@ -63,6 +63,8 @@
          Files="@(PubArchiveSource)"
          ZipFileName="$(PublicationFolder)\$(Major).$(Minor).$(Build).$(Revision).zip" />
     <Copy SourceFiles="$(VersionFile)" DestinationFolder="$(PublicationFolder)" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\CmdrCompanion.Interface\bin\$(BuildConfiguration)\CmdrCompanion.exe"
+          DestinationFolder="$(Publicationfolder)" />
   </Target>
 
 </Project>
