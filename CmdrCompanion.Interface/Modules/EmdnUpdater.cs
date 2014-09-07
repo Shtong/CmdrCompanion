@@ -132,8 +132,8 @@ namespace CmdrCompanion.Interface.Modules
 
                     // Split the star name and station name
                     string[] parts = entry.stationName.Split('(');
-                    string starName = parts[1].Substring(0, parts[1].Length - 1);
-                    string stationName = parts[0].Substring(0, parts[0].Length - 1);
+                    string starName = parts[0].Substring(0, parts[0].Length - 1);
+                    string stationName = parts[1].Substring(0, parts[1].Length - 1);
 
                     // Check if the star already exists
                     Star star = Environment.FindStarByName(starName);
