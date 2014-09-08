@@ -34,9 +34,11 @@ namespace CmdrCompanion.Interface.Views
             Messenger.Default.Register<MainViewModel.CloseMessage>(this, (msg) => Close());
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            if (e.Source == this || (e.OriginalSource.GetType() == typeof(TabPanel) && e.Source == mainTabs))
+            base.OnMouseLeftButtonDown(e);
+
+            if ((e.Source == this || (e.OriginalSource.GetType() == typeof(TabPanel) && e.Source == mainTabs)))
                 DragMove();
         }
     }

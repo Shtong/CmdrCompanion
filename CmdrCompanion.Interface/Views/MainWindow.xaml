@@ -6,7 +6,6 @@
         DataContext="{Binding Main, Source={StaticResource Locator}}" 
         Style="{DynamicResource mainWindow}" 
         ResizeMode="CanResizeWithGrip" 
-        MouseDown="Window_MouseDown"
         Width="1000"
         Height="800">
     <Grid>
