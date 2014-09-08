@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,7 @@ namespace CmdrCompanion.Interface.ViewModel
 
             ResultsList = new ObservableCollection<TravelDetailsViewModel>();
             ResultsView = new ListCollectionView(ResultsList);
-
+            ResultsView.SortDescriptions.Add(new SortDescription("AvgProfitPerJump", ListSortDirection.Descending));
 
             Cargo = 4;
             Budget = 1000;

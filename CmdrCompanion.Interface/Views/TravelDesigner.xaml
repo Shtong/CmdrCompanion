@@ -67,7 +67,7 @@
             </Grid>
         </GroupBox>
         <Button Grid.Row="2" Command="{Binding ComputeCommand}">COMPUTE</Button>
-        <DataGrid Grid.Row="3" ItemsSource="{Binding ResultsView}" IsReadOnly="True" AutoGenerateColumns="False">
+        <DataGrid Grid.Row="3" ItemsSource="{Binding ResultsView}" IsReadOnly="True" AutoGenerateColumns="False" >
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="PLAN">
                     <DataGridTemplateColumn.CellTemplate>
@@ -81,7 +81,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="JUMP COUNT" Binding="{Binding JumpCount, Mode=OneTime}" />
-                <DataGridTextColumn Header="AVG. PROFIT/JUMP" Binding="{Binding AvgProfitPerJump, Mode=OneTime}" SortDirection="Descending" />
+                <DataGridTextColumn Header="AVG. PROFIT/JUMP" Binding="{Binding AvgProfitPerJump, Mode=OneTime}" />
                 <DataGridTextColumn Header="TTL PROFIT" Binding="{Binding TotalProfit, Mode=OneTime}" />
                 <DataGridTextColumn Header="DATA AGE" Binding="{Binding DataDate, Converter={StaticResource converterAge}}" />
             </DataGrid.Columns>
