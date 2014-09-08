@@ -19,8 +19,10 @@ namespace CmdrCompanion.Interface.ViewModel
         public JumpFinderViewModel()
         {
             FromStationsView = new ListCollectionView(Environment.Stations);
+            FromStationsView.SortDescriptions.Add(new SortDescription("Star.Name", ListSortDirection.Ascending));
             FromStationsView.Filter = FromStationFilter;
             ToStationsView = new ListCollectionView(Environment.Stations);
+            ToStationsView.SortDescriptions.Add(new SortDescription("Star.Name", ListSortDirection.Ascending));
             ToStationsView.Filter = ToStationFilter;
 
             _resultsList = new ObservableCollection<TradeJumpDataViewModel>();

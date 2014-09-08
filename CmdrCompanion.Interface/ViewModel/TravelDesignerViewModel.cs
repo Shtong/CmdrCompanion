@@ -27,6 +27,7 @@ namespace CmdrCompanion.Interface.ViewModel
             ShowDetailedResultCommand = new RelayCommand<TravelDetailsViewModel>(ShowDetailedResults);
 
             StationsView = new ListCollectionView(Environment.Stations);
+            StationsView.SortDescriptions.Add(new SortDescription("Star.Name", ListSortDirection.Ascending));
 
             ResultsList = new ObservableCollection<TravelDetailsViewModel>();
             ResultsView = new ListCollectionView(ResultsList);

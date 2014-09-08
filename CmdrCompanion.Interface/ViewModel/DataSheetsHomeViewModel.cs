@@ -23,6 +23,7 @@ namespace CmdrCompanion.Interface.ViewModel
             CommoditiesView = new ListCollectionView(Environment.Commodities);
             CommoditiesView.CurrentChanged += CommoditiesViewCurrentChanged;
             CommoditiesView.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+            CommoditiesView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
 
             PlacesView = new ListCollectionView(Environment.Stars);
             PlacesView.CurrentChanged += PlacesViewCurrentChanged;
