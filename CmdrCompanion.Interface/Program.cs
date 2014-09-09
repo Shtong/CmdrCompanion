@@ -30,7 +30,7 @@ namespace CmdrCompanion.Interface
             app.Run();
         }
 
-        static System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             string asmName = String.Format("CmdrCompanion.Interface.ExternalDlls.{0}.dll", new AssemblyName(args.Name).Name);
             using(Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream(asmName))

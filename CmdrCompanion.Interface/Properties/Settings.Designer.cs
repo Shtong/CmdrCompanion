@@ -34,5 +34,17 @@ namespace CmdrCompanion.Interface.Properties {
                 this["EmdnEnabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EmdnContribInviteShown {
+            get {
+                return ((bool)(this["EmdnContribInviteShown"]));
+            }
+            set {
+                this["EmdnContribInviteShown"] = value;
+            }
+        }
     }
 }
