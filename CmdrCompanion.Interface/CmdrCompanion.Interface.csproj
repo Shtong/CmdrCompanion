@@ -128,10 +128,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Updater.cs" />
+    <Compile Include="ViewModel\CloseMessageBoxMessage.cs" />
     <Compile Include="ViewModel\CommodityDetailsViewModel.cs" />
     <Compile Include="ViewModel\JumpFinderViewModel.cs" />
     <Compile Include="ViewModel\LocalViewModelBase.cs" />
+    <Compile Include="ViewModel\MyMessageBoxViewModel.cs" />
     <Compile Include="ViewModel\OptionsViewModel.cs" />
+    <Compile Include="ViewModel\ShowMessageBoxMessage.cs" />
     <Compile Include="ViewModel\TravelDetailsViewModel.cs" />
     <Compile Include="ViewModel\TravelDesignerViewModel.cs" />
     <Compile Include="Views\CommodityDetails.xaml.cs">
@@ -139,6 +142,9 @@
     </Compile>
     <Compile Include="Views\JumpFinder.xaml.cs">
       <DependentUpon>JumpFinder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MyMessageBox.xaml.cs">
+      <DependentUpon>MyMessageBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
@@ -183,6 +189,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\MyMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Options.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -211,7 +221,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Resources\marketdump.zip" />
+    <EmbeddedResource Include="Resources\marketdump.zip" />
     <Resource Include="Exo2-Regular.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
