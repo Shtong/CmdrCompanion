@@ -14,10 +14,15 @@ namespace CmdrCompanion.Interface.Modules
     /// <summary>
     /// A wrapper around the marketdump tool
     /// </summary>
-    public sealed class MarketDump
+    public sealed class MarketDump : IDisposable
     {
         private const string RESOURCE_NAME = "CmdrCompanion.Interface.Resources.marketdump.zip";
         private const string CURRENT_TOOL_VERSION = "0.5.3";
+
+        ~MarketDump()
+        {
+            Dispose(false);
+        }
 
         public bool Running
         {
@@ -27,12 +32,14 @@ namespace CmdrCompanion.Interface.Modules
 
         private CancellationTokenSource _cancelSource = null;
 
-        private volatile bool _extracted;
+        private static volatile bool _extracted;
         // The extraction is locked over all instances as all instances will use the same files
         private static object _extractLock = new Object();
 
+        public bool Disposed { get; private set; }
+
         // Warning : launched from a worker thread
-        private void Extract()
+        private static void Extract()
         {
             if (!_extracted)
             {
@@ -72,6 +79,9 @@ namespace CmdrCompanion.Interface.Modules
 
         public void Start(bool showWindow = false)
         {
+            if (Disposed)
+                throw new ObjectDisposedException("MarketDump Wrapper");
+
             if (Running)
                 return;
 
@@ -95,8 +105,8 @@ namespace CmdrCompanion.Interface.Modules
 
             // And launch
             ProcessStartInfo psi = new ProcessStartInfo(Path.Combine(GetToolFolderName(), "marketdump.exe"));
-            psi.UseShellExecute = true;
-            psi.Verb = "runat";
+            psi.Verb = "runas";
+            psi.WindowStyle = args.showWindow ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden;
             psi.CreateNoWindow = !args.showWindow;
 
 
@@ -107,13 +117,17 @@ namespace CmdrCompanion.Interface.Modules
                     // Wait for exit request
                     args.cancellationToken.WaitHandle.WaitOne();
 
-                    p.CloseMainWindow();
+                    p.Kill(); // A little bit violent maybe, but there does not seem to be a better way through the process class
+                              // Maybe by sending some keys to the input ?
                 }
             }
         }
 
         public void Stop()
         {
+            if(Disposed)
+                throw new ObjectDisposedException("MarketDump Wrapper");
+
             if (!Running)
                 return;
 
@@ -128,5 +142,24 @@ namespace CmdrCompanion.Interface.Modules
             public bool showWindow;
             public CancellationToken cancellationToken;
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                Stop();
+            }
+
+            Disposed = true;
+            // TODO : Find a way to kill the marketdump process during finalization
+            // so it doesn't stay up in case of crash
+        }
+
     }
 }
