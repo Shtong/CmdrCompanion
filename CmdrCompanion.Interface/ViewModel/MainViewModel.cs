@@ -58,6 +58,7 @@ namespace CmdrCompanion.Interface.ViewModel
 
             // Initialize modules
             SimpleIoc.Default.Register<EmdnUpdater>(() => new EmdnUpdater(Environment));
+            SimpleIoc.Default.Register<MarketDump>();
         }
 
         /// <summary>
@@ -66,6 +67,7 @@ namespace CmdrCompanion.Interface.ViewModel
         public void Start()
         {
             InitializeUpdates();
+            InitializeMarketdump();
 
             // Configure modules
             if (Settings.Default.EmdnEnabled)
@@ -98,6 +100,30 @@ namespace CmdrCompanion.Interface.ViewModel
 
             // Every 2 seconds see if we have a result
             _updatePollTimer = new DispatcherTimer(new TimeSpan(0, 0, 2), DispatcherPriority.Background, PollUpdater, DispatcherHelper.UIDispatcher);
+        }
+
+        private void InitializeMarketdump()
+        {
+            if(!Settings.Default.EmdnContribInviteShown)
+            {
+                MyMessageBoxViewModel messageBox = new MyMessageBoxViewModel();
+                messageBox.Title = "EMDN contribution";
+                messageBox.MainText = "This software gets the trade data online from EMDN, the Elite Market Data Network. Would you please consider launching a background tool that will read your game's data and contribute back to the other users?\n\nThis requires administrator privileges.";
+                messageBox.WindowClosed += () =>
+                {
+                    if(messageBox.Result == MessageBoxResult.OK)
+                    {
+                        Settings.Default.UseMartketdumpWithEmdn = true;
+                    }
+
+                    Settings.Default.EmdnContribInviteShown = true;
+                    Settings.Default.Save();
+                };
+                MessengerInstance.Send(new ShowMessageBoxMessage(messageBox));
+            }
+
+            if (Settings.Default.EmdnEnabled && Settings.Default.UseMartketdumpWithEmdn)
+                CurrentServiceLocator.GetInstance<MarketDump>().Start();
         }
 
         private void CleanupWorker(object state)
@@ -142,6 +168,8 @@ namespace CmdrCompanion.Interface.ViewModel
 
         public override void Cleanup()
         {
+            CurrentServiceLocator.GetInstance<MarketDump>().Dispose();
+
             Settings.Default.Save();
 
             base.Cleanup();

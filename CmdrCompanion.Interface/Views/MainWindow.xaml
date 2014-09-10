@@ -30,10 +30,9 @@
             <TabItem Header="DATA SHEETS">
                 <v:DataSheetsHome />
             </TabItem>
-            <!-- Hidden the options tab because it's kindof useless for now... -->
-            <!--<TabItem Header="OPTIONS">
+            <TabItem Header="OPTIONS">
                 <v:Options />
-            </TabItem>-->
+            </TabItem>
         </TabControl>
         <Button Grid.Row="1" HorizontalAlignment="Left" Margin="10" Command="{Binding CloseCommand}">
             CLOSE

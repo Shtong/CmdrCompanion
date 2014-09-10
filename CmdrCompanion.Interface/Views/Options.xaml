@@ -7,6 +7,15 @@
              d:DesignHeight="300" d:DesignWidth="300"
              DataContext="{Binding Options, Source={StaticResource Locator}}">
     <Grid>
-        <CheckBox IsChecked="{Binding EmdnEnabled, Converter={StaticResource converterNullableBoolean}}">Get trade data from EMDN</CheckBox>
+        <!-- I didn't make this option available yet as there is no other way of putting trade data in -->
+        <!--<CheckBox IsChecked="{Binding EmdnEnabled, Converter={StaticResource converterNullableBoolean}}">Get trade data from EMDN</CheckBox>-->
+        <CheckBox IsChecked="{Binding UseMarketdumpWithEmdn, Converter={StaticResource converterNullableBoolean}}" Content="LAUNCH THE MARKETDUMP TOOL WHILE RUNNING">
+            <CheckBox.ToolTip>
+                <StackPanel>
+                    <TextBlock>RUNS A PROGRAM IN THE BACKGROUND THAT SENDS YOUR TRADE DATA TO THE EMDN NETWORK.</TextBlock>
+                    <TextBlock>NOTE: THIS PROGRAM REQUIRES ADMINISTRATOR RIGHTS ON YOUR MACHINE</TextBlock>
+                </StackPanel>
+            </CheckBox.ToolTip>
+        </CheckBox>
     </Grid>
 </UserControl>

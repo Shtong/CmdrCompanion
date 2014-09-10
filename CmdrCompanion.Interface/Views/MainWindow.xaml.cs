@@ -31,7 +31,16 @@ namespace CmdrCompanion.Interface.Views
             Loaded += (sender, e) => ((MainViewModel)DataContext).Start();
             Closing += (sender, e) => ((ViewModelLocator)FindResource("Locator")).Cleanup();
 
+            // Message received to close the application
             Messenger.Default.Register<MainViewModel.CloseMessage>(this, (msg) => Close());
+
+            // Message received to display a modal popup
+            Messenger.Default.Register<ShowMessageBoxMessage>(this, (vm) =>
+            {
+                MyMessageBox popup = new MyMessageBox();
+                popup.DataContext = vm.Content;
+                popup.ShowDialog();
+            });
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

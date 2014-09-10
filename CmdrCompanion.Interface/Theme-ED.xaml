@@ -21,6 +21,8 @@
     <Color x:Key="DisabledForegroundColor">#FF888888</Color>
     <Color x:Key="SelectedBackgroundColor">#99272727</Color>
     <Color x:Key="SelectedUnfocusedColor">#55272727</Color>
+    <Color x:Key="TooltipBackColor">#3300577C</Color>
+    <Color x:Key="TooltipBorderColor">#8800577C</Color>
 
     <!-- Custom base resources -->
     <Color x:Key="textColor">#FFEAEAEA</Color>
@@ -39,6 +41,8 @@
     <SolidColorBrush x:Key="buttonBackgroundBrush" Color="#11FFFFFF" />
     <SolidColorBrush x:Key="buttonMouseOverBackgroundBrush" Color="{DynamicResource buttonMouseOverBackgroundColor}" />
     <SolidColorBrush x:Key="buttonHighlightBackgroundBrush" Color="{DynamicResource buttonHighlightBackgroundColor}" />
+    <SolidColorBrush x:Key="tooltipBackBrush" Color="{DynamicResource TooltipBackColor}" />
+    <SolidColorBrush x:Key="tooltipBorderBrush" Color="{DynamicResource TooltipBorderColor}" />
 
     <SolidColorBrush x:Key="ControlTextBrush">#FFEAEAEA</SolidColorBrush>
 
@@ -57,6 +61,9 @@
         <Setter Property="Background" Value="{DynamicResource backColor}" />
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
         <Setter Property="Icon" Value="/CmdrCompanion;component/Resources/icon.ico" />
+        <Setter Property="FontFamily" Value="{DynamicResource textFont}" />
+        <Setter Property="FontSize" Value="{DynamicResource textFontSize}" />
+        <Setter Property="Foreground" Value="{DynamicResource textColorBrush}" />
     </Style>
 
     <Style TargetType="TextBlock">
@@ -1021,6 +1028,11 @@
             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{DynamicResource SelectedUnfocusedColor}" />
             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource textColor}" />
         </Style.Resources>
+    </Style>
+    
+    <Style TargetType="ToolTip">
+        <Setter Property="Background" Value="{DynamicResource tooltipBackBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource tooltipBorderBrush}" />
     </Style>
     
 </ResourceDictionary>
