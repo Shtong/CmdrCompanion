@@ -19,3 +19,6 @@ To compile from source all you need is to install Microsoft Visual Studio Expres
 - The code will have to be written in the same style that the rest of the code base
 - If you are suggesting a new feature, make sure that it's in line with the direction I want to give to the software. Drop me a line if you want to make sure !
 - UI changes will also have to respect the existing visual style of the app
+
+# Acknowledgements
+This program embeds the Andreas Parser (aka. Maketdump). More details here https://forums.frontier.co.uk/showthread.php?p=746811
