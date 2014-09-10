@@ -17,7 +17,7 @@ namespace CmdrCompanion.Interface.Modules
     public sealed class MarketDump : IDisposable
     {
         private const string RESOURCE_NAME = "CmdrCompanion.Interface.Resources.marketdump.zip";
-        private const string CURRENT_TOOL_VERSION = "0.5.3";
+        private const string CURRENT_TOOL_VERSION = "0.5.4";
 
         ~MarketDump()
         {
