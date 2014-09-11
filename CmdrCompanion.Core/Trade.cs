@@ -152,5 +152,17 @@ namespace CmdrCompanion.Core
         {
             return String.Format("Trade of {0} between at station {1}", Commodity.Name, Station.Name);
         }
+
+        internal void Save(System.Xml.XmlWriter writer)
+        {
+            writer.WriteAttributeString("commodity", Commodity.Name);
+            writer.WriteAttributeFloat("sellingPrice", SellingPrice);
+            writer.WriteAttributeFloat("buyingPrice", BuyingPrice);
+            writer.WriteAttributeInt("stock", Stock);
+            writer.WriteAttributeString("station", Station.Name);
+            writer.WriteStartElement("trade");
+            
+            writer.WriteEndElement();
+        }
     }
 }

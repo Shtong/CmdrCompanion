@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace CmdrCompanion.Core
 {
@@ -144,6 +145,13 @@ namespace CmdrCompanion.Core
         public override string ToString()
         {
             return "Star system " + Name;
+        }
+
+        internal void Save(XmlWriter writer)
+        {
+            writer.WriteAttributeString("name", Name);
+            writer.WriteStartElement("star");
+            writer.WriteEndElement();
         }
     }
 }

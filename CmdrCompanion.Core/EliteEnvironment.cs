@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace CmdrCompanion.Core
 {
@@ -215,6 +217,50 @@ namespace CmdrCompanion.Core
                     _autoDistanceEnabled = value;
                     OnPropertyChanged("AutoDistanceEnabled");
                 }
+            }
+        }
+
+        public void Save(Stream s)
+        {
+            if (s == null)
+                throw new ArgumentNullException("s");
+
+            if (!s.CanWrite)
+                throw new ArgumentException("The stream must be writable");
+
+            XmlWriterSettings xmlSettings = new XmlWriterSettings()
+            {
+                CloseOutput = false,
+                Encoding = Encoding.UTF8,
+                Indent = true,
+                IndentChars = "  ",
+                NewLineHandling = NewLineHandling.Entitize,
+                OutputMethod = XmlOutputMethod.Xml,
+            };
+            using(XmlWriter writer = XmlWriter.Create(s, xmlSettings))
+            {
+                writer.WriteAttributeString("date", DateTime.Now.ToString("O"));
+                writer.WriteAttributeBool("autodistance", AutoDistanceEnabled);
+                writer.WriteStartElement("environment");
+
+                writer.WriteStartElement("stars");
+                foreach(Star star in Stars)
+                    star.Save(writer);
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("stations");
+                foreach (Station station in Stations)
+                    station.Save(writer);
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("trades");
+                foreach (Station station in Stations)
+                    foreach (Trade t in station.Trades)
+                        t.Save(writer);
+                writer.WriteEndElement();
+
+                writer.WriteEndElement();
+                writer.Flush();
             }
         }
     }
