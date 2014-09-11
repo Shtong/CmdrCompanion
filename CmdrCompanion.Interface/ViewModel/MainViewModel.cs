@@ -9,6 +9,7 @@ using GalaSoft.MvvmLight.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -51,6 +52,7 @@ namespace CmdrCompanion.Interface.ViewModel
         }
 
         private DispatcherTimer _updatePollTimer;
+        private DispatcherTimer _backupTimer;
 
         private void InitializeApp()
         {
@@ -66,6 +68,7 @@ namespace CmdrCompanion.Interface.ViewModel
         /// </summary>
         public void Start()
         {
+            InitializePersistence();
             InitializeUpdates();
             InitializeMarketdump();
 
@@ -126,6 +129,32 @@ namespace CmdrCompanion.Interface.ViewModel
                 CurrentServiceLocator.GetInstance<MarketDump>().Start();
         }
 
+        public string SaveFileLocation { get; private set; }
+
+        private void InitializePersistence()
+        {
+            string saveFileFolder = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "CmdrCompanion");
+            SaveFileLocation = Path.Combine(saveFileFolder, "save.xml");
+
+            if (!Directory.Exists(saveFileFolder))
+                Directory.CreateDirectory(saveFileFolder);
+
+            // TODO : Load the save if it exists
+
+            // Do a save every 3 minutes
+            _backupTimer = new DispatcherTimer(new TimeSpan(0, 3, 0), DispatcherPriority.Background, DoBackup, Dispatcher.CurrentDispatcher);
+        }
+
+        private void DoBackup(object sender, EventArgs e)
+        {
+            using (Stream s = new FileStream(SaveFileLocation, FileMode.Create))
+            {
+                Environment.Save(s);
+
+                s.Flush();
+            }
+        }
+
         private void CleanupWorker(object state)
         {
             Updater.Cleanup();
@@ -171,6 +200,9 @@ namespace CmdrCompanion.Interface.ViewModel
             CurrentServiceLocator.GetInstance<MarketDump>().Dispose();
 
             Settings.Default.Save();
+
+            _backupTimer.Stop();
+            _updatePollTimer.Stop();
 
             base.Cleanup();
         }

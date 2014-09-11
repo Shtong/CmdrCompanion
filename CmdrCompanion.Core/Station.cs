@@ -192,9 +192,9 @@ namespace CmdrCompanion.Core
 
         internal void Save(XmlWriter writer)
         {
+            writer.WriteStartElement("station");
             writer.WriteAttributeString("name", Name);
             writer.WriteAttributeString("star", Star.Name);
-            writer.WriteStartElement("station");
             writer.WriteEndElement();
         }
     }

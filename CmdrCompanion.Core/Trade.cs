@@ -155,12 +155,12 @@ namespace CmdrCompanion.Core
 
         internal void Save(System.Xml.XmlWriter writer)
         {
+            writer.WriteStartElement("trade");
             writer.WriteAttributeString("commodity", Commodity.Name);
             writer.WriteAttributeFloat("sellingPrice", SellingPrice);
             writer.WriteAttributeFloat("buyingPrice", BuyingPrice);
             writer.WriteAttributeInt("stock", Stock);
             writer.WriteAttributeString("station", Station.Name);
-            writer.WriteStartElement("trade");
             
             writer.WriteEndElement();
         }

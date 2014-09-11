@@ -220,6 +220,10 @@ namespace CmdrCompanion.Core
             }
         }
 
+        /// <summary>
+        /// Saves this environment's data into the specified stream
+        /// </summary>
+        /// <param name="s"></param>
         public void Save(Stream s)
         {
             if (s == null)
@@ -235,13 +239,12 @@ namespace CmdrCompanion.Core
                 Indent = true,
                 IndentChars = "  ",
                 NewLineHandling = NewLineHandling.Entitize,
-                OutputMethod = XmlOutputMethod.Xml,
             };
             using(XmlWriter writer = XmlWriter.Create(s, xmlSettings))
             {
-                writer.WriteAttributeString("date", DateTime.Now.ToString("O"));
-                writer.WriteAttributeBool("autodistance", AutoDistanceEnabled);
                 writer.WriteStartElement("environment");
+                writer.WriteAttributeDate("date", DateTime.Now);
+                writer.WriteAttributeBool("autodistance", AutoDistanceEnabled);
 
                 writer.WriteStartElement("stars");
                 foreach(Star star in Stars)
