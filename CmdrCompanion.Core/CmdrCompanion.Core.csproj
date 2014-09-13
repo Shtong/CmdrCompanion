@@ -55,6 +55,7 @@
     <Compile Include="DataFeederAttribute.cs" />
     <Compile Include="DistancesDB.cs" />
     <Compile Include="EliteEnvironment.cs" />
+    <Compile Include="EnvironmentLoadException.cs" />
     <Compile Include="IAsyncDataFeeder.cs" />
     <Compile Include="IDataFeeder.cs" />
     <Compile Include="NotifyPropertyChanged.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trade.cs" />
     <Compile Include="TradeJumpData.cs" />
+    <Compile Include="XmlReaderExtentions.cs" />
     <Compile Include="XmlWriterExtentions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

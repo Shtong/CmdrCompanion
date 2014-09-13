@@ -197,5 +197,21 @@ namespace CmdrCompanion.Core
             writer.WriteAttributeString("star", Star.Name);
             writer.WriteEndElement();
         }
+
+        internal static bool Load(XmlReader reader, EliteEnvironment container)
+        {
+            if(reader.NodeType != XmlNodeType.Element || reader.LocalName != "station")
+                return false;
+
+            string starName = reader.GetAttribute("star");
+            Star star = container.FindStarByName(starName);
+            if (star == null)
+                throw new EnvironmentLoadException(String.Format("Star {0} does not exist", starName), reader);
+
+            star.CreateStation(reader.GetAttribute("name"));
+
+            reader.Read();
+            return true;
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace CmdrCompanion.Core
 {
@@ -76,6 +77,45 @@ namespace CmdrCompanion.Core
         public override string ToString()
         {
             return "Commodity " + Name;
+        }
+
+        internal void Save(XmlWriter writer)
+        {
+            writer.WriteStartElement("commodity");
+            writer.WriteAttributeString("name", Name);
+            if (Category != null)
+                writer.WriteAttributeString("category", Category);
+            writer.WriteEndElement();
+        }
+
+        internal static bool Load(XmlReader reader, EliteEnvironment container)
+        {
+            if (reader.NodeType != XmlNodeType.Element || reader.LocalName != "commodity")
+                return false;
+
+            string cName = null;
+            string cCategory = null;
+            while(reader.MoveToNextAttribute())
+            {
+                switch(reader.LocalName)
+                {
+                    case "name":
+                        cName = reader.Value;
+                        break;
+
+                    case "category":
+                        cCategory = reader.Value;
+                        break;
+                }
+            }
+
+            if(String.IsNullOrWhiteSpace(cName))
+                throw new EnvironmentLoadException("Invalid or missing commodity name", reader);
+
+            container.CreateCommodity(cName, cCategory);
+
+            reader.Read();
+            return true;
         }
     }
 }

@@ -223,7 +223,8 @@ namespace CmdrCompanion.Core
         /// <summary>
         /// Saves this environment's data into the specified stream
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="s">The stream to save the data to</param>
+        /// <seealso cref="Load"/>
         public void Save(Stream s)
         {
             if (s == null)
@@ -246,6 +247,11 @@ namespace CmdrCompanion.Core
                 writer.WriteAttributeDate("date", DateTime.Now);
                 writer.WriteAttributeBool("autodistance", AutoDistanceEnabled);
 
+                writer.WriteStartElement("commodities");
+                foreach (Commodity c in Commodities)
+                    c.Save(writer);
+                writer.WriteEndElement();
+
                 writer.WriteStartElement("stars");
                 foreach(Star star in Stars)
                     star.Save(writer);
@@ -264,6 +270,102 @@ namespace CmdrCompanion.Core
 
                 writer.WriteEndElement();
                 writer.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Loads an environment from the specified stream.
+        /// </summary>
+        /// <param name="source">A stream containing data previously written by the <see cref="Save"/> method.</param>
+        /// <exception cref="ArgumentNullException">The provided stream is null</exception>
+        /// <exception cref="ArgumentException">The provided stream cannot be read</exception>
+        /// <exception cref="EnvironmentLoadException">The stream contained invalid data</exception>
+        public void Load(Stream source)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            if (!source.CanRead)
+                throw new ArgumentException("Source stream must be readable", "source");
+
+            XmlReaderSettings xmlSettings = new XmlReaderSettings()
+            {
+                CloseInput = false,
+            };
+            using(XmlReader reader = XmlReader.Create(source, xmlSettings))
+            {
+                while(reader.Read())
+                {
+                    // Move to the root element
+                    if (reader.IsStartElement())
+                        break;
+                }
+                while(reader.MoveToNextAttribute())
+                {
+                    switch(reader.LocalName)
+                    {
+                        case "autodistance":
+                            AutoDistanceEnabled = reader.ReadBool();
+                            break;
+                    }
+                }
+
+                while(reader.Read())
+                {
+                    if(reader.IsStartElement())
+                    {
+                        switch(reader.LocalName)
+                        {
+                            case "commodities":
+                                // Using a subtree reader ensures that the rest of the loading
+                                // code will not get past the end of the container, and
+                                // that we are positionned at the end of the container after
+                                // the reading is done
+                                using (XmlReader commoditiesReader = reader.ReadSubtree())
+                                {
+                                    while(commoditiesReader.Read())
+                                    {
+                                        if(commoditiesReader.IsStartElement())
+                                            Commodity.Load(commoditiesReader, this);
+                                    }
+                                }
+                                break;
+
+                            case "stars":
+                                using(XmlReader starsReader = reader.ReadSubtree())
+                                {
+                                    while(starsReader.Read())
+                                    {
+                                        if (starsReader.IsStartElement())
+                                            Star.Load(starsReader, this);
+                                    }
+                                }
+                                break;
+
+                            case "stations":
+                                using(XmlReader stationsReader = reader.ReadSubtree())
+                                {
+                                    while(stationsReader.Read())
+                                    {
+                                        if (stationsReader.IsStartElement())
+                                            Station.Load(stationsReader, this);
+                                    }
+                                }
+                                break;
+
+                            case "trades":
+                                using(XmlReader tradesReader = reader.ReadSubtree())
+                                {
+                                    while(tradesReader.Read())
+                                    {
+                                        if (tradesReader.IsStartElement())
+                                            Trade.Load(tradesReader, this);
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                }
             }
         }
     }

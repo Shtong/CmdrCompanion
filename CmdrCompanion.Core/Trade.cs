@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace CmdrCompanion.Core
 {
@@ -153,7 +154,7 @@ namespace CmdrCompanion.Core
             return String.Format("Trade of {0} between at station {1}", Commodity.Name, Station.Name);
         }
 
-        internal void Save(System.Xml.XmlWriter writer)
+        internal void Save(XmlWriter writer)
         {
             writer.WriteStartElement("trade");
             writer.WriteAttributeString("commodity", Commodity.Name);
@@ -163,6 +164,59 @@ namespace CmdrCompanion.Core
             writer.WriteAttributeString("station", Station.Name);
             
             writer.WriteEndElement();
+        }
+
+        internal static bool Load(XmlReader reader, EliteEnvironment container)
+        {
+            if (reader.NodeType != XmlNodeType.Element || reader.LocalName != "trade")
+                return false;
+
+            Commodity commodity = null;
+            Station station = null;
+            float sellingPrice = 0;
+            float buyingPrice = 0;
+            int stock = 0;
+
+            while(reader.MoveToNextAttribute())
+            {
+                switch(reader.LocalName)
+                {
+                    case "commodity":
+                        commodity = container.FindCommodityByName(reader.Value);
+                        if(commodity == null)
+                            throw new EnvironmentLoadException(String.Format("Unknown commodity name '{0}'", reader.Value), reader);
+                        break;
+
+                    case "station":
+                        station = container.Stations.Where(s => s.Name == reader.Value).FirstOrDefault();
+                        if (station == null)
+                            throw new EnvironmentLoadException(String.Format("Unknown station name '{0}'", reader.Value), reader);
+                        break;
+
+                    case "sellingPrice":
+                        sellingPrice = reader.ReadFloat();
+                        break;
+
+                    case "buyingPrice":
+                        buyingPrice = reader.ReadFloat();
+                        break;
+
+                    case "stock":
+                        stock = reader.ReadInt();
+                        break;
+                }
+            }
+
+            if (commodity == null)
+                throw new EnvironmentLoadException("Missing commodity for a trade entry", reader);
+
+            if (station == null)
+                throw new EnvironmentLoadException("Missing station for a trade entry", reader);
+
+            station.CreateTrade(commodity, sellingPrice, buyingPrice, stock);
+
+            reader.Read();
+            return true;
         }
     }
 }

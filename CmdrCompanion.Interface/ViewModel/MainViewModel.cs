@@ -139,7 +139,20 @@ namespace CmdrCompanion.Interface.ViewModel
             if (!Directory.Exists(saveFileFolder))
                 Directory.CreateDirectory(saveFileFolder);
 
-            // TODO : Load the save if it exists
+            if(File.Exists(SaveFileLocation))
+            {
+                try
+                {
+                    using(Stream s = File.OpenRead(SaveFileLocation))
+                    {
+                        Environment.Load(s);
+                    }
+                }
+                catch(EnvironmentLoadException ex)
+                {
+                    Trace.TraceError("Could not load the saved environment ! " + ex.Message);
+                }
+            }
 
             // Do a save every 3 minutes
             _backupTimer = new DispatcherTimer(new TimeSpan(0, 3, 0), DispatcherPriority.Background, DoBackup, Dispatcher.CurrentDispatcher);

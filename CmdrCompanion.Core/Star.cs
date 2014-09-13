@@ -153,5 +153,16 @@ namespace CmdrCompanion.Core
             writer.WriteAttributeString("name", Name);
             writer.WriteEndElement();
         }
+
+        internal static bool Load(XmlReader reader, EliteEnvironment container)
+        {
+            if (reader.NodeType != XmlNodeType.Element || reader.LocalName != "star")
+                return false;
+
+            container.CreateStar(reader.GetAttribute("name"));
+
+            reader.Read();
+            return true;
+        }
     }
 }
