@@ -125,8 +125,24 @@ namespace CmdrCompanion.Interface.ViewModel
                 MessengerInstance.Send(new ShowMessageBoxMessage(messageBox));
             }
 
+            MarketDump wrapper = CurrentServiceLocator.GetInstance<MarketDump>();
+            wrapper.MarketDataReceived += wrapper_MarketDataReceived;
+            wrapper.NewLocation += wrapper_NewLocation;
+
             if (Settings.Default.EmdnEnabled && Settings.Default.UseMartketdumpWithEmdn)
-                CurrentServiceLocator.GetInstance<MarketDump>().Start();
+                wrapper.Start();
+
+
+        }
+
+        void wrapper_NewLocation(object sender, NewLocationEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void wrapper_MarketDataReceived(object sender, MarketDataReceivedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public string SaveFileLocation { get; private set; }
