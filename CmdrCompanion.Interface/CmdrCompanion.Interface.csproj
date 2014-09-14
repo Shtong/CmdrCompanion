@@ -117,11 +117,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\AgeConverter.cs" />
-    <Compile Include="Converters\AllCapsConverter.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Converters\DistanceDisplayConverter.cs" />
-    <Compile Include="Converters\NullableBooleanConverter.cs" />
+    <Compile Include="bin\Converters\AgeConverter.cs" />
+    <Compile Include="bin\Converters\AllCapsConverter.cs" />
+    <Compile Include="bin\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="bin\Converters\DistanceDisplayConverter.cs" />
+    <Compile Include="bin\Converters\NullableBooleanConverter.cs" />
     <Compile Include="GlobalAssemblyInfo.cs" />
     <Compile Include="Modules\BackgroundStreamWrapper.cs" />
     <Compile Include="Modules\EmdnUpdater.cs" />

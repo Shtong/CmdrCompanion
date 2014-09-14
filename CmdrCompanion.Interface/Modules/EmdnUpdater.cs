@@ -136,7 +136,7 @@ namespace CmdrCompanion.Interface.Modules
                     string stationName = parts[1].Substring(0, parts[1].Length - 1);
 
                     // Check if the star already exists
-                    Star star = Environment.FindStarByName(starName);
+                    Star star = Environment.FindObjectByName<Star>(starName);
                     if (star == null)
                     {
                         star = Environment.CreateStar(starName);
@@ -144,7 +144,7 @@ namespace CmdrCompanion.Interface.Modules
                     }
 
                     // Check if the station exists
-                    Station station = star.FindStationByName(stationName);
+                    Station station = star.FindObjectByName<Station>(stationName);
                     if (station == null)
                     {
                         station = star.CreateStation(stationName);

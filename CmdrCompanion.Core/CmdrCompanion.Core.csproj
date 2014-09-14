@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AstronomicalObject.cs" />
     <Compile Include="Commodity.cs" />
     <Compile Include="CoreObject.cs" />
     <Compile Include="DataFeederAttribute.cs" />

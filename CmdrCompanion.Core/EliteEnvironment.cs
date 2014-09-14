@@ -21,35 +21,46 @@ namespace CmdrCompanion.Core
         {
             AutoDistanceEnabled = true;
 
-            Stars = new ObservableCollection<Star>();
+            ObjectsInternal = new ObservableCollection<AstronomicalObject>();
+            Objects = new ReadOnlyObservableCollection<AstronomicalObject>(ObjectsInternal);
 
-            InternalCommodities = new ObservableCollection<Commodity>();
-            Commodities = new ReadOnlyObservableCollection<Commodity>(InternalCommodities);
+            StationsInternal = new ObservableCollection<Station>();
+            Stations = new ReadOnlyObservableCollection<Station>(StationsInternal);
 
-            InternalStations = new ObservableCollection<Station>();
-            Stations = new ReadOnlyObservableCollection<Station>(InternalStations);
+            StarsInternal = new ObservableCollection<Star>();
+            Stars = new ReadOnlyObservableCollection<Star>(StarsInternal);
+
+            CommoditiesInternal = new ObservableCollection<Commodity>();
+            Commodities = new ReadOnlyObservableCollection<Commodity>(CommoditiesInternal);
         }
+
+        internal ObservableCollection<AstronomicalObject> ObjectsInternal { get; private set; }
 
         /// <summary>
         /// Gets a list of all the known stars
         /// </summary>
         /// <seealso cref="CreateStar"/>
-        public ObservableCollection<Star> Stars { get; private set; }
+        public ReadOnlyObservableCollection<AstronomicalObject> Objects { get; private set; }
 
-        internal ObservableCollection<Station> InternalStations { get; private set; }
-
+        internal ObservableCollection<Station> StationsInternal { get; private set; }
         /// <summary>
         /// Gets a list of all the known stations
         /// </summary>
         /// <remarks>
         /// <para>
-        /// This is actually a shortcut to the list of stations contained in all the <see cref="Stars"/>
+        /// This is actually a shortcut to the list of stations contained in the <see cref="Objects"/>
         /// of this environment.
         /// </para>
         /// </remarks>
         public ReadOnlyObservableCollection<Station> Stations { get; set; }
 
-        internal ObservableCollection<Commodity> InternalCommodities { get; private set; }
+        internal ObservableCollection<Star> StarsInternal { get; private set; }
+        /// <summary>
+        /// Gets a list of all the known stations
+        /// </summary>
+        public ReadOnlyObservableCollection<Star> Stars { get; private set; }
+
+        internal ObservableCollection<Commodity> CommoditiesInternal { get; private set; }
         /// <summary>
         /// Gets a list of all known tradable commodities
         /// </summary>
@@ -63,12 +74,29 @@ namespace CmdrCompanion.Core
         /// <param name="comparisonOptions">Options for comparing the star names</param>
         /// <returns>The <see cref="Star"/> instance that was found, or null if no star could be found with that name.</returns>
         /// <exception cref="ArgumentNullException">The provided name is null.</exception>
-        public Star FindStarByName(string name, StringComparison comparisonOptions = StringComparison.InvariantCultureIgnoreCase)
+        public AstronomicalObject FindObjectByName(string name, StringComparison comparisonOptions = StringComparison.InvariantCultureIgnoreCase)
         {
             if (name == null)
-                throw new ArgumentNullException("name", "A star name cannot be null");
+                throw new ArgumentNullException("name", "An astronomical object name cannot be null");
 
-            return Stars.Where(s => s.Name.Equals(name, comparisonOptions)).FirstOrDefault();
+            return Objects.Where(s => s.Name.Equals(name, comparisonOptions)).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Finds a specific star based on its name and its type
+        /// </summary>
+        /// <typeparam name="T">The type of an astronomical object</typeparam>
+        /// <param name="name">The name of a star</param>
+        /// <param name="comparisonOptions">Options for comparing the star names</param>
+        /// <returns>The <see cref="Star"/> instance that was found, or null if no star could be found with that name.</returns>
+        /// <exception cref="ArgumentNullException">The provided name is null.</exception>
+       public T FindObjectByName<T>(string name, StringComparison comparisonOptions = StringComparison.InvariantCultureIgnoreCase)
+            where T: AstronomicalObject
+        {
+            if (name == null)
+                throw new ArgumentNullException("name", "An astronomical object name cannot be null");
+
+            return (T)Objects.Where(o => o.Name.Equals(name, comparisonOptions) && o.GetType() == typeof(T)).FirstOrDefault();
         }
 
         /// <summary>
@@ -83,22 +111,34 @@ namespace CmdrCompanion.Core
             if (name == null)
                 throw new ArgumentNullException("name", "A star name cannot be null");
 
-            if (FindStarByName(name) != null)
-                throw new ArgumentException("A star with the same name already exists");
+            Star result = null;
+            AstronomicalObject existing = FindObjectByName(name);
+            if (existing != null)
+            {
+                if(existing is Star)
+                    throw new ArgumentException("A star with the same name already exists");
 
-            Star result = new Star(name, this);
+                existing.Remove();
+
+                result = new Star(existing);
+            }
+            else
+            {
+                result = new Star(name, this);
+            }
 
             if(AutoDistanceEnabled)
             {
                 float distance = 0;
-                foreach(Star otherStar in Stars)
+                foreach(Star otherStar in StarsInternal)
                 {
                     if (DistancesDB.TryGetDistance(result, otherStar, out distance))
                         result.RegisterDistanceFrom(otherStar, distance);
                 }
             }
 
-            Stars.Add(result);
+            ObjectsInternal.Add(result);
+            StarsInternal.Add(result);
             return result;
         }
 
@@ -114,7 +154,7 @@ namespace CmdrCompanion.Core
             if (name == null)
                 throw new ArgumentNullException("name", "A commodity name cannot be null");
 
-            return InternalCommodities.Where(c => c.Name.Equals(name, comparisonOptions)).FirstOrDefault();
+            return CommoditiesInternal.Where(c => c.Name.Equals(name, comparisonOptions)).FirstOrDefault();
         }
 
         /// <summary>
@@ -130,7 +170,7 @@ namespace CmdrCompanion.Core
                 throw new ArgumentNullException("name", "The commodity name cannot be null");
 
             Commodity result = new Commodity(name, category);
-            InternalCommodities.Add(result);
+            CommoditiesInternal.Add(result);
             return result;
         }
 
@@ -245,25 +285,24 @@ namespace CmdrCompanion.Core
             {
                 writer.WriteStartElement("environment");
                 writer.WriteAttributeDate("date", DateTime.Now);
-                writer.WriteAttributeBool("autodistance", AutoDistanceEnabled);
+                //writer.WriteAttributeBool("autodistance", AutoDistanceEnabled);
 
                 writer.WriteStartElement("commodities");
-                foreach (Commodity c in Commodities)
+                foreach (Commodity c in CommoditiesInternal)
                     c.Save(writer);
                 writer.WriteEndElement();
 
-                writer.WriteStartElement("stars");
-                foreach(Star star in Stars)
+                writer.WriteStartElement("objects");
+                // Stars first
+                foreach(Star star in StarsInternal)
                     star.Save(writer);
-                writer.WriteEndElement();
-
-                writer.WriteStartElement("stations");
-                foreach (Station station in Stations)
-                    station.Save(writer);
+                // Others next
+                foreach (AstronomicalObject ao in ObjectsInternal.Where(ao => ao.GetType() != typeof(Star)))
+                    ao.Save(writer);
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("trades");
-                foreach (Station station in Stations)
+                foreach (Station station in StationsInternal)
                     foreach (Trade t in station.Trades)
                         t.Save(writer);
                 writer.WriteEndElement();
@@ -300,15 +339,15 @@ namespace CmdrCompanion.Core
                     if (reader.IsStartElement())
                         break;
                 }
-                while(reader.MoveToNextAttribute())
-                {
-                    switch(reader.LocalName)
-                    {
-                        case "autodistance":
-                            AutoDistanceEnabled = reader.ReadBool();
-                            break;
-                    }
-                }
+                //while(reader.MoveToNextAttribute())
+                //{
+                //    switch(reader.LocalName)
+                //    {
+                //        case "autodistance":
+                //            AutoDistanceEnabled = reader.ReadBool();
+                //            break;
+                //    }
+                //}
 
                 while(reader.Read())
                 {
@@ -331,24 +370,16 @@ namespace CmdrCompanion.Core
                                 }
                                 break;
 
-                            case "stars":
-                                using(XmlReader starsReader = reader.ReadSubtree())
+                            case "objects":
+                                using(XmlReader objectsReader = reader.ReadSubtree())
                                 {
-                                    while(starsReader.Read())
+                                    while(objectsReader.Read())
                                     {
-                                        if (starsReader.IsStartElement())
-                                            Star.Load(starsReader, this);
-                                    }
-                                }
-                                break;
-
-                            case "stations":
-                                using(XmlReader stationsReader = reader.ReadSubtree())
-                                {
-                                    while(stationsReader.Read())
-                                    {
-                                        if (stationsReader.IsStartElement())
-                                            Station.Load(stationsReader, this);
+                                        if (objectsReader.IsStartElement())
+                                        {
+                                            if (!AstronomicalObject.Load(reader, this))
+                                                break;
+                                        }
                                     }
                                 }
                                 break;

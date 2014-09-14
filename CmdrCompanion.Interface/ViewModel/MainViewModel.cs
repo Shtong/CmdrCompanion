@@ -107,6 +107,7 @@ namespace CmdrCompanion.Interface.ViewModel
 
         private void InitializeMarketdump()
         {
+            /*
             if(!Settings.Default.EmdnContribInviteShown)
             {
                 MyMessageBoxViewModel messageBox = new MyMessageBoxViewModel();
@@ -124,25 +125,60 @@ namespace CmdrCompanion.Interface.ViewModel
                 };
                 MessengerInstance.Send(new ShowMessageBoxMessage(messageBox));
             }
+            */
 
             MarketDump wrapper = CurrentServiceLocator.GetInstance<MarketDump>();
             wrapper.MarketDataReceived += wrapper_MarketDataReceived;
             wrapper.NewLocation += wrapper_NewLocation;
 
-            if (Settings.Default.EmdnEnabled && Settings.Default.UseMartketdumpWithEmdn)
-                wrapper.Start();
-
-
+            wrapper.Start();
         }
 
         void wrapper_NewLocation(object sender, NewLocationEventArgs e)
         {
-            throw new NotImplementedException();
+            Star s = Environment.FindObjectByName<Star>(e.StarName);
+            if(s == null)
+                Environment.CreateStar(e.StarName);
+
+            if(!e.IsInDeepSpace)
+            {
+                AstronomicalObject ao = Environment.FindObjectByName(e.PositionDescription);
+                if (ao == null)
+                    s.CreateAstronomicalObject(e.PositionDescription);
+            }
         }
 
         private void wrapper_MarketDataReceived(object sender, MarketDataReceivedEventArgs e)
         {
-            throw new NotImplementedException();
+            // Check that the star exists
+            Star s = Environment.FindObjectByName<Star>(e.StarName);
+            if (s == null)
+                s = Environment.CreateStar(e.StarName);
+
+            // Check that the station exists
+            Station station = s.FindObjectByName<Station>(e.StationName);
+            if (station == null)
+                station = s.CreateStation(e.StationName);
+
+            // Check that this commodity exists
+            Commodity com = Environment.FindCommodityByName(e.ItemName);
+            if(com == null)
+                Environment.CreateCommodity(e.ItemName, e.CategoryName);
+
+            // Check that the commodity isn't already available
+            Trade t = station.FindCommodity(com);
+            if(t == null)
+            {
+                t = station.CreateTrade(com, e.SellPrice, e.BuyPrice, e.StationStock);
+            }
+            else
+            {
+                t.BuyingPrice = e.BuyPrice;
+                t.SellingPrice = e.SellPrice;
+                t.Stock = e.StationStock;
+            }
+            t.DataDate = DateTime.Now;
+            t.DataSourceName = "Local";
         }
 
         public string SaveFileLocation { get; private set; }

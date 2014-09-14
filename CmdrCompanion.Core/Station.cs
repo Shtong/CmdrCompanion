@@ -12,73 +12,20 @@ namespace CmdrCompanion.Core
     /// Describes a space station that the player can interact with
     /// </summary>
     /// <remarks>To create a new instance of this class, use the <see cref="CmdrCompanion.Core.Star.CreateStation"/> method.</remarks>
-    public class Station : CoreObject
+    public class Station : AstronomicalObject
     {
         internal Station(string name, Star star)
+            : base(name, star.Environment, star)
         {
-            Name = name;
-            Star = star;
             _trades = new ObservableCollection<Trade>();
             Trades = new ReadOnlyObservableCollection<Trade>(_trades);
             _commodityIndex = new Dictionary<Commodity, int>();
         }
 
-        private string _name;
-        /// <summary>
-        /// Gets or sets the name of this station
-        /// </summary>
-        public string Name 
-        { 
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                if (String.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Stations cannot have an empty name", "value");
+        internal Station(AstronomicalObject source)
+            : base(source)
+        {
 
-                _name = value;
-                OnPropertyChanged("Name");
-            }
-        }
-
-        private Star _star;
-        /// <summary>
-        /// Gets the <see cref="Star"/> that this station orbits around.
-        /// </summary>
-        public Star Star 
-        { 
-            get
-            {
-                return _star;
-            }
-            internal set
-            {
-                _star = value;
-
-                OnPropertyChanged("Star");
-            }
-        }
-
-        private float _meanRadius;
-        /// <summary>
-        /// Gets or sets the approximative distance between the <see cref="Star"/> and the station, in Ls
-        /// </summary>
-        public float MeanRadius 
-        { 
-            get
-            {
-                return _meanRadius;
-            }
-            set
-            {
-                if (value < 0)
-                    value = 0;
-
-                _meanRadius = value;
-                OnPropertyChanged("MeanRadius");
-            }
         }
 
         private ObservableCollection<Trade> _trades;
@@ -181,6 +128,13 @@ namespace CmdrCompanion.Core
             return result;
         }
 
+        internal override void Remove()
+        {
+            Environment.StationsInternal.Remove(this);
+            Environment.ObjectsInternal.Remove(this);
+            Star.ObjectsInternal.Remove(this);
+        }
+
         /// <summary>
         /// Returns the string representation of this instance
         /// </summary>
@@ -190,7 +144,7 @@ namespace CmdrCompanion.Core
             return "Station " + Name;
         }
 
-        internal void Save(XmlWriter writer)
+        internal override void Save(XmlWriter writer)
         {
             writer.WriteStartElement("station");
             writer.WriteAttributeString("name", Name);
@@ -198,20 +152,35 @@ namespace CmdrCompanion.Core
             writer.WriteEndElement();
         }
 
-        internal static bool Load(XmlReader reader, EliteEnvironment container)
+        internal static new void Load(XmlReader reader, EliteEnvironment container)
         {
-            if(reader.NodeType != XmlNodeType.Element || reader.LocalName != "station")
-                return false;
+            Star star = null;
+            string name = null;
 
-            string starName = reader.GetAttribute("star");
-            Star star = container.FindStarByName(starName);
-            if (star == null)
-                throw new EnvironmentLoadException(String.Format("Star {0} does not exist", starName), reader);
+            while(reader.MoveToNextAttribute())
+            {
+                switch(reader.LocalName)
+                {
+                    case "name":
+                        name = reader.Value;
+                        break;
 
-            star.CreateStation(reader.GetAttribute("name"));
+                    case "star":
+                        star = container.FindObjectByName<Star>(reader.Value);
+                        if(star == null)
+                            throw new EnvironmentLoadException(String.Format("The star {0} could not be found", reader.Value), reader);
+                        break;
+                }
+            }
 
+            if(name == null)
+                throw new EnvironmentLoadException("Missing name attribute for a Station entry", reader);
+
+            if(star == null)
+                throw new EnvironmentLoadException("Missing star attribute for a Station entry", reader);
+
+            star.CreateStation(name);
             reader.Read();
-            return true;
         }
     }
 }
