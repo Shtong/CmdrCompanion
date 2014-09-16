@@ -32,6 +32,8 @@ namespace CmdrCompanion.Core
 
             CommoditiesInternal = new ObservableCollection<Commodity>();
             Commodities = new ReadOnlyObservableCollection<Commodity>(CommoditiesInternal);
+
+            CurrentSituation = new Situation();
         }
 
         internal ObservableCollection<AstronomicalObject> ObjectsInternal { get; private set; }
@@ -398,6 +400,12 @@ namespace CmdrCompanion.Core
                     }
                 }
             }
+        }
+
+        public Situation CurrentSituation
+        {
+            get;
+            private set;
         }
     }
 }

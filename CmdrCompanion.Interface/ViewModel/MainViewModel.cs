@@ -140,12 +140,13 @@ namespace CmdrCompanion.Interface.ViewModel
             if(s == null)
                 Environment.CreateStar(e.StarName);
 
-            if(!e.IsInDeepSpace)
+            AstronomicalObject ao = Environment.FindObjectByName(e.PositionDescription);
+            if(!e.IsInDeepSpace && ao == null)
             {
-                AstronomicalObject ao = Environment.FindObjectByName(e.PositionDescription);
-                if (ao == null)
-                    s.CreateAstronomicalObject(e.PositionDescription);
+                s.CreateAstronomicalObject(e.PositionDescription);
             }
+
+            Environment.CurrentSituation.CurrentLocation = ao;
         }
 
         private void wrapper_MarketDataReceived(object sender, MarketDataReceivedEventArgs e)
