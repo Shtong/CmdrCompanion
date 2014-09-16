@@ -136,14 +136,20 @@ namespace CmdrCompanion.Interface.ViewModel
 
         void wrapper_NewLocation(object sender, NewLocationEventArgs e)
         {
+            Trace.TraceInformation("Received location data: {0} -> {1} ({2})", e.StarName, e.PositionDescription, e.IsInDeepSpace);
+
             Star s = Environment.FindObjectByName<Star>(e.StarName);
             if(s == null)
-                Environment.CreateStar(e.StarName);
+                s = Environment.CreateStar(e.StarName);
 
-            AstronomicalObject ao = Environment.FindObjectByName(e.PositionDescription);
-            if(!e.IsInDeepSpace && ao == null)
+            AstronomicalObject ao = null;
+            if(e.IsInDeepSpace)
+                ao = Environment.GetDeepSpaceObject(s);
+            else
             {
-                s.CreateAstronomicalObject(e.PositionDescription);
+                ao = Environment.FindObjectByName(e.PositionDescription);
+                if (ao == null)
+                    ao = s.CreateAstronomicalObject(e.PositionDescription);
             }
 
             Environment.CurrentSituation.CurrentLocation = ao;

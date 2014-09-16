@@ -14,6 +14,8 @@ namespace CmdrCompanion.Core
     /// </summary>
     public class EliteEnvironment : CoreObject
     {
+        private const string DEEP_SPACE_NAME = "Deep Space";
+
         /// <summary>
         /// Creates a new instance of <see cref="EliteEnvironment"/>.
         /// </summary>
@@ -402,10 +404,31 @@ namespace CmdrCompanion.Core
             }
         }
 
+        /// <summary>
+        /// Gets an object that describes the player's current situation
+        /// </summary>
         public Situation CurrentSituation
         {
             get;
             private set;
+        }
+
+        /// <summary>
+        /// Returns the <see cref="AstronomicalObject"/> singleton that is used to represent deep space locations,
+        /// moving it to the specified star
+        /// </summary>
+        /// <param name="moveToStar">The star that the deep space location is near to</param>
+        /// <returns>A <see cref="DeepSpace"/> instance</returns>
+        public DeepSpace GetDeepSpaceObject(Star moveToStar)
+        {
+            DeepSpace result = (DeepSpace)FindObjectByName(DEEP_SPACE_NAME, StringComparison.InvariantCulture);
+
+            if(result == null)
+                result = new DeepSpace(DEEP_SPACE_NAME, moveToStar, false, false);
+            else
+                result.Star = moveToStar;
+
+            return result;
         }
     }
 }

@@ -52,6 +52,7 @@ namespace CmdrCompanion.Interface.ViewModel
             RegisterViewModel<TravelDesignerViewModel>();
             RegisterViewModel<JumpFinderViewModel>();
             RegisterViewModel<OptionsViewModel>();
+            RegisterViewModel<SituationViewModel>();
         }
 
         private void RegisterViewModel<TViewModel>() where TViewModel:ViewModelBase
@@ -104,6 +105,14 @@ namespace CmdrCompanion.Interface.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<OptionsViewModel>();
+            }
+        }
+
+        public SituationViewModel Situation
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<SituationViewModel>();
             }
         }
         

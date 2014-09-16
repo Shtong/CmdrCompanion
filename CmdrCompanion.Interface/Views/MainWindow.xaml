@@ -21,6 +21,9 @@
                     Margin="10, 10, 10, 20" 
                     x:Name="mainTabs"
                     Grid.ColumnSpan="2">
+            <TabItem Header="SITUATION">
+                <v:Situation />
+            </TabItem>
             <TabItem Header="TRAVEL DESIGNER">
                 <v:TravelDesigner />
             </TabItem>

@@ -26,7 +26,7 @@
                     <conv:AllCapsConverter x:Key="converterAllCaps" />
 
                     <!-- Data templates -->
-                    <DataTemplate DataType="{x:Type core:Station}">
+                    <DataTemplate DataType="{x:Type core:AstronomicalObject}">
                         <TextBlock>
                             <Run Text="{Binding Star.Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" /> - 
                             <Run Text="{Binding Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" />
