@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ex="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:v="clr-namespace:CmdrCompanion.Interface.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500"
              DataContext="{Binding TravelDesigner, Source={StaticResource Locator}}">
@@ -33,8 +34,8 @@
                 <ex:IntegerUpDown x:Name="budgetBox" Grid.Column="1" Text="{Binding Budget}" Minimum="1" AutoSelectBehavior="OnFocus" />
                 <Label Grid.Row="1" Target="{Binding ElementName=cargoBox, Mode=OneTime}">CARGO SIZE: </Label>
                 <ex:IntegerUpDown x:Name="cargoBox" Grid.Column="1" Grid.Row="1" Text="{Binding Cargo}" Minimum="1" AutoSelectBehavior="OnFocus" />
-                <Label Grid.Row="2" Target="{Binding ElementName=startSystemBox}">SEARCH AROUND: </Label>
-                <ComboBox Grid.Row="2" Grid.Column="1" x:Name="startSystemBox" ItemsSource="{Binding StationsView}" SelectedItem="{Binding SelectedOrigin}" />
+                <Label Grid.Row="2">SEARCH AROUND: </Label>
+                <v:StationSelector DataContext="{Binding StationSelector}" Grid.Row="2" Grid.Column="1" />
                 <Label Grid.Row="3" Target="{Binding ElementName=maxStartDistanceBox, Mode=OneTime}">
                     <TextBlock>MAX DISTANCE FROM <Run Text="{Binding SelectedOrigin.Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" /> :</TextBlock>
                 </Label>

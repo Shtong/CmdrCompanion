@@ -26,8 +26,11 @@ namespace CmdrCompanion.Interface.ViewModel
             ComputeCommand = new RelayCommand(Compute, CanCompute);
             ShowDetailedResultCommand = new RelayCommand<TravelDetailsViewModel>(ShowDetailedResults);
 
-            StationsView = new ListCollectionView(Environment.Stations);
-            StationsView.SortDescriptions.Add(new SortDescription("Star.Name", ListSortDirection.Ascending));
+            StationSelector = new StationSelectorViewModel()
+            {
+                UserCanSelectAny = false,
+                UserCanSelectCurrent = true,
+            };
 
             ResultsList = new ObservableCollection<TravelDetailsViewModel>();
             ResultsView = new ListCollectionView(ResultsList);
@@ -40,7 +43,7 @@ namespace CmdrCompanion.Interface.ViewModel
             MaxDistancePerjump = 10;
         }
 
-        public ListCollectionView StationsView { get; private set; }
+        public StationSelectorViewModel StationSelector { get; private set; }
 
         public int Cargo { get; set; }
 
@@ -52,21 +55,6 @@ namespace CmdrCompanion.Interface.ViewModel
 
         public float MaxDistancePerjump { get; set; }
 
-        private Station _selectedOrigin;
-        public Station SelectedOrigin 
-        {
-            get { return _selectedOrigin; }
-            set
-            {
-                if(value != _selectedOrigin)
-                {
-                    _selectedOrigin = value;
-                    RaisePropertyChanged("SelectedOrigin");
-                    ComputeCommand.RaiseCanExecuteChanged();
-                }
-            }
-        }
-
         private ObservableCollection<TravelDetailsViewModel> ResultsList { get; set; }
 
         public ListCollectionView ResultsView { get; private set; }
@@ -75,20 +63,21 @@ namespace CmdrCompanion.Interface.ViewModel
 
         public bool CanCompute()
         {
-            return SelectedOrigin != null;
+            return StationSelector.SelectedStation != null;
         }
 
         public void Compute()
         {
             ResultsList.Clear();
 
-            Station[] stations = Environment.Stations.Where(s => s.Star.KnownStarProximities.ContainsKey(SelectedOrigin.Star) && s.Star.KnownStarProximities[SelectedOrigin.Star] < MaxDistanceFromOrigin).ToArray();
+            Station origin = StationSelector.SelectedStation;
+            Station[] stations = Environment.Stations.Where(s => s.Star.KnownStarProximities.ContainsKey(origin.Star) && s.Star.KnownStarProximities[origin.Star] < MaxDistanceFromOrigin).ToArray();
             ThreadPool.QueueUserWorkItem(ComputeWorker, new ComputeArgs() {
                 stations = stations,
                 cargo = Cargo,
                 budget = Budget,
                 maxJumps = MaxJumpsPerTravel,
-                origin = SelectedOrigin,
+                origin = origin,
                 maxDistPerJump = MaxDistancePerjump,
             });
         }
@@ -99,6 +88,13 @@ namespace CmdrCompanion.Interface.ViewModel
         {
             // Ask the interface to open the details window
             MessengerInstance.Send(new ShowDetailedResultsMessage(detailedModel));
+        }
+
+        public override void Cleanup()
+        {
+            StationSelector.Cleanup();
+
+            base.Cleanup();
         }
 
         #region Messages
@@ -125,7 +121,6 @@ namespace CmdrCompanion.Interface.ViewModel
 
         private void ComputeWorker(object oArgs)
         {
-            // TODO : Check that more than 2 stations are selected
             ComputeArgs args = (ComputeArgs)oArgs;
 
             EliteEnvironment env = ServiceLocator.Current.GetInstance<EliteEnvironment>(); // TODO : Any thread safety issue here ?
