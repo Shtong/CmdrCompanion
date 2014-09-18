@@ -117,11 +117,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="bin\Converters\AgeConverter.cs" />
-    <Compile Include="bin\Converters\AllCapsConverter.cs" />
-    <Compile Include="bin\Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="bin\Converters\DistanceDisplayConverter.cs" />
-    <Compile Include="bin\Converters\NullableBooleanConverter.cs" />
+    <Compile Include="Converters\AgeConverter.cs" />
+    <Compile Include="Converters\AllCapsConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\DistanceDisplayConverter.cs" />
+    <Compile Include="Converters\NullableBooleanConverter.cs" />
     <Compile Include="GlobalAssemblyInfo.cs" />
     <Compile Include="Modules\BackgroundStreamWrapper.cs" />
     <Compile Include="Modules\EmdnUpdater.cs" />
@@ -139,6 +139,7 @@
     <Compile Include="ViewModel\OptionsViewModel.cs" />
     <Compile Include="ViewModel\ShowMessageBoxMessage.cs" />
     <Compile Include="ViewModel\SituationViewModel.cs" />
+    <Compile Include="ViewModel\StationSelectorViewModel.cs" />
     <Compile Include="ViewModel\TravelDetailsViewModel.cs" />
     <Compile Include="ViewModel\TravelDesignerViewModel.cs" />
     <Compile Include="Views\CommodityDetails.xaml.cs">
@@ -155,6 +156,9 @@
     </Compile>
     <Compile Include="Views\Situation.xaml.cs">
       <DependentUpon>Situation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StationSelector.xaml.cs">
+      <DependentUpon>StationSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TravelDesigner.xaml.cs">
       <DependentUpon>TravelDesigner.xaml</DependentUpon>
@@ -205,6 +209,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Situation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StationSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -305,6 +313,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
