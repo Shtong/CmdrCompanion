@@ -27,6 +27,7 @@
     <!-- Custom base resources -->
     <Color x:Key="textColor">#FFEAEAEA</Color>
     <Color x:Key="disabledTextColor">#FFAEAEAE</Color>
+    <Color x:Key="disabledBorderColor">#664E4E4E</Color>
     <Color x:Key="buttonMouseOverBackgroundColor">#22FFFFFF</Color>
     <Color x:Key="buttonHighlightBackgroundColor">#33FFFFFF</Color>
     
@@ -686,11 +687,12 @@
                                 <VisualState x:Name="MouseOver" />
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_EditableTextBox"
-                                                                      Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0"
-                                         Value="{StaticResource DisabledForegroundColor}" />
-                                        </ColorAnimationUsingKeyFrames>
+                                        <ColorAnimation Storyboard.TargetName="mainBorder"
+                                                        Storyboard.TargetProperty="BorderBrush.Color" 
+                                                        To="{DynamicResource disabledBorderColor}"
+                                                        Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetName="ToggleButton"
+                                                         Storyboard.TargetProperty="Opacity" To="0.5" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -718,7 +720,8 @@
                                       ClickMode="Press"
                                       IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
                         <Border BorderThickness="2, 2, 0, 2"
-                                BorderBrush="{DynamicResource borderColor}">
+                                BorderBrush="{DynamicResource borderColor}"
+                                x:Name="mainBorder">
                             <ContentPresenter x:Name="ContentSite"
                                           IsHitTestVisible="False"
                                           Content="{TemplateBinding SelectionBoxItem}"
