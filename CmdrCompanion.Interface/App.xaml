@@ -33,6 +33,10 @@
                         </TextBlock>
                     </DataTemplate>
 
+                    <DataTemplate DataType="{x:Type core:Star}">
+                        <TextBlock Text="{Binding Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" />
+                    </DataTemplate>
+
                     <DataTemplate DataType="{x:Type core:Commodity}">
                         <TextBlock Text="{Binding Name, Converter={StaticResource converterAllCaps}}" />
                     </DataTemplate>
