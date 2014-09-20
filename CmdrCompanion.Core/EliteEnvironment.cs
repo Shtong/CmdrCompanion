@@ -162,7 +162,8 @@ namespace CmdrCompanion.Core
         }
 
         /// <summary>
-        /// Creates a new <see cref="Commodity"/> instance and adds it into this environment
+        /// Creates a new <see cref="Commodity"/> instance and adds it into this environment.
+        /// If this commodity name already exists, the existing commodity is returned.
         /// </summary>
         /// <param name="name">The name of the new commodity</param>
         /// <param name="category">An opptionnal category name</param>
@@ -172,6 +173,10 @@ namespace CmdrCompanion.Core
         {
             if (name == null)
                 throw new ArgumentNullException("name", "The commodity name cannot be null");
+
+            Commodity existing = FindCommodityByName(name);
+            if (existing != null)
+                return existing;
 
             Commodity result = new Commodity(name, category);
             CommoditiesInternal.Add(result);
