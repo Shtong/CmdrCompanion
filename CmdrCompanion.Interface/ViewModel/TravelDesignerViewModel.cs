@@ -32,6 +32,8 @@ namespace CmdrCompanion.Interface.ViewModel
                 UserCanSelectCurrent = true,
             };
 
+            StationSelector.SelectCurrent();
+
             ResultsList = new ObservableCollection<TravelDetailsViewModel>();
             ResultsView = new ListCollectionView(ResultsList);
             ResultsView.SortDescriptions.Add(new SortDescription("AvgProfitPerJump", ListSortDirection.Descending));

@@ -57,6 +57,7 @@ namespace CmdrCompanion.Interface.ViewModel
         private void InitializeApp()
         {
             SimpleIoc.Default.Register<EliteEnvironment>();
+            InitializePersistence();
 
             // Initialize modules
             SimpleIoc.Default.Register<EmdnUpdater>(() => new EmdnUpdater(Environment));
@@ -68,7 +69,6 @@ namespace CmdrCompanion.Interface.ViewModel
         /// </summary>
         public void Start()
         {
-            InitializePersistence();
             InitializeUpdates();
             InitializeMarketdump();
 

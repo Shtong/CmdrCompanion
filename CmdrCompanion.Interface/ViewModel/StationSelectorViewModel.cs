@@ -141,12 +141,11 @@ namespace CmdrCompanion.Interface.ViewModel
 
         public void SelectCurrent()
         {
-            if (!UserCanSelectCurrent ||
-                Environment.CurrentSituation.CurrentLocation == null ||
-                !(Environment.CurrentSituation.CurrentLocation is Station))
+            Station current = Environment.CurrentSituation.CurrentLocation as Station;
+            if (!UserCanSelectCurrent || current == null)
                 return;
 
-            StationsView.MoveCurrentTo(Environment.CurrentSituation.CurrentLocation);
+            StationsView.MoveCurrentTo(current);
         }
 
         public bool CanSelectCurrent()

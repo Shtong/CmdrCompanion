@@ -22,16 +22,17 @@ namespace CmdrCompanion.Interface.ViewModel
             {
                 UserCanSelectAny = true,
                 UserCanSelectCurrent = true,
-                Filter = FromStationFilter,
             };
             FromStationSelector.PropertyChanged += FromStationSelector_PropertyChanged;
             ToStationSelector = new StationSelectorViewModel()
             {
                 UserCanSelectAny = true,
                 UserCanSelectCurrent = true,
-                Filter = ToStationFilter,
             };
             ToStationSelector.PropertyChanged += ToStationSelector_PropertyChanged;
+
+            FromStationSelector.Filter = FromStationFilter;
+            ToStationSelector.Filter = ToStationFilter;
 
             _resultsList = new ObservableCollection<TradeJumpDataViewModel>();
             ResultsView = new ListCollectionView(_resultsList);
