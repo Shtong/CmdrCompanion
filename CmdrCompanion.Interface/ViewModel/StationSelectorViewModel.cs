@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace CmdrCompanion.Interface.ViewModel
         {
             StationsView = new ListCollectionView(Environment.Stations);
             StationsView.CurrentChanged += (sender, e) => RaisePropertyChanged("SelectedStation");
-
+            StationsView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
 
             SelectAnyCommand = new RelayCommand(SelectAny);
             SelectCurrentCommand = new RelayCommand(SelectCurrent, CanSelectCurrent);
