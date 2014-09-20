@@ -7,6 +7,9 @@
              d:DesignHeight="300" d:DesignWidth="300"
              DataContext="{Binding Situation, Source={StaticResource Locator}}">
     <Grid>
-        <TextBlock>Current Position: <Run FontWeight="Bold" Text="{Binding CurrentSituation.CurrentLocation}" /></TextBlock>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>Current Position: </TextBlock>
+            <ContentControl Content="{Binding CurrentSituation.CurrentLocation, TargetNullValue=UNKNOWN}" />
+        </StackPanel>
     </Grid>
 </UserControl>
