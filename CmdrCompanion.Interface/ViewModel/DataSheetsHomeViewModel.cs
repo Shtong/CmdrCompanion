@@ -19,23 +19,24 @@ namespace CmdrCompanion.Interface.ViewModel
         public DataSheetsHomeViewModel()
         {
             CommodityDetails = new CommodityDetailsViewModel();
+            PlaceDetails = new PlaceDetailsViewModel();
 
             CommoditiesView = new ListCollectionView(Environment.Commodities);
-            CommoditiesView.CurrentChanged += CommoditiesViewCurrentChanged;
             CommoditiesView.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
             CommoditiesView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+            CommoditiesView.CurrentChanged += CommoditiesViewCurrentChanged;
 
             PlacesView = new ListCollectionView(Environment.Objects);
-            PlacesView.CurrentChanged += PlacesViewCurrentChanged;
             PlacesView.GroupDescriptions.Add(new PropertyGroupDescription("Star"));
             PlacesView.SortDescriptions.Add(new SortDescription("Star.Name", ListSortDirection.Ascending));
             PlacesView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
             CommoditiesView.MoveCurrentToPosition(0);
+            PlacesView.CurrentChanged += PlacesViewCurrentChanged;
         }
 
         void PlacesViewCurrentChanged(object sender, EventArgs e)
         {
-            // Nothing yet
+            PlaceDetails.FillWithObject((AstronomicalObject)PlacesView.CurrentItem);
         }
 
         private void CommoditiesViewCurrentChanged(object sender, EventArgs e)
@@ -55,5 +56,7 @@ namespace CmdrCompanion.Interface.ViewModel
         public ListCollectionView PlacesView { get; private set; }
 
         public CommodityDetailsViewModel CommodityDetails { get; private set; }
+
+        public PlaceDetailsViewModel PlaceDetails { get; private set; }
     }
 }

@@ -137,6 +137,7 @@
     <Compile Include="ViewModel\LocalViewModelBase.cs" />
     <Compile Include="ViewModel\MyMessageBoxViewModel.cs" />
     <Compile Include="ViewModel\OptionsViewModel.cs" />
+    <Compile Include="ViewModel\PlaceDetailsViewModel.cs" />
     <Compile Include="ViewModel\ShowMessageBoxMessage.cs" />
     <Compile Include="ViewModel\SituationViewModel.cs" />
     <Compile Include="ViewModel\StationSelectorViewModel.cs" />
@@ -153,6 +154,9 @@
     </Compile>
     <Compile Include="Views\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlaceDetails.xaml.cs">
+      <DependentUpon>PlaceDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Situation.xaml.cs">
       <DependentUpon>Situation.xaml</DependentUpon>
@@ -205,6 +209,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Options.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlaceDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -25,16 +25,24 @@
             </Grid>
         </TabItem>
         <TabItem Header="PLACES">
-            <ListView ItemsSource="{Binding PlacesView}" IsSynchronizedWithCurrentItem="True">
-                <ListView.GroupStyle>
-                    <GroupStyle ContainerStyle="{StaticResource collapsingGroup}" />
-                </ListView.GroupStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate DataType="{x:Type core:AstronomicalObject}">
-                        <TextBlock Text="{Binding Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <ListView ItemsSource="{Binding PlacesView}" Margin="0, 0, 0, 5" IsSynchronizedWithCurrentItem="True">
+                    <ListView.GroupStyle>
+                        <GroupStyle ContainerStyle="{StaticResource collapsingGroup}" />
+                    </ListView.GroupStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="{x:Type core:AstronomicalObject}">
+                            <TextBlock Text="{Binding Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <GridSplitter VerticalAlignment="Bottom" Height="5" HorizontalAlignment="Stretch" />
+                <v:PlaceDetails DataContext="{Binding PlaceDetails}" Grid.Row="1" />
+            </Grid>
         </TabItem>
     </TabControl>
 </UserControl>
