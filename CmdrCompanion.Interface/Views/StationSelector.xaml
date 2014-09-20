@@ -13,12 +13,22 @@
         </Grid.ColumnDefinitions>
         
         <ComboBox ItemsSource="{Binding StationsView}" />
-        <Button Grid.Column="1" Margin="5, 0" Command="{Binding SelectAnyCommand}" Visibility="{Binding UserCanSelectAny, Converter={StaticResource converterVisibility}}" Content="A">
+        <Button Grid.Column="1" 
+                Margin="5, 0" 
+                Command="{Binding SelectAnyCommand}" 
+                Visibility="{Binding UserCanSelectAny, Converter={StaticResource converterVisibility}}" 
+                IsEnabled="{Binding IsSelectAnyEnabled}"
+                Content="A">
             <Button.ToolTip>
                 SELECT ANY STATION
             </Button.ToolTip>
         </Button>
-        <Button Grid.Column="2" Margin="5, 0" Command="{Binding SelectCurrentCommand}" Visibility="{Binding UserCanSelectCurrent, Converter={StaticResource converterVisibility}}" Content="C">
+        <Button Grid.Column="2" 
+                Margin="5, 0" 
+                Command="{Binding SelectCurrentCommand}" 
+                Visibility="{Binding UserCanSelectCurrent, Converter={StaticResource converterVisibility}}" 
+                IsEnabled="{Binding IsSelectCurrentEnabled}" 
+                Content="C">
             <Button.ToolTip>
                 SELECT THE CURRENT STATION
             </Button.ToolTip>

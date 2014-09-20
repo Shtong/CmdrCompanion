@@ -18,139 +18,95 @@ namespace CmdrCompanion.Interface.ViewModel
     {
         public JumpFinderViewModel()
         {
-            FromStationsView = new ListCollectionView(Environment.Stations);
-            FromStationsView.SortDescriptions.Add(new SortDescription("Star.Name", ListSortDirection.Ascending));
-            FromStationsView.Filter = FromStationFilter;
-            ToStationsView = new ListCollectionView(Environment.Stations);
-            ToStationsView.SortDescriptions.Add(new SortDescription("Star.Name", ListSortDirection.Ascending));
-            ToStationsView.Filter = ToStationFilter;
+            FromStationSelector = new StationSelectorViewModel()
+            {
+                UserCanSelectAny = true,
+                UserCanSelectCurrent = true,
+                Filter = FromStationFilter,
+            };
+            FromStationSelector.PropertyChanged += FromStationSelector_PropertyChanged;
+            ToStationSelector = new StationSelectorViewModel()
+            {
+                UserCanSelectAny = true,
+                UserCanSelectCurrent = true,
+                Filter = ToStationFilter,
+            };
+            ToStationSelector.PropertyChanged += ToStationSelector_PropertyChanged;
 
             _resultsList = new ObservableCollection<TradeJumpDataViewModel>();
             ResultsView = new ListCollectionView(_resultsList);
             ResultsView.Filter = ResultsViewFilter;
 
-            FromAnyCommand = new RelayCommand(FromAny);
-            ToAnyCommand = new RelayCommand(ToAny);
             StartUpdatingCommand = new RelayCommand(StartUpdating);
 
-            ToDistance = 500;
-            FromDistance = 500;
+            MaxDistance = 500;
             CargoReference = 4;
             MaximumPrice = 1000;
             LowerProfitsThreshold = 1;
         }
 
-        private Station _fromStation;
-        public Station FromStation
+        private void ToStationSelector_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            get { return _fromStation; }
+            switch(e.PropertyName)
+            {
+                case "SelectedStation":
+                    FromStationSelector.Refresh();
+                    RaisePropertyChanged("MaxDistanceEnabled");
+                    break;
+            }
+        }
+
+        private void FromStationSelector_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "SelectedStation":
+                    ToStationSelector.Refresh();
+                    RaisePropertyChanged("MaxDistanceEnabled");
+                    break;
+            }
+        }
+
+        private float _maxDistance;
+        public float MaxDistance
+        {
+            get { return _maxDistance; }
             set
             {
-                if (value != _fromStation)
+                if (value != _maxDistance)
                 {
-                    _fromStation = value;
-                    RaisePropertyChanged("FromStation");
-                    RaisePropertyChanged("FromDistanceEnabled");
-                    RaisePropertyChanged("FromAnyEnabled");
-                    ToStationsView.Refresh();
+                    _maxDistance = value;
+                    RaisePropertyChanged("MaxDistance");
                 }
             }
         }
 
-        private float _fromDistance;
-        public float FromDistance
-        {
-            get { return _fromDistance; }
-            set
-            {
-                if (value != _fromDistance)
-                {
-                    _fromDistance = value;
-                    RaisePropertyChanged("FromDistance");
-                }
-            }
-        }
-
-        public bool FromDistanceEnabled
+        public bool MaxDistanceEnabled
         {
             get
             {
-                return FromStation == null && ToStation != null;
+                return ToStationSelector.SelectedStation == null || FromStationSelector.SelectedStation == null;
             }
         }
 
-        public bool FromAnyEnabled
-        {
-            get
-            {
-                return FromStation != null;
-            }
-        }
-
-        private Station _toStation;
-        public Station ToStation
-        {
-            get { return _toStation; }
-            set
-            {
-                if (value != _toStation)
-                {
-                    _toStation = value;
-                    RaisePropertyChanged("ToStation");
-                    RaisePropertyChanged("FromDistanceEnabled");
-                    RaisePropertyChanged("ToDistanceEnabled");
-                    RaisePropertyChanged("ToAnyEnabled");
-                    FromStationsView.Refresh();
-                }
-            }
-        }
-
-        private float _toDistance;
-        public float ToDistance
-        {
-            get { return _toDistance; }
-            set
-            {
-                if (value != _toDistance)
-                {
-                    _toDistance = value;
-                    RaisePropertyChanged("ToDistance");
-                }
-            }
-        }
-
-        public bool ToDistanceEnabled
-        {
-            get
-            {
-                return ToStation == null;
-            }
-        }
-
-        public bool ToAnyEnabled
-        {
-            get
-            {
-                return ToStation != null;
-            }
-        }
-
-        public ListCollectionView FromStationsView { get; private set; }
         private bool FromStationFilter(object fromStation)
         {
-            if (ToStation == null)
+            if (ToStationSelector.SelectedStation == null)
                 return true;
 
-            return fromStation != ToStation;
+            return fromStation != ToStationSelector.SelectedStation;
         }
-        public ListCollectionView ToStationsView { get; private set; }
+
         private bool ToStationFilter(object toStation)
         {
-            if (FromStation == null)
+            if (FromStationSelector.SelectedStation == null)
                 return true;
 
-            return toStation != FromStation;
+            return toStation != FromStationSelector.SelectedStation;
         }
+
+        public StationSelectorViewModel FromStationSelector { get; private set; }
+        public StationSelectorViewModel ToStationSelector { get; private set; }
 
         private bool _isWorking;
         public bool IsWorking
@@ -276,19 +232,6 @@ namespace CmdrCompanion.Interface.ViewModel
             }
         }
 
-        public RelayCommand ToAnyCommand { get; private set; }
-        public RelayCommand FromAnyCommand { get; private set; }
-
-        public void ToAny()
-        {
-            ToStationsView.MoveCurrentToPosition(-1);
-        }
-
-        public void FromAny()
-        {
-            FromStationsView.MoveCurrentToPosition(-1);
-        }
-
         public RelayCommand StartUpdatingCommand { get; private set; }
 
         public void StartUpdating()
@@ -330,15 +273,15 @@ namespace CmdrCompanion.Interface.ViewModel
             _updateResultsWorker.RunWorkerCompleted += UpdateResultsWorker_RunWorkerCompleted;
 
             Station[] sList = null;
-            if (FromStation == null || ToStation == null)
+            if (FromStationSelector.SelectedStation == null || ToStationSelector.SelectedStation == null)
                 sList = Environment.Stations.ToArray();
 
             IsWorking = true;
             _updateResultsWorker.RunWorkerAsync(new UpdateResultsData()
             {
-                from = FromStation,
-                to = ToStation,
-                maxDistance = ToStation == null ? ToDistance : FromDistance,
+                from = FromStationSelector.SelectedStation,
+                to = ToStationSelector.SelectedStation,
+                maxDistance = MaxDistance,
                 stationList = sList,
             });
         }

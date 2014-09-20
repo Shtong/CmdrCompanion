@@ -17,12 +17,15 @@ namespace CmdrCompanion.Interface.ViewModel
         {
             StationsView = new ListCollectionView(Environment.Stations);
             StationsView.CurrentChanged += (sender, e) => RaisePropertyChanged("SelectedStation");
-            StationsView.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+            StationsView.SortDescriptions.Add(new SortDescription("Star.Name", ListSortDirection.Ascending));
 
             SelectAnyCommand = new RelayCommand(SelectAny);
             SelectCurrentCommand = new RelayCommand(SelectCurrent, CanSelectCurrent);
 
             Environment.CurrentSituation.PropertyChanged += CurrentSituation_PropertyChanged;
+
+            IsSelectAnyEnabled = true;
+            IsSelectCurrentEnabled = true;
         }
 
         private bool _userCanSelectAny;
@@ -31,7 +34,7 @@ namespace CmdrCompanion.Interface.ViewModel
             get { return _userCanSelectAny; }
             set
             {
-                if(value != _userCanSelectAny)
+                if (value != _userCanSelectAny)
                 {
                     _userCanSelectAny = value;
                     RaisePropertyChanged("UserCanSelectAny");
@@ -45,10 +48,38 @@ namespace CmdrCompanion.Interface.ViewModel
             get { return _userCanSelectCurrent; }
             set
             {
-                if(value != _userCanSelectCurrent)
+                if (value != _userCanSelectCurrent)
                 {
                     _userCanSelectCurrent = value;
                     RaisePropertyChanged("UserCanSelectCurrent");
+                }
+            }
+        }
+
+        private bool _isSelectCurrentEnabled;
+        public bool IsSelectCurrentEnabled
+        {
+            get { return _isSelectCurrentEnabled; }
+            set
+            {
+                if (value != _isSelectCurrentEnabled)
+                {
+                    _isSelectCurrentEnabled = value;
+                    RaisePropertyChanged("SelectCurrentEnabled");
+                }
+            }
+        }
+
+        private bool _isSelectAnyEnabled;
+        public bool IsSelectAnyEnabled
+        {
+            get { return _isSelectAnyEnabled; }
+            set 
+            { 
+                if(value != _isSelectAnyEnabled)
+                {
+                    _isSelectAnyEnabled = value;
+                    RaisePropertyChanged("SelectAnyEnabled");
                 }
             }
         }
@@ -69,9 +100,34 @@ namespace CmdrCompanion.Interface.ViewModel
             }
         }
 
+        private Predicate<Station> _filter;
+        public Predicate<Station> Filter
+        {
+            get
+            {
+                return _filter;
+            }
+
+            set
+            {
+                if (value != _filter)
+                {
+                    _filter = value;
+                    if (value == null)
+                        StationsView.Filter = null;
+                    else if(StationsView.Filter == null)
+                        StationsView.Filter = FilterInternal;
+                    else
+                        StationsView.Refresh();
+
+                    RaisePropertyChanged("Filter");
+                }
+            }
+        }
+
         public ListCollectionView StationsView { get; private set; }
 
-        public RelayCommand SelectAnyCommand { get; private set;}
+        public RelayCommand SelectAnyCommand { get; private set; }
 
         public void SelectAny()
         {
@@ -85,8 +141,8 @@ namespace CmdrCompanion.Interface.ViewModel
 
         public void SelectCurrent()
         {
-            if (!UserCanSelectCurrent || 
-                Environment.CurrentSituation.CurrentLocation == null || 
+            if (!UserCanSelectCurrent ||
+                Environment.CurrentSituation.CurrentLocation == null ||
                 !(Environment.CurrentSituation.CurrentLocation is Station))
                 return;
 
@@ -99,16 +155,27 @@ namespace CmdrCompanion.Interface.ViewModel
         }
 
 
+        private bool FilterInternal(object s)
+        {
+            if (Filter == null)
+                return true;
 
+            return Filter((Station)s);
+        }
 
         private void CurrentSituation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            switch(e.PropertyName)
+            switch (e.PropertyName)
             {
                 case "CurrentLocation":
                     SelectCurrentCommand.RaiseCanExecuteChanged();
                     break;
             }
+        }
+
+        public void Refresh()
+        {
+            StationsView.Refresh();
         }
 
         public override void Cleanup()

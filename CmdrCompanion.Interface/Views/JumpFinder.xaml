@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ex="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:core="clr-namespace:CmdrCompanion.Core;assembly=CmdrCompanion.Core"
+             xmlns:v="clr-namespace:CmdrCompanion.Interface.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600"
              DataContext="{Binding JumpFinder, Source={StaticResource Locator}}">
@@ -27,34 +28,29 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 
                 <TextBlock FontWeight="Bold" VerticalAlignment="Center">FROM: </TextBlock>
-                <StackPanel Orientation="Horizontal" Grid.Column="1">
-                    <ComboBox ItemsSource="{Binding FromStationsView}" SelectedItem="{Binding FromStation}" Width="200" />
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding FromDistanceEnabled, Converter={StaticResource converterVisibility}}">
-                        <TextBlock> WITHIN </TextBlock>
-                        <ex:SingleUpDown AutoSelectBehavior="OnFocus" Value="{Binding FromDistance}" />
-                        <TextBlock>LY OF DESTINATION SYSTEM</TextBlock>
-                    </StackPanel>
-                    <Button Visibility="{Binding FromAnyEnabled, Converter={StaticResource converterVisibility}}" Command="{Binding FromAnyCommand}">ANY</Button>
-                </StackPanel>
+                <v:StationSelector DataContext="{Binding FromStationSelector}" Grid.Column="1" />
 
                 <TextBlock FontWeight="Bold" Grid.Row="1" VerticalAlignment="Center">TO: </TextBlock>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
-                    <ComboBox ItemsSource="{Binding ToStationsView}" SelectedItem="{Binding ToStation}" Width="200" />
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding ToDistanceEnabled, Converter={StaticResource converterVisibility}}">
-                        <TextBlock VerticalAlignment="Center"> WITHIN </TextBlock>
-                        <ex:SingleUpDown AutoSelectBehavior="OnFocus" Value="{Binding ToDistance}" />
-                        <TextBlock VerticalAlignment="Center">LY OF STARTING SYSTEM</TextBlock>
-                    </StackPanel>
-                    <Button Visibility="{Binding ToAnyEnabled, Converter={StaticResource converterVisibility}}" Command="{Binding ToAnyCommand}">ANY</Button>
+                <v:StationSelector DataContext="{Binding ToStationSelector}" Grid.Column="1" Grid.Row="1" />
+
+                <StackPanel Orientation="Horizontal" 
+                            Visibility="{Binding MaxDistanceEnabled, Converter={StaticResource converterVisibilityHiding}}"
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2">
+                    <TextBlock VerticalAlignment="Center"> WITHIN A DISTANCE OF </TextBlock>
+                    <ex:SingleUpDown AutoSelectBehavior="OnFocus" Value="{Binding MaxDistance}" />
+                    <TextBlock VerticalAlignment="Center">LY</TextBlock>
                 </StackPanel>
-                
-                <Button Grid.Row="2" Grid.ColumnSpan="2" Command="{Binding StartUpdatingCommand}">
+
+                <Button Grid.Row="3" Grid.ColumnSpan="2" Command="{Binding StartUpdatingCommand}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center">SEARCH</TextBlock>
-                        <ContentControl Content="{DynamicResource loader}" Visibility="{Binding IsWorking, Converter={StaticResource converterVisibilityHiding}}" />
+                        <ContentControl Content="{DynamicResource loader}" 
+                                        Visibility="{Binding IsWorking, Converter={StaticResource converterVisibilityHiding}}" />
                     </StackPanel>
                 </Button>
             </Grid>
