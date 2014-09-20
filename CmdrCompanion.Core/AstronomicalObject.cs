@@ -103,6 +103,13 @@ namespace CmdrCompanion.Core
 
         internal virtual void Save(XmlWriter writer)
         {
+            WriteStartElement(writer, "astronomicalobject");
+            writer.WriteEndElement();
+        }
+
+        protected void WriteStartElement(XmlWriter writer, string elementName)
+        {
+            writer.WriteStartElement(elementName);
             writer.WriteAttributeString("name", Name);
             writer.WriteAttributeString("star", Star.Name);
         }

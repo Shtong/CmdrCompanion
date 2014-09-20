@@ -146,9 +146,7 @@ namespace CmdrCompanion.Core
 
         internal override void Save(XmlWriter writer)
         {
-            writer.WriteStartElement("station");
-            writer.WriteAttributeString("name", Name);
-            writer.WriteAttributeString("star", Star.Name);
+            WriteStartElement(writer, "station");
             writer.WriteEndElement();
         }
 

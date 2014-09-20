@@ -85,6 +85,7 @@ namespace CmdrCompanion.Core
 
             ObjectsInternal.Add(result);
             Environment.StationsInternal.Add(result);
+            Environment.ObjectsInternal.Add(result);
             return result;
         }
 
@@ -190,7 +191,7 @@ namespace CmdrCompanion.Core
         internal override void Save(XmlWriter writer)
         {
             writer.WriteStartElement("star");
-            base.Save(writer);
+            writer.WriteAttributeString("name", Name);
             writer.WriteEndElement();
         }
 
