@@ -151,9 +151,9 @@ namespace CmdrCompanion.Interface.ViewModel
 
         public bool CanSelectCurrent()
         {
-            return Environment.CurrentSituation.CurrentLocation != null && Environment.CurrentSituation.CurrentLocation is Station;
+            Station current = Environment.CurrentSituation.CurrentLocation as Station;
+            return current != null && (Filter == null || Filter(current));
         }
-
 
         private bool FilterInternal(object s)
         {
