@@ -78,8 +78,9 @@ namespace CmdrCompanion.Core
             else
             {
                 if (existing is Station)
-                    throw new ArgumentException("This station already exists in this star.", "name");
+                    return (Station)existing;
 
+                existing.Remove();
                 result = new Station(existing);
             }
 
@@ -99,10 +100,23 @@ namespace CmdrCompanion.Core
             if (name == null)
                 throw new ArgumentNullException("name", "A star name cannot be null");
 
-            if (Environment.FindObjectByName(name) != null)
-                throw new ArgumentException("An object already exists with this name");
+            AstronomicalObject result = null;
+            AstronomicalObject existing = FindObjectByName(name);
+            if(existing == null)
+            {
+                if (Environment.FindObjectByName(name) != null)
+                    throw new ArgumentException("This object name is already in use in another star.", "name");
 
-            AstronomicalObject result = new AstronomicalObject(name, Environment, this);
+                result = new AstronomicalObject(name, Environment, this);
+            }
+            else
+            {
+                if(existing.GetType() == typeof(AstronomicalObject))
+                    return existing;
+
+                existing.Remove();
+                result = new AstronomicalObject(existing);
+            }
 
             Environment.ObjectsInternal.Add(result);
             ObjectsInternal.Add(result);

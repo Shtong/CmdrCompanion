@@ -14,12 +14,36 @@ namespace CmdrCompanion.Interface.ViewModel
         {
             TypeChoicesList = new List<string>();
             TypeChoicesView = new ListCollectionView(TypeChoicesList);
+            TypeChoicesView.CurrentChanged += TypeChoicesView_CurrentChanged;
+        }
+
+        void TypeChoicesView_CurrentChanged(object sender, EventArgs e)
+        {
+            if (TurnOffSaves)
+                return;
+
+            string val = TypeChoicesView.CurrentItem as string;
+            AstronomicalObject newVersion = null;
+            switch(val)
+            {
+                case "Generic Object":
+                    newVersion = Target.Star.CreateAstronomicalObject(Target.Name);
+                    break;
+
+                case "Station":
+                    newVersion = Target.Star.CreateStation(Target.Name);
+                    break;
+            }
+
+            if (newVersion != null)
+                FillWithObject(newVersion);
         }
 
         public void FillWithObject(AstronomicalObject target)
         {
             if(target != Target)
             {
+                TurnOffSaves = true;
                 Target = target;
 
                 if(Target is Star)
@@ -44,6 +68,7 @@ namespace CmdrCompanion.Interface.ViewModel
                 }
 
                 RaisePropertyChanged("Target");
+                TurnOffSaves = false;
             }
         }
 
@@ -65,5 +90,7 @@ namespace CmdrCompanion.Interface.ViewModel
                 }
             }
         }
+
+        private bool TurnOffSaves { get; set; }
     }
 }

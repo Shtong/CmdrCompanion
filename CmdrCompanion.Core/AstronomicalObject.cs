@@ -121,7 +121,7 @@ namespace CmdrCompanion.Core
 
             switch(reader.LocalName)
             {
-                case "object":
+                case "astronomicalobject":
                     LoadBasicObject(reader, container);
                     return true;
                 case "star":
