@@ -57,7 +57,8 @@ namespace CmdrCompanion.Interface.ViewModel
         private void InitializeApp()
         {
             SimpleIoc.Default.Register<EliteEnvironment>();
-            InitializePersistence();
+            if(!IsInDesignMode)
+                InitializePersistence();
 
             // Initialize modules
             SimpleIoc.Default.Register<EmdnUpdater>(() => new EmdnUpdater(Environment));
@@ -69,8 +70,11 @@ namespace CmdrCompanion.Interface.ViewModel
         /// </summary>
         public void Start()
         {
-            InitializeUpdates();
-            InitializeMarketdump();
+            if(!IsInDesignMode)
+            {
+                InitializeUpdates();
+                InitializeMarketdump();
+            }
 
             // Configure modules
             if (Settings.Default.EmdnEnabled)
