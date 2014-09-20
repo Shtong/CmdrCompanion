@@ -377,6 +377,7 @@ namespace CmdrCompanion.Core
                             case "objects":
                                 using(XmlReader objectsReader = reader.ReadSubtree())
                                 {
+                                    objectsReader.Read();
                                     while(objectsReader.Read())
                                     {
                                         if (objectsReader.IsStartElement())

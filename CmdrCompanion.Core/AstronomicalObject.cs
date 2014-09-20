@@ -131,7 +131,7 @@ namespace CmdrCompanion.Core
                     Station.Load(reader, container);
                     return true;
                 default:
-                    return false;
+                return false;
             }
         }
 
