@@ -219,6 +219,11 @@ namespace CmdrCompanion.Interface.ViewModel
 
         private void DoBackup(object sender, EventArgs e)
         {
+            Save();
+        }
+
+        private void Save()
+        {
             using (Stream s = new FileStream(SaveFileLocation, FileMode.Create))
             {
                 Environment.Save(s);
@@ -272,6 +277,7 @@ namespace CmdrCompanion.Interface.ViewModel
             CurrentServiceLocator.GetInstance<MarketDump>().Dispose();
 
             Settings.Default.Save();
+            Save();
 
             _backupTimer.Stop();
             _updatePollTimer.Stop();
