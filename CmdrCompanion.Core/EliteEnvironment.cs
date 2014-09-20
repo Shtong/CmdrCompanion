@@ -290,6 +290,8 @@ namespace CmdrCompanion.Core
                 writer.WriteStartElement("environment");
                 writer.WriteAttributeDate("date", DateTime.Now);
                 //writer.WriteAttributeBool("autodistance", AutoDistanceEnabled);
+                if (CurrentSituation.CurrentLocation != null)
+                    writer.WriteAttributeString("current", CurrentSituation.CurrentLocation.Name);
 
                 writer.WriteStartElement("commodities");
                 foreach (Commodity c in CommoditiesInternal)
@@ -337,21 +339,27 @@ namespace CmdrCompanion.Core
             };
             using(XmlReader reader = XmlReader.Create(source, xmlSettings))
             {
+                string currentName = null;
+
                 while(reader.Read())
                 {
                     // Move to the root element
                     if (reader.IsStartElement())
                         break;
                 }
-                //while(reader.MoveToNextAttribute())
-                //{
-                //    switch(reader.LocalName)
-                //    {
-                //        case "autodistance":
-                //            AutoDistanceEnabled = reader.ReadBool();
-                //            break;
-                //    }
-                //}
+                while(reader.MoveToNextAttribute())
+                {
+                    switch (reader.LocalName)
+                    {
+                        //case "autodistance":
+                        //    AutoDistanceEnabled = reader.ReadBool();
+                        //    break;
+
+                        case "current":
+                            currentName = reader.Value;
+                            break;
+                    }
+                }
 
                 while(reader.Read())
                 {
@@ -402,6 +410,9 @@ namespace CmdrCompanion.Core
                         }
                     }
                 }
+
+                if (currentName != null)
+                    CurrentSituation.CurrentLocation = FindObjectByName(currentName);
             }
         }
 
