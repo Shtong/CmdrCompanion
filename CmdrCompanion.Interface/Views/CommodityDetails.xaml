@@ -1,6 +1,7 @@
 <UserControl x:Class="CmdrCompanion.Interface.Views.CommodityDetails"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="clr-namespace:CmdrCompanion.Interface.Views">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -50,6 +51,6 @@
         </GroupBox>
         
         <Label Grid.Row="2" Grid.ColumnSpan="2">SHOW DISTANCES WITH:</Label>
-        <ComboBox ItemsSource="{Binding StationsView}" SelectedItem="{Binding ReferenceStation}" Grid.Row="3" Grid.ColumnSpan="2" />
+        <v:StationSelector DataContext="{Binding StationSelector}" Grid.Row="3" Grid.ColumnSpan="2" />
     </Grid>
 </UserControl>

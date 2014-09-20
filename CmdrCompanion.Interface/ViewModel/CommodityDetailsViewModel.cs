@@ -18,7 +18,10 @@ namespace CmdrCompanion.Interface.ViewModel
             SellersView = new ListCollectionView(_sellersList);
             BuyersView = new ListCollectionView(_buyersList);
 
-            StationsView = new ListCollectionView(Environment.Stations);
+            StationSelector = new StationSelectorViewModel()
+            {
+                UserCanSelectCurrent = true,
+            };
         }
 
         public void FillWithCommodity(Commodity data)
@@ -57,21 +60,7 @@ namespace CmdrCompanion.Interface.ViewModel
         private ObservableCollection<TradingStationViewModel> _buyersList;
         public ListCollectionView BuyersView { get; private set; }
 
-        private Station _referenceStation;
-        public Station ReferenceStation
-        {
-            get { return _referenceStation; }
-            set
-            {
-                if(value != _referenceStation)
-                {
-                    _referenceStation = value;
-                    RaisePropertyChanged("ReferenceStation");
-                }
-            }
-        }
-
-        public ListCollectionView StationsView { get; private set; }
+        public StationSelectorViewModel StationSelector { get; private set; }
 
         public override void Cleanup()
         {
@@ -97,19 +86,19 @@ namespace CmdrCompanion.Interface.ViewModel
                 Trade = trade;
 
                 _container = container;
-                container.PropertyChanged += ContainerPropertyChanged;
+                container.StationSelector.PropertyChanged += ContainerPropertyChanged;
             }
 
             private void ContainerPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
             {
-                if(e.PropertyName == "ReferenceStation")
+                if(e.PropertyName == "SelectedStation")
                 {
-                    if (_container.ReferenceStation == null)
+                    if (_container.StationSelector.SelectedStation == null)
                         Distance = null;
-                    else if (_container.ReferenceStation.Star == Trade.Station.Star)
+                    else if (_container.StationSelector.SelectedStation.Star == Trade.Station.Star)
                         Distance = 0;
-                    else if (_container.ReferenceStation.Star.KnownStarProximities.ContainsKey(Trade.Station.Star))
-                        Distance = _container.ReferenceStation.Star.KnownStarProximities[Trade.Station.Star];
+                    else if (_container.StationSelector.SelectedStation.Star.KnownStarProximities.ContainsKey(Trade.Station.Star))
+                        Distance = _container.StationSelector.SelectedStation.Star.KnownStarProximities[Trade.Station.Star];
                     else
                         Distance = null;
                 }

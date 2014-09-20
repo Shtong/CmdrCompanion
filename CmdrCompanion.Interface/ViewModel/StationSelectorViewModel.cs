@@ -16,6 +16,7 @@ namespace CmdrCompanion.Interface.ViewModel
         public StationSelectorViewModel()
         {
             StationsView = new ListCollectionView(Environment.Stations);
+            StationsView.MoveCurrentToPosition(-1); // No selection by default plz
             StationsView.CurrentChanged += (sender, e) => RaisePropertyChanged("SelectedStation");
             StationsView.SortDescriptions.Add(new SortDescription("Star.Name", ListSortDirection.Ascending));
 
