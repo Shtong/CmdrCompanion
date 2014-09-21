@@ -12,7 +12,7 @@ namespace CmdrCompanion.Core
     /// Contains informations about a star system
     /// </summary>
     /// <remarks>
-    /// To create a Star instance, the best way is to use the <see cref="EliteEnvironment.CreateStar"/>
+    /// To create a Star instance, the best way is to use the <see cref="AstronomicalObject.CreateStar"/>
     /// in the <see cref="EliteEnvironment"/> instance the new star should belong to.
     /// </remarks>
     public class Star : AstronomicalObject
@@ -48,8 +48,9 @@ namespace CmdrCompanion.Core
         /// <summary>
         /// Gets a list of <see cref="AstronomicalObject"/> that can be found orbiting this star.
         /// </summary>
-        /// <seealso cref="CreateStation"/>
-        /// <seealso cref="CreateAstronomicalObject"/>
+        /// <seealso cref="AstronomicalObject.CreateStation"/>
+        /// <seealso cref="AstronomicalObject.CreateAstronomicalObject"/>
+        /// <seealso cref="AstronomicalObject.CreateStar"/>
         /// <seealso cref="FindObjectByName"/>
         public ReadOnlyObservableCollection<AstronomicalObject> Objects { get; private set; }
 

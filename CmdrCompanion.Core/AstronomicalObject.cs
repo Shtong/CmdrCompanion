@@ -258,6 +258,7 @@ namespace CmdrCompanion.Core
         /// Creates a new <see cref="AstronomicalObject"/> orbiting around this star.
         /// </summary>
         /// <param name="name">A name for the new object</param>
+        /// <param name="container">The <see cref="Star"/> system that will contain the new object</param>
         /// <returns>The newly created <see cref="AstronomicalObject"/></returns>
         public static AstronomicalObject CreateAstronomicalObject(string name, Star container)
         {

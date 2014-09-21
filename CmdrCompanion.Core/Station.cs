@@ -11,7 +11,7 @@ namespace CmdrCompanion.Core
     /// <summary>
     /// Describes a space station that the player can interact with
     /// </summary>
-    /// <remarks>To create a new instance of this class, use the <see cref="CmdrCompanion.Core.Star.CreateStation"/> method.</remarks>
+    /// <remarks>To create a new instance of this class, use the <see cref="AstronomicalObject.CreateStation"/> method.</remarks>
     public class Station : AstronomicalObject
     {
         internal Station(string name, Star star)

@@ -43,7 +43,7 @@ namespace CmdrCompanion.Core
         /// <summary>
         /// Gets a list of all the known stars
         /// </summary>
-        /// <seealso cref="CreateStar"/>
+        /// <seealso cref="AstronomicalObject.CreateStar"/>
         public ReadOnlyObservableCollection<AstronomicalObject> Objects { get; private set; }
 
         internal ObservableCollection<Station> StationsInternal { get; private set; }
