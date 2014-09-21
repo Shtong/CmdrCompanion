@@ -54,43 +54,6 @@ namespace CmdrCompanion.Core
         public ReadOnlyObservableCollection<AstronomicalObject> Objects { get; private set; }
 
         /// <summary>
-        /// Creates a new <see cref="Station"/> instance, and adds it to this star. If an object
-        /// already exists in this star with the same name, it will be turned into a station.
-        /// </summary>
-        /// <param name="name">The name of the new station</param>
-        /// <returns>The newly created station</returns>
-        /// <exception cref="ArgumentNullException">The provided name is null.</exception>
-        /// <exception cref="ArgumentException">The provided name is already in use.</exception>
-        public Station CreateStation(string name)
-        {
-            if(name == null)
-                throw new ArgumentNullException("name", "A station name cannot be null");
-
-            Station result = null;
-            AstronomicalObject existing = FindObjectByName(name);
-            if(existing == null)
-            {
-                if (Environment.FindObjectByName(name) != null)
-                    throw new ArgumentException("This object name is already in use in another star.", "name");
-
-                result = new Station(name, this);
-            }
-            else
-            {
-                if (existing is Station)
-                    return (Station)existing;
-
-                existing.Remove();
-                result = new Station(existing);
-            }
-
-            ObjectsInternal.Add(result);
-            Environment.StationsInternal.Add(result);
-            Environment.ObjectsInternal.Add(result);
-            return result;
-        }
-
-        /// <summary>
         /// Creates a new <see cref="AstronomicalObject"/> orbiting around this star.
         /// </summary>
         /// <param name="name">A name for the new object</param>

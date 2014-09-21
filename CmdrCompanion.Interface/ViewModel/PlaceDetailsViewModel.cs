@@ -31,7 +31,7 @@ namespace CmdrCompanion.Interface.ViewModel
                     break;
 
                 case "Station":
-                    newVersion = Target.Star.CreateStation(Target.Name);
+                    newVersion = AstronomicalObject.CreateStation(Target.Name, Target.Star);
                     break;
             }
 

@@ -147,7 +147,7 @@ namespace CmdrCompanion.Interface.Modules
                     Station station = star.FindObjectByName<Station>(stationName);
                     if (station == null)
                     {
-                        station = star.CreateStation(stationName);
+                        station = AstronomicalObject.CreateStation(stationName, star);
                         station.DataSourceName = DATA_SOURCE_NAME;
                     }
 

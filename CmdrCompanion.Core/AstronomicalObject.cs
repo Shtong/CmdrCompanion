@@ -212,6 +212,47 @@ namespace CmdrCompanion.Core
             env.StarsInternal.Add(result);
             return result;
         }
+
+        /// <summary>
+        /// Creates a new <see cref="Station"/> instance, and adds it the specified <see cref="Star"/>. If an object
+        /// already exists in this star with the same name, it will be turned into a station.
+        /// </summary>
+        /// <param name="name">The name of the new station</param>
+        /// <param name="container">The star system the new station belongs to</param>
+        /// <returns>The newly created station</returns>
+        /// <exception cref="ArgumentNullException">The provided name or container is null.</exception>
+        /// <exception cref="ArgumentException">The provided name is already in use.</exception>
+        public static Station CreateStation(string name, Star container)
+        {
+            if (name == null)
+                throw new ArgumentNullException("name");
+
+            if (container == null)
+                throw new ArgumentException("container");
+
+            Station result = null;
+            AstronomicalObject existing = container.FindObjectByName(name);
+            if (existing == null)
+            {
+                if (container.Environment.FindObjectByName(name) != null)
+                    throw new ArgumentException("This object name is already in use in another star.", "name");
+
+                result = new Station(name, container);
+            }
+            else
+            {
+                if (existing is Station)
+                    return (Station)existing;
+
+                existing.Remove();
+                result = new Station(existing);
+            }
+
+            container.ObjectsInternal.Add(result);
+            container.Environment.StationsInternal.Add(result);
+            container.Environment.ObjectsInternal.Add(result);
+            return result;
+        }
         #endregion
     }
 }

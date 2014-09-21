@@ -177,7 +177,7 @@ namespace CmdrCompanion.Core
             if(star == null)
                 throw new EnvironmentLoadException("Missing star attribute for a Station entry", reader);
 
-            star.CreateStation(name);
+            AstronomicalObject.CreateStation(name, star);
             reader.Read();
         }
     }

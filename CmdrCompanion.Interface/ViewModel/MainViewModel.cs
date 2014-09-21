@@ -169,7 +169,7 @@ namespace CmdrCompanion.Interface.ViewModel
             // Check that the station exists
             Station station = s.FindObjectByName<Station>(e.StationName);
             if (station == null)
-                station = s.CreateStation(e.StationName);
+                station = AstronomicalObject.CreateStation(e.StarName, s);
 
             // Check that this commodity exists
             Commodity com = Environment.FindCommodityByName(e.ItemName);
