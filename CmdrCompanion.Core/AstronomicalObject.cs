@@ -164,5 +164,54 @@ namespace CmdrCompanion.Core
             star.CreateAstronomicalObject(name);
             reader.Read();
         }
+
+        #region Creation tools
+        /// <summary>
+        /// Creates a new <see cref="Star"/> instance and adds it into this environment
+        /// </summary>
+        /// <param name="name">The name of the new star system</param>
+        /// <param name="env">The environment that will contain the new star</param>
+        /// <returns>The created <see cref="Star"/> instance.</returns>
+        /// <exception cref="ArgumentNullException">The provided name is null</exception>
+        /// <exception cref="ArgumentException">The provided name is already used by an existing star</exception>
+        public static Star CreateStar(string name, EliteEnvironment env)
+        {
+            if (name == null)
+                throw new ArgumentNullException("name");
+
+            if (env == null)
+                throw new ArgumentNullException("name");
+
+            Star result = null;
+            AstronomicalObject existing = env.FindObjectByName(name);
+            if (existing != null)
+            {
+                if (existing is Star)
+                    throw new ArgumentException("A star with the same name already exists");
+
+                existing.Remove();
+
+                result = new Star(existing);
+            }
+            else
+            {
+                result = new Star(name, env);
+            }
+
+            if (env.AutoDistanceEnabled)
+            {
+                float distance = 0;
+                foreach (Star otherStar in env.StarsInternal)
+                {
+                    if (DistancesDB.TryGetDistance(result, otherStar, out distance))
+                        result.RegisterDistanceFrom(otherStar, distance);
+                }
+            }
+
+            env.ObjectsInternal.Add(result);
+            env.StarsInternal.Add(result);
+            return result;
+        }
+        #endregion
     }
 }

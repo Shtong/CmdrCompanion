@@ -139,7 +139,7 @@ namespace CmdrCompanion.Interface.Modules
                     Star star = Environment.FindObjectByName<Star>(starName);
                     if (star == null)
                     {
-                        star = Environment.CreateStar(starName);
+                        star = AstronomicalObject.CreateStar(starName, Environment);
                         star.DataSourceName = DATA_SOURCE_NAME;
                     }
 

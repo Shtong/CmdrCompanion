@@ -226,7 +226,7 @@ namespace CmdrCompanion.Core
             if (name == null)
                 throw new EnvironmentLoadException("No name found while loading a star entry", reader);
 
-            container.CreateStar(name);
+            AstronomicalObject.CreateStar(name, container);
 
             reader.Read();
         }

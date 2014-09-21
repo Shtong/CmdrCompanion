@@ -104,49 +104,6 @@ namespace CmdrCompanion.Core
         }
 
         /// <summary>
-        /// Creates a new <see cref="Star"/> instance and adds it into this environment
-        /// </summary>
-        /// <param name="name">The name of the new star system</param>
-        /// <returns>The created <see cref="Star"/> instance.</returns>
-        /// <exception cref="ArgumentNullException">The provided name is null</exception>
-        /// <exception cref="ArgumentException">The provided name is already used by an existing star</exception>
-        public Star CreateStar(string name)
-        {
-            if (name == null)
-                throw new ArgumentNullException("name", "A star name cannot be null");
-
-            Star result = null;
-            AstronomicalObject existing = FindObjectByName(name);
-            if (existing != null)
-            {
-                if(existing is Star)
-                    throw new ArgumentException("A star with the same name already exists");
-
-                existing.Remove();
-
-                result = new Star(existing);
-            }
-            else
-            {
-                result = new Star(name, this);
-            }
-
-            if(AutoDistanceEnabled)
-            {
-                float distance = 0;
-                foreach(Star otherStar in StarsInternal)
-                {
-                    if (DistancesDB.TryGetDistance(result, otherStar, out distance))
-                        result.RegisterDistanceFrom(otherStar, distance);
-                }
-            }
-
-            ObjectsInternal.Add(result);
-            StarsInternal.Add(result);
-            return result;
-        }
-
-        /// <summary>
         /// Finds a commodity that has the sspecified name
         /// </summary>
         /// <param name="name">A commodity name to look for</param>

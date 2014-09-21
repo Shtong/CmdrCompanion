@@ -143,8 +143,8 @@ namespace CmdrCompanion.Interface.ViewModel
             Trace.TraceInformation("Received location data: {0} -> {1} ({2})", e.StarName, e.PositionDescription, e.IsInDeepSpace);
 
             Star s = Environment.FindObjectByName<Star>(e.StarName);
-            if(s == null)
-                s = Environment.CreateStar(e.StarName);
+            if (s == null)
+                s = AstronomicalObject.CreateStar(e.StarName, Environment);
 
             AstronomicalObject ao = null;
             if(e.IsInDeepSpace)
@@ -164,7 +164,7 @@ namespace CmdrCompanion.Interface.ViewModel
             // Check that the star exists
             Star s = Environment.FindObjectByName<Star>(e.StarName);
             if (s == null)
-                s = Environment.CreateStar(e.StarName);
+                s = AstronomicalObject.CreateStar(e.StarName, Environment);
 
             // Check that the station exists
             Station station = s.FindObjectByName<Station>(e.StationName);
