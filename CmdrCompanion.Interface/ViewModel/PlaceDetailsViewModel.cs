@@ -27,7 +27,7 @@ namespace CmdrCompanion.Interface.ViewModel
             switch(val)
             {
                 case "Generic Object":
-                    newVersion = Target.Star.CreateAstronomicalObject(Target.Name);
+                    newVersion = AstronomicalObject.CreateAstronomicalObject(Target.Name, Target.Star);
                     break;
 
                 case "Station":

@@ -53,38 +53,6 @@ namespace CmdrCompanion.Core
         /// <seealso cref="FindObjectByName"/>
         public ReadOnlyObservableCollection<AstronomicalObject> Objects { get; private set; }
 
-        /// <summary>
-        /// Creates a new <see cref="AstronomicalObject"/> orbiting around this star.
-        /// </summary>
-        /// <param name="name">A name for the new object</param>
-        /// <returns>The newly created <see cref="AstronomicalObject"/></returns>
-        public AstronomicalObject CreateAstronomicalObject(string name)
-        {
-            if (name == null)
-                throw new ArgumentNullException("name", "A star name cannot be null");
-
-            AstronomicalObject result = null;
-            AstronomicalObject existing = FindObjectByName(name);
-            if(existing == null)
-            {
-                if (Environment.FindObjectByName(name) != null)
-                    throw new ArgumentException("This object name is already in use in another star.", "name");
-
-                result = new AstronomicalObject(name, Environment, this);
-            }
-            else
-            {
-                if(existing.GetType() == typeof(AstronomicalObject))
-                    return existing;
-
-                existing.Remove();
-                result = new AstronomicalObject(existing);
-            }
-
-            Environment.ObjectsInternal.Add(result);
-            ObjectsInternal.Add(result);
-            return result;
-        }
 
         /// <summary>
         /// Finds an object attached to this star, using its name

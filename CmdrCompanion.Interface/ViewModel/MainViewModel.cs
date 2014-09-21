@@ -153,7 +153,7 @@ namespace CmdrCompanion.Interface.ViewModel
             {
                 ao = Environment.FindObjectByName(e.PositionDescription);
                 if (ao == null)
-                    ao = s.CreateAstronomicalObject(e.PositionDescription);
+                    ao = AstronomicalObject.CreateAstronomicalObject(e.PositionDescription, s);
             }
 
             Environment.CurrentSituation.CurrentLocation = ao;

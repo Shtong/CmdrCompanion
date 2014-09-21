@@ -25,7 +25,9 @@ namespace CmdrCompanion.Core
         internal Station(AstronomicalObject source)
             : base(source)
         {
-
+            _trades = new ObservableCollection<Trade>();
+            Trades = new ReadOnlyObservableCollection<Trade>(_trades);
+            _commodityIndex = new Dictionary<Commodity, int>();
         }
 
         private ObservableCollection<Trade> _trades;

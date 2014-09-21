@@ -161,7 +161,7 @@ namespace CmdrCompanion.Core
             if(star == null)
                 throw new EnvironmentLoadException("Missing star attribute for a astronomical object entry", reader);
 
-            star.CreateAstronomicalObject(name);
+            AstronomicalObject.CreateAstronomicalObject(name, star);
             reader.Read();
         }
 
@@ -251,6 +251,39 @@ namespace CmdrCompanion.Core
             container.ObjectsInternal.Add(result);
             container.Environment.StationsInternal.Add(result);
             container.Environment.ObjectsInternal.Add(result);
+            return result;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="AstronomicalObject"/> orbiting around this star.
+        /// </summary>
+        /// <param name="name">A name for the new object</param>
+        /// <returns>The newly created <see cref="AstronomicalObject"/></returns>
+        public static AstronomicalObject CreateAstronomicalObject(string name, Star container)
+        {
+            if (name == null)
+                throw new ArgumentNullException("name", "A star name cannot be null");
+
+            AstronomicalObject result = null;
+            AstronomicalObject existing = container.FindObjectByName(name);
+            if (existing == null)
+            {
+                if (container.Environment.FindObjectByName(name) != null)
+                    throw new ArgumentException("This object name is already in use in another star.", "name");
+
+                result = new AstronomicalObject(name, container.Environment, container);
+            }
+            else
+            {
+                if (existing.GetType() == typeof(AstronomicalObject))
+                    return existing;
+
+                existing.Remove();
+                result = new AstronomicalObject(existing);
+            }
+
+            container.Environment.ObjectsInternal.Add(result);
+            container.ObjectsInternal.Add(result);
             return result;
         }
         #endregion
