@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AstronomicalObject.cs" />
+    <Compile Include="AstronomicalObjectType.cs" />
     <Compile Include="Commodity.cs" />
     <Compile Include="CoreObject.cs" />
     <Compile Include="DataFeederAttribute.cs" />
@@ -62,10 +63,7 @@
     <Compile Include="NotifyPropertyChanged.cs" />
     <Compile Include="Situation.cs" />
     <Compile Include="StarProximityCollection.cs" />
-    <Compile Include="Station.cs" />
-    <Compile Include="Star.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DeepSpace.cs" />
     <Compile Include="Trade.cs" />
     <Compile Include="TradeJumpData.cs" />
     <Compile Include="XmlReaderExtentions.cs" />

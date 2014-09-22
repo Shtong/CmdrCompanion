@@ -17,7 +17,7 @@ namespace CmdrCompanion.Core
         {
             Name = name;
             Category = category;
-            _sellers = new ObservableCollection<Station>();
+            _sellers = new ObservableCollection<AstronomicalObject>();
         }
 
         private string _name;
@@ -58,11 +58,11 @@ namespace CmdrCompanion.Core
             }
         }
 
-        private ObservableCollection<Station> _sellers;
+        private ObservableCollection<AstronomicalObject> _sellers;
         /// <summary>
         /// Gets a list of stations that sells this commodity
         /// </summary>
-        public ObservableCollection<Station> Sellers 
+        public ObservableCollection<AstronomicalObject> Sellers 
         {
             get
             {

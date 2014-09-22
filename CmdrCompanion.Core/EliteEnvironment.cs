@@ -26,11 +26,11 @@ namespace CmdrCompanion.Core
             ObjectsInternal = new ObservableCollection<AstronomicalObject>();
             Objects = new ReadOnlyObservableCollection<AstronomicalObject>(ObjectsInternal);
 
-            StationsInternal = new ObservableCollection<Station>();
-            Stations = new ReadOnlyObservableCollection<Station>(StationsInternal);
+            StationsInternal = new ObservableCollection<AstronomicalObject>();
+            Stations = new ReadOnlyObservableCollection<AstronomicalObject>(StationsInternal);
 
-            StarsInternal = new ObservableCollection<Star>();
-            Stars = new ReadOnlyObservableCollection<Star>(StarsInternal);
+            StarsInternal = new ObservableCollection<AstronomicalObject>();
+            Stars = new ReadOnlyObservableCollection<AstronomicalObject>(StarsInternal);
 
             CommoditiesInternal = new ObservableCollection<Commodity>();
             Commodities = new ReadOnlyObservableCollection<Commodity>(CommoditiesInternal);
@@ -46,7 +46,7 @@ namespace CmdrCompanion.Core
         /// <seealso cref="AstronomicalObject.CreateStar"/>
         public ReadOnlyObservableCollection<AstronomicalObject> Objects { get; private set; }
 
-        internal ObservableCollection<Station> StationsInternal { get; private set; }
+        internal ObservableCollection<AstronomicalObject> StationsInternal { get; private set; }
         /// <summary>
         /// Gets a list of all the known stations
         /// </summary>
@@ -56,13 +56,13 @@ namespace CmdrCompanion.Core
         /// of this environment.
         /// </para>
         /// </remarks>
-        public ReadOnlyObservableCollection<Station> Stations { get; set; }
+        public ReadOnlyObservableCollection<AstronomicalObject> Stations { get; set; }
 
-        internal ObservableCollection<Star> StarsInternal { get; private set; }
+        internal ObservableCollection<AstronomicalObject> StarsInternal { get; private set; }
         /// <summary>
-        /// Gets a list of all the known stations
+        /// Gets a list of all the known stars
         /// </summary>
-        public ReadOnlyObservableCollection<Star> Stars { get; private set; }
+        public ReadOnlyObservableCollection<AstronomicalObject> Stars { get; private set; }
 
         internal ObservableCollection<Commodity> CommoditiesInternal { get; private set; }
         /// <summary>
@@ -87,20 +87,18 @@ namespace CmdrCompanion.Core
         }
 
         /// <summary>
-        /// Finds a specific star based on its name and its type
+        /// Finds a specific star based on its name
         /// </summary>
-        /// <typeparam name="T">The type of an astronomical object</typeparam>
         /// <param name="name">The name of a star</param>
         /// <param name="comparisonOptions">Options for comparing the star names</param>
         /// <returns>The <see cref="Star"/> instance that was found, or null if no star could be found with that name.</returns>
         /// <exception cref="ArgumentNullException">The provided name is null.</exception>
-       public T FindObjectByName<T>(string name, StringComparison comparisonOptions = StringComparison.InvariantCultureIgnoreCase)
-            where T: AstronomicalObject
+        public AstronomicalObject FindObjectByName(string name, AstronomicalObjectType type, StringComparison comparisonOptions = StringComparison.InvariantCultureIgnoreCase)
         {
             if (name == null)
                 throw new ArgumentNullException("name", "An astronomical object name cannot be null");
 
-            return (T)Objects.Where(o => o.Name.Equals(name, comparisonOptions) && o.GetType() == typeof(T)).FirstOrDefault();
+            return Objects.Where(s => s.Name.Equals(name, comparisonOptions) && s.Type == type).FirstOrDefault();
         }
 
         /// <summary>
@@ -171,7 +169,7 @@ namespace CmdrCompanion.Core
         /// </list>
         /// </exception>
         /// <exception cref="ArgumentException">The <paramref name="from"/> and <paramref name="to"/> parameters are equal</exception>
-        public TradeJumpData FindBestProfit(Station from, Station to, int cargo, int budget)
+        public TradeJumpData FindBestProfit(AstronomicalObject from, AstronomicalObject to, int cargo, int budget)
         {
             if (from == null)
                 throw new ArgumentNullException("from");
@@ -262,15 +260,15 @@ namespace CmdrCompanion.Core
 
                 writer.WriteStartElement("objects");
                 // Stars first
-                foreach(Star star in StarsInternal)
+                foreach(AstronomicalObject star in StarsInternal)
                     star.Save(writer);
                 // Others next
-                foreach (AstronomicalObject ao in ObjectsInternal.Where(ao => ao.GetType() != typeof(Star)))
+                foreach (AstronomicalObject ao in ObjectsInternal.Where(ao => ao.Type != AstronomicalObjectType.Star))
                     ao.Save(writer);
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("trades");
-                foreach (Station station in StationsInternal)
+                foreach (AstronomicalObject station in StationsInternal)
                     foreach (Trade t in station.Trades)
                         t.Save(writer);
                 writer.WriteEndElement();
@@ -393,12 +391,12 @@ namespace CmdrCompanion.Core
         /// </summary>
         /// <param name="moveToStar">The star that the deep space location is near to</param>
         /// <returns>A <see cref="DeepSpace"/> instance</returns>
-        public DeepSpace GetDeepSpaceObject(Star moveToStar)
+        public AstronomicalObject GetDeepSpaceObject(AstronomicalObject moveToStar)
         {
-            DeepSpace result = (DeepSpace)FindObjectByName(DEEP_SPACE_NAME, StringComparison.InvariantCulture);
+            AstronomicalObject result = FindObjectByName(DEEP_SPACE_NAME, StringComparison.InvariantCulture);
 
             if(result == null)
-                result = new DeepSpace(DEEP_SPACE_NAME, moveToStar, false, false);
+                result = new AstronomicalObject(DEEP_SPACE_NAME, this, AstronomicalObjectType.DeepSpace, moveToStar);
             else
                 result.Star = moveToStar;
 

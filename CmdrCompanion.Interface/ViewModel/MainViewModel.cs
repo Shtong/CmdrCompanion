@@ -142,7 +142,7 @@ namespace CmdrCompanion.Interface.ViewModel
         {
             Trace.TraceInformation("Received location data: {0} -> {1} ({2})", e.StarName, e.PositionDescription, e.IsInDeepSpace);
 
-            Star s = Environment.FindObjectByName<Star>(e.StarName);
+            AstronomicalObject s = Environment.FindObjectByName(e.StarName, AstronomicalObjectType.Star);
             if (s == null)
                 s = AstronomicalObject.CreateStar(e.StarName, Environment);
 
@@ -162,12 +162,12 @@ namespace CmdrCompanion.Interface.ViewModel
         private void wrapper_MarketDataReceived(object sender, MarketDataReceivedEventArgs e)
         {
             // Check that the star exists
-            Star s = Environment.FindObjectByName<Star>(e.StarName);
+            AstronomicalObject s = Environment.FindObjectByName(e.StarName, AstronomicalObjectType.Star);
             if (s == null)
                 s = AstronomicalObject.CreateStar(e.StarName, Environment);
 
             // Check that the station exists
-            Station station = s.FindObjectByName<Station>(e.StationName);
+            AstronomicalObject station = s.FindObjectByName(e.StationName, AstronomicalObjectType.Station);
             if (station == null)
                 station = AstronomicalObject.CreateStation(e.StarName, s);
 

@@ -28,13 +28,16 @@
                     <!-- Data templates -->
                     <DataTemplate DataType="{x:Type core:AstronomicalObject}">
                         <TextBlock>
-                            <Run Text="{Binding Star.Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" /> - 
+                            <Run x:Name="starName" Text="{Binding Star.Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" />
+                            <Run x:Name="hyphen"> - </Run>
                             <Run Text="{Binding Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" />
                         </TextBlock>
-                    </DataTemplate>
-
-                    <DataTemplate DataType="{x:Type core:Star}">
-                        <TextBlock Text="{Binding Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" />
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Type}" Value="core:AstronomicalObjectType.Star">
+                                <Setter TargetName="hyphen" Property="Text" Value="" />
+                                <Setter TargetName="starName" Property="Text" Value="" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type core:Commodity}">

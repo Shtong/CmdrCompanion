@@ -13,7 +13,7 @@ namespace CmdrCompanion.Core
     /// <seealso cref="CmdrCompanion.Core.Station.CreateTrade"/>
     public class Trade : CoreObject
     {
-        internal Trade(Station station, Commodity commodity)
+        internal Trade(AstronomicalObject station, Commodity commodity)
         {
             Station = station;
             Commodity = commodity;
@@ -117,7 +117,7 @@ namespace CmdrCompanion.Core
         /// <summary>
         /// Gets the station that conducts this trade.
         /// </summary>
-        public Station Station { get; private set; }
+        public AstronomicalObject Station { get; private set; }
 
         /// <summary>
         /// Gets the commodity that this trade instance is about
@@ -172,7 +172,7 @@ namespace CmdrCompanion.Core
                 return false;
 
             Commodity commodity = null;
-            Station station = null;
+            AstronomicalObject station = null;
             float sellingPrice = 0;
             float buyingPrice = 0;
             int stock = 0;

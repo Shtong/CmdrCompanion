@@ -72,8 +72,8 @@ namespace CmdrCompanion.Interface.ViewModel
         {
             ResultsList.Clear();
 
-            Station origin = StationSelector.SelectedStation;
-            Station[] stations = Environment.Stations.Where(s => s.Star.KnownStarProximities.ContainsKey(origin.Star) && s.Star.KnownStarProximities[origin.Star] < MaxDistanceFromOrigin).ToArray();
+            AstronomicalObject origin = StationSelector.SelectedStation;
+            AstronomicalObject[] stations = Environment.Stations.Where(s => s.Star.KnownStarProximities.ContainsKey(origin.Star) && s.Star.KnownStarProximities[origin.Star] < MaxDistanceFromOrigin).ToArray();
             ThreadPool.QueueUserWorkItem(ComputeWorker, new ComputeArgs() {
                 stations = stations,
                 cargo = Cargo,
@@ -113,11 +113,11 @@ namespace CmdrCompanion.Interface.ViewModel
         # region Path calculation stuff
         private class ComputeArgs
         {
-            public Station[] stations;
+            public AstronomicalObject[] stations;
             public int cargo;
             public float budget;
             public int maxJumps;
-            public Station origin;
+            public AstronomicalObject origin;
             public float maxDistPerJump;
         }
 
@@ -126,7 +126,7 @@ namespace CmdrCompanion.Interface.ViewModel
             ComputeArgs args = (ComputeArgs)oArgs;
 
             EliteEnvironment env = ServiceLocator.Current.GetInstance<EliteEnvironment>(); // TODO : Any thread safety issue here ?
-            Station[] stations = args.stations;
+            AstronomicalObject[] stations = args.stations;
 
             // Generate ideal trades for each link
 
@@ -184,7 +184,7 @@ namespace CmdrCompanion.Interface.ViewModel
 
         private class ComputeData
         {
-            public Station[] stations;
+            public AstronomicalObject[] stations;
             public Stack<int> currentPath;
             public int currentStart;
             public SortedDictionary<float, int[]> results;

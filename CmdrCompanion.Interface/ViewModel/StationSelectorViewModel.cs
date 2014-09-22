@@ -85,11 +85,11 @@ namespace CmdrCompanion.Interface.ViewModel
             }
         }
 
-        public Station SelectedStation
+        public AstronomicalObject SelectedStation
         {
             get
             {
-                return StationsView.CurrentItem as Station;
+                return StationsView.CurrentItem as AstronomicalObject;
             }
             set
             {
@@ -101,8 +101,8 @@ namespace CmdrCompanion.Interface.ViewModel
             }
         }
 
-        private Predicate<Station> _filter;
-        public Predicate<Station> Filter
+        private Predicate<AstronomicalObject> _filter;
+        public Predicate<AstronomicalObject> Filter
         {
             get
             {
@@ -142,7 +142,7 @@ namespace CmdrCompanion.Interface.ViewModel
 
         public void SelectCurrent()
         {
-            Station current = Environment.CurrentSituation.CurrentLocation as Station;
+            AstronomicalObject current = Environment.CurrentSituation.CurrentLocation as AstronomicalObject;
             if (!UserCanSelectCurrent || current == null)
                 return;
 
@@ -151,7 +151,7 @@ namespace CmdrCompanion.Interface.ViewModel
 
         public bool CanSelectCurrent()
         {
-            Station current = Environment.CurrentSituation.CurrentLocation as Station;
+            AstronomicalObject current = Environment.CurrentSituation.CurrentLocation as AstronomicalObject;
             return current != null && (Filter == null || Filter(current));
         }
 
@@ -160,7 +160,7 @@ namespace CmdrCompanion.Interface.ViewModel
             if (Filter == null)
                 return true;
 
-            return Filter((Station)s);
+            return Filter((AstronomicalObject)s);
         }
 
         private void CurrentSituation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

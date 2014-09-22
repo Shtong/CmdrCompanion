@@ -1522,7 +1522,7 @@ namespace CmdrCompanion.Core
         /// <param name="star2">Another <see cref="Star"/></param>
         /// <param name="distance">A <see cref="Single"/> number that will contain the distance, if it is found</param>
         /// <returns>True if a distance was found, false otherwise</returns>
-        public static bool TryGetDistance(Star star1, Star star2, out float distance)
+        public static bool TryGetDistance(AstronomicalObject star1, AstronomicalObject star2, out float distance)
         {
             if (star1 == null)
                 throw new ArgumentNullException("star1");

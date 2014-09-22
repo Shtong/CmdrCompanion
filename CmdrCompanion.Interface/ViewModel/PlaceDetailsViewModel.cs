@@ -46,7 +46,7 @@ namespace CmdrCompanion.Interface.ViewModel
                 TurnOffSaves = true;
                 Target = target;
 
-                if(Target is Star)
+                if(Target.Type == AstronomicalObjectType.Star)
                 {
                     EnableTypeChoice = false;
                     TypeChoicesList.Clear();
@@ -61,7 +61,7 @@ namespace CmdrCompanion.Interface.ViewModel
                     TypeChoicesList.Add("Generic Object");
                     TypeChoicesList.Add("Station");
                     TypeChoicesView.Refresh();
-                    if (Target is Station)
+                    if (Target.Type == AstronomicalObjectType.Station)
                         TypeChoicesView.MoveCurrentToLast();
                     else
                         TypeChoicesView.MoveCurrentToFirst();

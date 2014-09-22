@@ -29,7 +29,7 @@ namespace CmdrCompanion.Interface.ViewModel
             ClearLists();
             Commodity = data;
 
-            foreach(Station s in Environment.Stations)
+            foreach (AstronomicalObject s in Environment.Stations)
             {
                 Trade t = s.FindCommodity(data);
                 if(t != null && t.CanSell)

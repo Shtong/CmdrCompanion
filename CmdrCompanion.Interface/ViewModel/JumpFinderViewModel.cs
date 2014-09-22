@@ -273,7 +273,7 @@ namespace CmdrCompanion.Interface.ViewModel
             _updateResultsWorker.WorkerSupportsCancellation = true;
             _updateResultsWorker.RunWorkerCompleted += UpdateResultsWorker_RunWorkerCompleted;
 
-            Station[] sList = null;
+            AstronomicalObject[] sList = null;
             if (FromStationSelector.SelectedStation == null || ToStationSelector.SelectedStation == null)
                 sList = Environment.Stations.ToArray();
 
@@ -302,9 +302,9 @@ namespace CmdrCompanion.Interface.ViewModel
             {
                 if (data.to == null)
                 {
-                    foreach (Station s1 in data.stationList)
+                    foreach (AstronomicalObject s1 in data.stationList)
                     {
-                        foreach (Station s2 in data.stationList)
+                        foreach (AstronomicalObject s2 in data.stationList)
                         {
                             if (worker.CancellationPending)
                                 return;
@@ -323,7 +323,7 @@ namespace CmdrCompanion.Interface.ViewModel
                 }
                 else
                 {
-                    foreach (Station s in data.stationList)
+                    foreach (AstronomicalObject s in data.stationList)
                     {
                         if (worker.CancellationPending)
                             return;
@@ -343,7 +343,7 @@ namespace CmdrCompanion.Interface.ViewModel
             {
                 if (data.to == null)
                 {
-                    foreach (Station s in data.stationList)
+                    foreach (AstronomicalObject s in data.stationList)
                     {
                         if (worker.CancellationPending)
                             return;
@@ -437,10 +437,10 @@ namespace CmdrCompanion.Interface.ViewModel
 
         private sealed class UpdateResultsData
         {
-            public Station from;
-            public Station to;
+            public AstronomicalObject from;
+            public AstronomicalObject to;
             public float maxDistance;
-            public Station[] stationList;
+            public AstronomicalObject[] stationList;
         }
     }
 }

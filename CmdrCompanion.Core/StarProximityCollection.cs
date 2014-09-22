@@ -14,24 +14,24 @@ namespace CmdrCompanion.Core
     /// A specialized dictionnary that is used to store lists of distance between a star and a set of other stars.
     /// </summary>
     /// <seealso cref="Star.KnownStarProximities"/>
-    public sealed class StarProximityCollection : 
-        IDictionary<Star, float>, 
-        ICollection<KeyValuePair<Star, float>>, 
+    public sealed class StarProximityCollection :
+        IDictionary<AstronomicalObject, float>, 
+        ICollection<KeyValuePair<AstronomicalObject, float>>, 
         IDictionary, 
         ICollection, 
-        IReadOnlyDictionary<Star, float>,
-        IReadOnlyCollection<KeyValuePair<Star, float>>,
-        IEnumerable<KeyValuePair<Star, float>>,
+        IReadOnlyDictionary<AstronomicalObject, float>,
+        IReadOnlyCollection<KeyValuePair<AstronomicalObject, float>>,
+        IEnumerable<KeyValuePair<AstronomicalObject, float>>,
         IEnumerable,
         INotifyCollectionChanged
     {
-        private Dictionary<Star, float> _data;
-        private SortedDictionary<float, List<Star>> _sortedIndex;
+        private Dictionary<AstronomicalObject, float> _data;
+        private SortedDictionary<float, List<AstronomicalObject>> _sortedIndex;
 
         internal StarProximityCollection()
         {
-            _data = new Dictionary<Star, float>();
-            _sortedIndex = new SortedDictionary<float, List<Star>>();
+            _data = new Dictionary<AstronomicalObject, float>();
+            _sortedIndex = new SortedDictionary<float, List<AstronomicalObject>>();
         }
 
         #region Structures
@@ -77,7 +77,7 @@ namespace CmdrCompanion.Core
         #endregion
 
         #region Writing
-        internal void Set(Star star, float distance)
+        internal void Set(AstronomicalObject star, float distance)
         {
             bool isNew = false;
             float previousDistance = 0;
@@ -97,7 +97,7 @@ namespace CmdrCompanion.Core
             }
 
             if (!_sortedIndex.ContainsKey(distance))
-                _sortedIndex.Add(distance, new List<Star>() { star });
+                _sortedIndex.Add(distance, new List<AstronomicalObject>() { star });
             else
                 _sortedIndex[distance].Add(star);
 
@@ -116,7 +116,7 @@ namespace CmdrCompanion.Core
         /// <returns>
         /// true if the <see cref="T:System.Collections.Generic.IDictionary`2" /> contains an element with the key; otherwise, false.
         /// </returns>
-        public bool ContainsKey(Star key)
+        public bool ContainsKey(AstronomicalObject key)
         {
             return _data.ContainsKey(key);
         }
@@ -124,7 +124,7 @@ namespace CmdrCompanion.Core
         /// <summary>
         /// Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the keys of the <see cref="T:System.Collections.Generic.IDictionary`2" />.
         /// </summary>
-        public IEnumerable<Star> Keys
+        public IEnumerable<AstronomicalObject> Keys
         {
             get 
             {
@@ -140,7 +140,7 @@ namespace CmdrCompanion.Core
         /// <returns>
         /// true if the object that implements <see cref="T:System.Collections.Generic.IDictionary`2" /> contains an element with the specified key; otherwise, false.
         /// </returns>
-        public bool TryGetValue(Star key, out float value)
+        public bool TryGetValue(AstronomicalObject key, out float value)
         {
             return _data.TryGetValue(key, out value);
         }
@@ -161,7 +161,7 @@ namespace CmdrCompanion.Core
         /// </summary>
         /// <param name="key">The key.</param>
         /// <returns></returns>
-        public float this[Star key]
+        public float this[AstronomicalObject key]
         {
             get { return _data[key]; }
         }
@@ -180,11 +180,11 @@ namespace CmdrCompanion.Core
         /// <returns>
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
         /// </returns>
-        public IEnumerator<KeyValuePair<Star,float>> GetEnumerator()
+        public IEnumerator<KeyValuePair<AstronomicalObject, float>> GetEnumerator()
         {
-            foreach (KeyValuePair<float, List<Star>> pair in _sortedIndex)
-                foreach (Star s in pair.Value)
-                    yield return new KeyValuePair<Star, float>(s, pair.Key);
+            foreach (KeyValuePair<float, List<AstronomicalObject>> pair in _sortedIndex)
+                foreach (AstronomicalObject s in pair.Value)
+                    yield return new KeyValuePair<AstronomicalObject, float>(s, pair.Key);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -193,69 +193,69 @@ namespace CmdrCompanion.Core
         }
 
 
-        void IDictionary<Star, float>.Add(Star key, float value)
+        void IDictionary<AstronomicalObject, float>.Add(AstronomicalObject key, float value)
         {
             throw new NotSupportedException();
         }
 
-        bool IDictionary<Star, float>.Remove(Star key)
+        bool IDictionary<AstronomicalObject, float>.Remove(AstronomicalObject key)
         {
             throw new NotSupportedException();
         }
 
-        void ICollection<KeyValuePair<Star, float>>.Add(KeyValuePair<Star, float> item)
+        void ICollection<KeyValuePair<AstronomicalObject, float>>.Add(KeyValuePair<AstronomicalObject, float> item)
         {
             throw new NotSupportedException();
         }
 
-        void ICollection<KeyValuePair<Star, float>>.Clear()
+        void ICollection<KeyValuePair<AstronomicalObject, float>>.Clear()
         {
             throw new NotSupportedException();
         }
 
-        bool ICollection<KeyValuePair<Star, float>>.Contains(KeyValuePair<Star, float> item)
+        bool ICollection<KeyValuePair<AstronomicalObject, float>>.Contains(KeyValuePair<AstronomicalObject, float> item)
         {
-            return ((ICollection<KeyValuePair<Star, float>>)_data).Contains(item);
+            return ((ICollection<KeyValuePair<AstronomicalObject, float>>)_data).Contains(item);
         }
 
-        void ICollection<KeyValuePair<Star, float>>.CopyTo(KeyValuePair<Star, float>[] array, int arrayIndex)
+        void ICollection<KeyValuePair<AstronomicalObject, float>>.CopyTo(KeyValuePair<AstronomicalObject, float>[] array, int arrayIndex)
         {
-            ((ICollection<KeyValuePair<Star, float>>)_data).CopyTo(array, arrayIndex);
+            ((ICollection<KeyValuePair<AstronomicalObject, float>>)_data).CopyTo(array, arrayIndex);
         }
 
-        bool ICollection<KeyValuePair<Star, float>>.IsReadOnly
+        bool ICollection<KeyValuePair<AstronomicalObject, float>>.IsReadOnly
         {
             get { return true; }
         }
 
-        bool ICollection<KeyValuePair<Star, float>>.Remove(KeyValuePair<Star, float> item)
+        bool ICollection<KeyValuePair<AstronomicalObject, float>>.Remove(KeyValuePair<AstronomicalObject, float> item)
         {
             throw new NotSupportedException();
         }
 
 
 
-        bool IDictionary<Star, float>.ContainsKey(Star key)
+        bool IDictionary<AstronomicalObject, float>.ContainsKey(AstronomicalObject key)
         {
             return _data.ContainsKey(key);
         }
 
-        ICollection<Star> IDictionary<Star, float>.Keys
+        ICollection<AstronomicalObject> IDictionary<AstronomicalObject, float>.Keys
         {
             get { return _sortedIndex.Values.SelectMany(v => v).ToList(); }
         }
 
-        bool IDictionary<Star, float>.TryGetValue(Star key, out float value)
+        bool IDictionary<AstronomicalObject, float>.TryGetValue(AstronomicalObject key, out float value)
         {
             return _data.TryGetValue(key, out value);
         }
 
-        ICollection<float> IDictionary<Star, float>.Values
+        ICollection<float> IDictionary<AstronomicalObject, float>.Values
         {
             get { return _sortedIndex.Keys; }
         }
 
-        float IDictionary<Star, float>.this[Star key]
+        float IDictionary<AstronomicalObject, float>.this[AstronomicalObject key]
         {
             get
             {
@@ -268,12 +268,12 @@ namespace CmdrCompanion.Core
         }
 
 
-        int ICollection<KeyValuePair<Star, float>>.Count
+        int ICollection<KeyValuePair<AstronomicalObject, float>>.Count
         {
             get { return _data.Count; }
         }
 
-        IEnumerator<KeyValuePair<Star, float>> IEnumerable<KeyValuePair<Star, float>>.GetEnumerator()
+        IEnumerator<KeyValuePair<AstronomicalObject, float>> IEnumerable<KeyValuePair<AstronomicalObject, float>>.GetEnumerator()
         {
             return GetEnumerator();
         }
@@ -290,15 +290,15 @@ namespace CmdrCompanion.Core
 
         bool IDictionary.Contains(object key)
         {
-            if (key is KeyValuePair<Star, float>)
-                return _data.Contains((KeyValuePair<Star, float>)key);
+            if (key is KeyValuePair<AstronomicalObject, float>)
+                return _data.Contains((KeyValuePair<AstronomicalObject, float>)key);
             else
                 return false;
         }
 
         IDictionaryEnumerator IDictionary.GetEnumerator()
         {
-            return new DictionaryEnumeratorWrapper<Star, float>(GetEnumerator());
+            return new DictionaryEnumeratorWrapper<AstronomicalObject, float>(GetEnumerator());
         }
 
         bool IDictionary.IsFixedSize
@@ -330,8 +330,8 @@ namespace CmdrCompanion.Core
         {
             get
             {
-                if (key is Star)
-                    return _data[(Star)key];
+                if (key is AstronomicalObject)
+                    return _data[(AstronomicalObject)key];
                 else
                     return null;
             }
@@ -364,16 +364,16 @@ namespace CmdrCompanion.Core
 
         #region INotifyCollectionChanged
 
-        private void OnCollectionChangedAdd(Star newStar)
+        private void OnCollectionChangedAdd(AstronomicalObject newStar)
         {
             if (CollectionChanged != null)
                 CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, _data[newStar]));
         }
 
-        private void OnCollectionChangedReplace(Star changedStar, float previousDistance)
+        private void OnCollectionChangedReplace(AstronomicalObject changedStar, float previousDistance)
         {
             if (CollectionChanged != null)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, (object)_data[changedStar], (object)new KeyValuePair<Star, float>(changedStar, previousDistance)));
+                CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, (object)_data[changedStar], (object)new KeyValuePair<AstronomicalObject, float>(changedStar, previousDistance)));
         }
 
         /// <summary>
