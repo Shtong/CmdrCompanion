@@ -28,7 +28,7 @@ namespace CmdrCompanion.Core
 
             ObjectsInternal = new ObservableCollection<AstronomicalObject>();
             Objects = new ReadOnlyObservableCollection<AstronomicalObject>(ObjectsInternal);
-            KnownStarProximities = new StarProximityCollection();
+            KnownObjectProximities = new StarProximityCollection();
             _trades = new ObservableCollection<Trade>();
             Trades = new ReadOnlyObservableCollection<Trade>(_trades);
             _commodityIndex = new Dictionary<Commodity, int>();
@@ -140,47 +140,47 @@ namespace CmdrCompanion.Core
         public ReadOnlyObservableCollection<AstronomicalObject> Objects { get; private set; }
 
         /// <summary>
-        /// Gets a list of all other stars for which we know the distance from this star
+        /// Gets a list of all other astronomical objects for which we know the distance from this object
         /// </summary>
         /// <remarks>
-        /// <para>This is a dictionary where the keys are <see cref="Star"/> instances, and values
-        /// are the distance with the current star. If another star is no present in this
+        /// <para>This is a dictionary where the keys are <see cref="AstronomicalObject"/> instances, and values
+        /// are the distance with the current object. If another object is not present in this
         /// list, it means that its distance is not known.</para>
-        /// <para>To register a distance between the current star and another, 
+        /// <para>To register a distance between the current object and another, 
         /// use the <see cref="RegisterDistanceFrom"/> method.</para>
         /// </remarks>
         /// <seealso cref="RegisterDistanceFrom"/>
-        public StarProximityCollection KnownStarProximities { get; private set; }
+        public StarProximityCollection KnownObjectProximities { get; private set; }
 
         /// <summary>
         /// Adds a new entry into the list of stars we know the distance from
         /// </summary>
-        /// <param name="otherStar">Another <see cref="Star"/> instance.</param>
+        /// <param name="otherObject">Another <see cref="Star"/> instance.</param>
         /// <param name="distance">The distance between the current star and the 
-        /// star specified in the <paramref name="otherStar"/> parameter.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="otherStar"/> parameter is null.</exception>
-        /// <exception cref="ArgumentException">The <paramref name="otherStar"/> is equal to the current star</exception>
+        /// star specified in the <paramref name="otherObject"/> parameter.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="otherObject"/> parameter is null.</exception>
+        /// <exception cref="ArgumentException">The <paramref name="otherObject"/> is equal to the current star</exception>
         /// <exception cref="ArgumentOutOfRangeException">The <paramref name="distance"/> parameter is negative 
         /// or equals zero.</exception>
         /// <remarks>
         /// This method can be called either to add a new distance, or to modify an existing distance. 
-        /// The data will be added in the <see cref="KnownStarProximities"/> property of both the current star 
-        /// and the star provided in the <paramref name="otherStar"/> parameter.
+        /// The data will be added in the <see cref="KnownObjectProximities"/> property of both the current star 
+        /// and the star provided in the <paramref name="otherObject"/> parameter.
         /// </remarks>
-        /// <seealso cref="KnownStarProximities"/>
-        public void RegisterDistanceFrom(AstronomicalObject otherStar, float distance)
+        /// <seealso cref="KnownObjectProximities"/>
+        public void RegisterDistanceFrom(AstronomicalObject otherObject, float distance)
         {
-            if (otherStar == null)
+            if (otherObject == null)
                 throw new ArgumentNullException();
 
-            if (otherStar == this)
+            if (otherObject == this)
                 throw new ArgumentException("I cannot set a distance between me and myself !", "otherStar");
 
             if (distance <= 0)
                 throw new ArgumentOutOfRangeException("Invalid distance", "distance");
 
-            KnownStarProximities.Set(otherStar, distance);
-            otherStar.KnownStarProximities.Set(this, distance);
+            KnownObjectProximities.Set(otherObject, distance);
+            otherObject.KnownObjectProximities.Set(this, distance);
         }
 
         /// <summary>

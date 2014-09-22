@@ -97,8 +97,8 @@ namespace CmdrCompanion.Interface.ViewModel
                         Distance = null;
                     else if (_container.StationSelector.SelectedStation.Star == Trade.Station.Star)
                         Distance = 0;
-                    else if (_container.StationSelector.SelectedStation.Star.KnownStarProximities.ContainsKey(Trade.Station.Star))
-                        Distance = _container.StationSelector.SelectedStation.Star.KnownStarProximities[Trade.Station.Star];
+                    else if (_container.StationSelector.SelectedStation.Star.KnownObjectProximities.ContainsKey(Trade.Station.Star))
+                        Distance = _container.StationSelector.SelectedStation.Star.KnownObjectProximities[Trade.Station.Star];
                     else
                         Distance = null;
                 }

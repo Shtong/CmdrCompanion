@@ -73,7 +73,7 @@ namespace CmdrCompanion.Interface.ViewModel
             ResultsList.Clear();
 
             AstronomicalObject origin = StationSelector.SelectedStation;
-            AstronomicalObject[] stations = Environment.Stations.Where(s => s.Star.KnownStarProximities.ContainsKey(origin.Star) && s.Star.KnownStarProximities[origin.Star] < MaxDistanceFromOrigin).ToArray();
+            AstronomicalObject[] stations = Environment.Stations.Where(s => s.Star.KnownObjectProximities.ContainsKey(origin.Star) && s.Star.KnownObjectProximities[origin.Star] < MaxDistanceFromOrigin).ToArray();
             ThreadPool.QueueUserWorkItem(ComputeWorker, new ComputeArgs() {
                 stations = stations,
                 cargo = Cargo,
@@ -141,11 +141,11 @@ namespace CmdrCompanion.Interface.ViewModel
                         continue;
 
                     // Don't include this link if no distance is known
-                    if (!stations[i].Star.KnownStarProximities.ContainsKey(stations[j].Star))
+                    if (!stations[i].Star.KnownObjectProximities.ContainsKey(stations[j].Star))
                         continue;
                     
                     // Don't include this link if the distance is too long
-                    if (stations[i].Star.KnownStarProximities[stations[j].Star] > args.maxDistPerJump)
+                    if (stations[i].Star.KnownObjectProximities[stations[j].Star] > args.maxDistPerJump)
                         continue;
 
                     TradeJumpData tjd = env.FindBestProfit(stations[i], stations[j], Cargo, Budget); // TODO : Thread safety
