@@ -192,8 +192,8 @@ namespace CmdrCompanion.Interface.Modules
                         Tuple<string, string> locations = ParseLocationName(parts[8]);
 
                         args = new MarketDataReceivedEventArgs(
-                            Single.Parse(parts[0]),
                             Single.Parse(parts[1]),
+                            Single.Parse(parts[0]),
                             Int32.Parse(parts[2]),
                             Int32.Parse(parts[3]),
                             Int32.Parse(parts[4]),

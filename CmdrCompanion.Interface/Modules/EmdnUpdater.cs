@@ -155,13 +155,13 @@ namespace CmdrCompanion.Interface.Modules
                     Trade trade = station.FindCommodity(com);
                     if (trade == null)
                     {
-                        trade = station.CreateTrade(com, entry.sellPrice, entry.buyPrice, entry.stationStock);
+                        trade = station.CreateTrade(com, entry.buyPrice, entry.sellPrice, entry.stationStock);
                     }
                     else
                     {
                         trade.Stock = entry.stationStock;
-                        trade.BuyingPrice = entry.buyPrice;
-                        trade.SellingPrice = entry.sellPrice;
+                        trade.BuyingPrice = entry.sellPrice;
+                        trade.SellingPrice = entry.buyPrice;
                     }
                     trade.DataDate = entry.timestamp;
                     trade.DataSourceName = DATA_SOURCE_NAME;
