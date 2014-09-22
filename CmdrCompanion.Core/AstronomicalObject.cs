@@ -183,6 +183,20 @@ namespace CmdrCompanion.Core
             otherObject.KnownObjectProximities.Set(this, distance);
         }
 
+        private string _userNotes;
+        public string UserNotes
+        {
+            get { return _userNotes; }
+            set
+            {
+                if(value != _userNotes)
+                {
+                    _userNotes = value;
+                    OnPropertyChanged("UserNotes");
+                }
+            }
+        }
+
         /// <summary>
         /// Finds an object attached to this star, using its name
         /// </summary>
@@ -239,6 +253,12 @@ namespace CmdrCompanion.Core
             writer.WriteAttributeString("name", Name);
             if(Star != null && Star != this)
                 writer.WriteAttributeString("star", Star.Name);
+            if(!String.IsNullOrWhiteSpace(UserNotes))
+            {
+                writer.WriteStartElement("notes");
+                writer.WriteString(UserNotes);
+                writer.WriteEndElement();
+            }
             writer.WriteEndElement();
         }
 
@@ -273,6 +293,22 @@ namespace CmdrCompanion.Core
 
 
                 AstronomicalObject result = new AstronomicalObject(name, container, type, star);
+
+                // Read child elements
+                int curDepth = reader.Depth;
+                while (reader.Read() && reader.Depth >= curDepth)
+                {
+                    if(reader.NodeType == XmlNodeType.Element)
+                    {
+                        switch(reader.LocalName)
+                        {
+                            case "notes":
+                                result.UserNotes = reader.ReadElementContentAsString();
+                                break;
+                        }
+                    }
+                }
+
                 return true;
             }
             else

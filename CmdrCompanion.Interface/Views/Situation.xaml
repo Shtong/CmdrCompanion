@@ -10,10 +10,11 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <TextBlock VerticalAlignment="Center">CURRENT POSITION: </TextBlock>
+            <TextBlock VerticalAlignment="Center">CURRENT LOCATION: </TextBlock>
             <ContentControl VerticalAlignment="Center" 
                             FontWeight="Bold"
                             Content="{Binding CurrentSituation.CurrentLocation, TargetNullValue=UNKNOWN}" />
@@ -23,5 +24,11 @@
             <v:ObjectTypeSelector DataContext="{Binding ObjectType}" 
                                   Visibility="{Binding Situation.ShowLocationControls, Converter={StaticResource converterVisibility}, Source={StaticResource Locator}}" />
         </StackPanel>
+        <TextBlock Grid.Row="1" Visibility="{Binding ShowLocationControls, Converter={StaticResource converterVisibility}}">LOCATION NOTES:</TextBlock>
+        <TextBox Grid.Row="2" 
+                 Visibility="{Binding ShowLocationControls, Converter={StaticResource converterVisibility}}"
+                 TextWrapping="Wrap" 
+                 AcceptsReturn="True" 
+                 Text="{Binding CurrentSituation.CurrentLocation.UserNotes, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>
