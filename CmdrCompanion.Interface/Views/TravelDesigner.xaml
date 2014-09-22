@@ -37,7 +37,7 @@
                 <Label Grid.Row="2">SEARCH AROUND: </Label>
                 <v:StationSelector DataContext="{Binding StationSelector}" Grid.Row="2" Grid.Column="1" />
                 <Label Grid.Row="3" Target="{Binding ElementName=maxStartDistanceBox, Mode=OneTime}">
-                    <TextBlock>MAX DISTANCE FROM <Run Text="{Binding SelectedOrigin.Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" /> :</TextBlock>
+                    <TextBlock>MAX DISTANCE FROM <Run Text="{Binding StationSelector.SelectedStation.Name, Converter={StaticResource converterAllCaps}, Mode=OneWay}" /> :</TextBlock>
                 </Label>
                 <ex:SingleUpDown x:Name="maxStartDistanceBox" 
                                  Grid.Row="3" 

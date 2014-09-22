@@ -136,6 +136,7 @@
     <Compile Include="ViewModel\JumpFinderViewModel.cs" />
     <Compile Include="ViewModel\LocalViewModelBase.cs" />
     <Compile Include="ViewModel\MyMessageBoxViewModel.cs" />
+    <Compile Include="ViewModel\ObjectTypeSelectorViewModel.cs" />
     <Compile Include="ViewModel\OptionsViewModel.cs" />
     <Compile Include="ViewModel\PlaceDetailsViewModel.cs" />
     <Compile Include="ViewModel\ShowMessageBoxMessage.cs" />
@@ -151,6 +152,9 @@
     </Compile>
     <Compile Include="Views\MyMessageBox.xaml.cs">
       <DependentUpon>MyMessageBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ObjectTypeSelector.xaml.cs">
+      <DependentUpon>ObjectTypeSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
@@ -205,6 +209,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\MyMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ObjectTypeSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
