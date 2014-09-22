@@ -21,7 +21,11 @@ namespace CmdrCompanion.Interface.ViewModel
         public void FillWithObject(AstronomicalObject target)
         {
             if (target != Target)
+            {
                 ObjectType.Target = target;
+                Target = target;
+                RaisePropertyChanged("Target");
+            }
         }
 
         public AstronomicalObject Target { get; private set; }

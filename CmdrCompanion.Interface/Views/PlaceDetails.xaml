@@ -9,12 +9,18 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <Label>Type: </Label>
+            <Label>TYPE: </Label>
             <v:ObjectTypeSelector DataContext="{Binding ObjectType}" />
         </StackPanel>
-        
+        <Label Grid.Row="1" Target="{Binding ElementName=notes}">NOTES:</Label>
+        <TextBox Grid.Row="2"
+                     x:Name="notes"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     Text="{Binding Target.UserNotes}" />
     </Grid>
 </UserControl>

@@ -19,11 +19,6 @@ namespace CmdrCompanion.Interface.ViewModel
             ObjectType.Target = CurrentSituation.CurrentLocation;
             CurrentSituation.PropertyChanged += CurrentSituation_PropertyChanged;
 
-
-            if(!IsInDesignMode)
-            {
-                DispatcherTimer t = new DispatcherTimer(new TimeSpan(0, 0, 10), DispatcherPriority.Background, DoTestChange, Dispatcher.CurrentDispatcher);
-            }
         }
 
         private void CurrentSituation_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -36,14 +31,6 @@ namespace CmdrCompanion.Interface.ViewModel
                     ObjectType.Target = newLoc;
                     break;
             }
-        }
-
-        private void DoTestChange(object sender, EventArgs e)
-        {
-            if (CurrentSituation.CurrentLocation == null)
-                CurrentSituation.CurrentLocation = Environment.Stations[0];
-            else
-                CurrentSituation.CurrentLocation = null;
         }
 
         public Situation CurrentSituation

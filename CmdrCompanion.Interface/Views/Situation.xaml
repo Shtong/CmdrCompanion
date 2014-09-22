@@ -29,6 +29,6 @@
                  Visibility="{Binding ShowLocationControls, Converter={StaticResource converterVisibility}}"
                  TextWrapping="Wrap" 
                  AcceptsReturn="True" 
-                 Text="{Binding CurrentSituation.CurrentLocation.UserNotes, UpdateSourceTrigger=PropertyChanged}" />
+                 Text="{Binding CurrentSituation.CurrentLocation.UserNotes}" />
     </Grid>
 </UserControl>
