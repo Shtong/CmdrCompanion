@@ -11,43 +11,34 @@
     <!-- System base resources -->
     <Color x:Key="BorderDarkColor">#FF414141</Color>
     <Color x:Key="BorderMediumColor">#FF4D4D4D</Color>
-    <Color x:Key="BoderLightColor">#FFB7B7B7</Color>
+    <Color x:Key="BorderLightColor">#FFB7B7B7</Color>
     <Color x:Key="ControlLightColor">#EE000000</Color>
-    <Color x:Key="ControlMouseOverColor">#FF3843C4</Color>
-    <Color x:Key="ControlPressedColor">#FF211AA9</Color>
-    <Color x:Key="DisabledBorderDarkColor">#FF888888</Color>
-    <Color x:Key="DisabledBorderLightColor">#FFAAAAAA</Color>
-    <Color x:Key="DisabledControlDarkColor">#FFC5CBF9</Color>
-    <Color x:Key="DisabledForegroundColor">#FF888888</Color>
-    <Color x:Key="SelectedBackgroundColor">#99272727</Color>
+    <Color x:Key="SelectedBackgroundColor">#44FFFFFF</Color>
     <Color x:Key="SelectedUnfocusedColor">#55272727</Color>
     <Color x:Key="TooltipBackColor">#3300577C</Color>
     <Color x:Key="TooltipBorderColor">#8800577C</Color>
 
     <!-- Custom base resources -->
     <Color x:Key="textColor">#FFEAEAEA</Color>
-    <Color x:Key="disabledTextColor">#FFAEAEAE</Color>
     <Color x:Key="disabledBorderColor">#664E4E4E</Color>
     <Color x:Key="buttonMouseOverBackgroundColor">#22FFFFFF</Color>
     <Color x:Key="buttonHighlightBackgroundColor">#33FFFFFF</Color>
+    <Color x:Key="activeBorderColor">#CC00577C</Color>
+    <Color x:Key="activeBackColor">#3300577C</Color>
     
     <SolidColorBrush x:Key="borderBrush">#FF4E4E4E</SolidColorBrush>
     <SolidColorBrush x:Key="backBrush">#EE000000</SolidColorBrush>
     <SolidColorBrush x:Key="textBrush" Color="{DynamicResource textColor}" />
     <SolidColorBrush x:Key="linkTextBrush" Color="#FFE5E5E5" />
     <SolidColorBrush x:Key="linkMouseOverTextBrush" Color="#FFF2F2F2" />
-    <SolidColorBrush x:Key="disabledTextBrush" Color="{DynamicResource disabledTextColor}" />
     <SolidColorBrush x:Key="separatorBrush">#FFB7B9B8</SolidColorBrush>
-    <SolidColorBrush x:Key="selectedbackgroundColorBrush" Color="{DynamicResource SelectedBackgroundColor}" />
     <SolidColorBrush x:Key="buttonBackgroundBrush" Color="#11FFFFFF" />
     <SolidColorBrush x:Key="buttonMouseOverBackgroundBrush" Color="{DynamicResource buttonMouseOverBackgroundColor}" />
     <SolidColorBrush x:Key="buttonHighlightBackgroundBrush" Color="{DynamicResource buttonHighlightBackgroundColor}" />
     <SolidColorBrush x:Key="tooltipBackBrush" Color="{DynamicResource TooltipBackColor}" />
     <SolidColorBrush x:Key="tooltipBorderBrush" Color="{DynamicResource TooltipBorderColor}" />
-    <SolidColorBrush x:Key="activeBorderBrush" Color="#CC00577C" />
-    <SolidColorBrush x:Key="activeBackBrush" Color="#3300577C" />
-
-    <SolidColorBrush x:Key="ControlTextBrush">#FFEAEAEA</SolidColorBrush>
+    <SolidColorBrush x:Key="activeBorderBrush" Color="{DynamicResource activeBorderColor}" />
+    <SolidColorBrush x:Key="activeBackBrush" Color="{DynamicResource activeBackColor}" />
 
     <FontFamily x:Key="textFont">./#Exo 2</FontFamily>
     <sys:Double x:Key="textFontSize">15</sys:Double>
@@ -580,10 +571,12 @@
     </Style>
     
     <!-- DataGrid -->
+
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="AutoGenerateColumns" Value="False" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{DynamicResource borderBrush}" />
+        <Setter Property="HeadersVisibility" Value="Column" />
     </Style>
     
     <Style TargetType="DataGridColumnHeader">
@@ -598,21 +591,88 @@
     </Style>
     
     <Style TargetType="DataGridRow">
-        <Style.Resources>
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
-            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
-            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource textColor}" />
-        </Style.Resources>
-        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource textBrush}" />
-        <Setter Property="FontFamily" Value="{DynamicResource textFont}" />
-        <Setter Property="FontSize" Value="{DynamicResource textFontSize}" />
-        <Setter Property="Margin" Value="2" />
-        <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{DynamicResource selectedbackgroundColorBrush}" />
-            </Trigger>
-        </Style.Triggers>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridRow">
+                    <Border x:Name="border"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0,1">
+                        <SelectiveScrollingGrid>
+                            <SelectiveScrollingGrid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </SelectiveScrollingGrid.ColumnDefinitions>
+                            <SelectiveScrollingGrid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </SelectiveScrollingGrid.RowDefinitions>
+                            <DataGridCellsPresenter Grid.Column="1"
+                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <DataGridDetailsPresenter Grid.Row="1"
+                                                      Grid.Column="1"
+                                                      SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}, 
+                                                                                                                                          Converter={x:Static DataGrid.RowDetailsScrollingConverter},
+                                                                                                                                          RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                      Visibility="{TemplateBinding DetailsVisibility}" />
+                            <DataGridRowHeader Grid.RowSpan="2"
+                                               SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                               Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Row},
+                                                                                       Converter={x:Static DataGrid.HeadersVisibilityConverter},
+                                                                                       RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                        </SelectiveScrollingGrid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Normal_AlternatingRow" />
+                                <VisualState x:Name="Normal_Selected">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                                        To="{DynamicResource SelectedBackgroundColor}"
+                                                        Duration="0" />
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                        To="White"
+                                                        Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
+                                                        To="{DynamicResource activeBackColor}"
+                                                        Duration="0" />
+                                        <ColorAnimation Storyboard.TargetName="border"
+                                                        Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                        To="{DynamicResource activeBorderColor}"
+                                                        Duration="0" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="DataGridCell">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <Border SnapsToDevicePixels="True"
+                            BorderBrush="{DynamicResource separatorBrush}"
+                            BorderThickness="0,0,1,0"
+                            Padding="10, 4, 10, 5"
+                            Margin="0, -1, 0, -2">
+                        <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     
     <Style TargetType="ListViewItem">
