@@ -44,6 +44,8 @@
     <SolidColorBrush x:Key="buttonHighlightBackgroundBrush" Color="{DynamicResource buttonHighlightBackgroundColor}" />
     <SolidColorBrush x:Key="tooltipBackBrush" Color="{DynamicResource TooltipBackColor}" />
     <SolidColorBrush x:Key="tooltipBorderBrush" Color="{DynamicResource TooltipBorderColor}" />
+    <SolidColorBrush x:Key="activeBorderBrush" Color="#CC00577C" />
+    <SolidColorBrush x:Key="activeBackBrush" Color="#3300577C" />
 
     <SolidColorBrush x:Key="ControlTextBrush">#FFEAEAEA</SolidColorBrush>
 
@@ -284,12 +286,19 @@
                             Background="{DynamicResource backBrush}"
                             BorderBrush="{DynamicResource borderBrush}"
                             BorderThickness="2"
-                            Padding="5">
+                            Padding="5"
+                            x:Name="border">
                         <ContentPresenter VerticalAlignment="Center"
                                           HorizontalAlignment="Center"
                                           ContentSource="Header"
                                           RecognizesAccessKey="True" />
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource activeBorderBrush}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource activeBackBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
