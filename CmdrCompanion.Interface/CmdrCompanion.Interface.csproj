@@ -123,11 +123,7 @@
     <Compile Include="Converters\DistanceDisplayConverter.cs" />
     <Compile Include="Converters\NullableBooleanConverter.cs" />
     <Compile Include="GlobalAssemblyInfo.cs" />
-    <Compile Include="Modules\BackgroundStreamWrapper.cs" />
     <Compile Include="Modules\EmdnUpdater.cs" />
-    <Compile Include="Modules\MarketDataReceivedEventArgs.cs" />
-    <Compile Include="Modules\MarketDump.cs" />
-    <Compile Include="Modules\NewLocationEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Updater.cs" />
@@ -256,7 +252,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\marketdump.zip" />
     <Resource Include="Exo2-Regular.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

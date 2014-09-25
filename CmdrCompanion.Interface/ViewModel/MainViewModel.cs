@@ -62,7 +62,6 @@ namespace CmdrCompanion.Interface.ViewModel
 
             // Initialize modules
             SimpleIoc.Default.Register<EmdnUpdater>(() => new EmdnUpdater(Environment));
-            SimpleIoc.Default.Register<MarketDump>();
         }
 
         /// <summary>
@@ -73,7 +72,6 @@ namespace CmdrCompanion.Interface.ViewModel
             if(!IsInDesignMode)
             {
                 InitializeUpdates();
-                InitializeMarketdump();
             }
 
             // Configure modules
@@ -107,89 +105,6 @@ namespace CmdrCompanion.Interface.ViewModel
 
             // Every 2 seconds see if we have a result
             _updatePollTimer = new DispatcherTimer(new TimeSpan(0, 0, 2), DispatcherPriority.Background, PollUpdater, DispatcherHelper.UIDispatcher);
-        }
-
-        private void InitializeMarketdump()
-        {
-            /*
-            if(!Settings.Default.EmdnContribInviteShown)
-            {
-                MyMessageBoxViewModel messageBox = new MyMessageBoxViewModel();
-                messageBox.Title = "EMDN contribution";
-                messageBox.MainText = "This software gets the trade data online from EMDN, the Elite Market Data Network. Would you please consider launching a background tool that will read your game's data and contribute back to the other users?\n\nThis requires administrator privileges.";
-                messageBox.WindowClosed += () =>
-                {
-                    if(messageBox.Result == MessageBoxResult.OK)
-                    {
-                        Settings.Default.UseMartketdumpWithEmdn = true;
-                    }
-
-                    Settings.Default.EmdnContribInviteShown = true;
-                    Settings.Default.Save();
-                };
-                MessengerInstance.Send(new ShowMessageBoxMessage(messageBox));
-            }
-            */
-
-            MarketDump wrapper = CurrentServiceLocator.GetInstance<MarketDump>();
-            wrapper.MarketDataReceived += wrapper_MarketDataReceived;
-            wrapper.NewLocation += wrapper_NewLocation;
-
-            wrapper.Start();
-        }
-
-        void wrapper_NewLocation(object sender, NewLocationEventArgs e)
-        {
-            Trace.TraceInformation("Received location data: {0} -> {1} ({2})", e.StarName, e.PositionDescription, e.IsInDeepSpace);
-
-            AstronomicalObject s = Environment.FindObjectByName(e.StarName, AstronomicalObjectType.Star);
-            if (s == null)
-                s = AstronomicalObject.CreateStar(e.StarName, Environment);
-
-            AstronomicalObject ao = null;
-            if(e.IsInDeepSpace)
-                ao = Environment.GetDeepSpaceObject(s);
-            else
-            {
-                ao = Environment.FindObjectByName(e.PositionDescription);
-                if (ao == null)
-                    ao = AstronomicalObject.CreateAstronomicalObject(e.PositionDescription, s);
-            }
-
-            Environment.CurrentSituation.CurrentLocation = ao;
-        }
-
-        private void wrapper_MarketDataReceived(object sender, MarketDataReceivedEventArgs e)
-        {
-            // Check that the star exists
-            AstronomicalObject s = Environment.FindObjectByName(e.StarName, AstronomicalObjectType.Star);
-            if (s == null)
-                s = AstronomicalObject.CreateStar(e.StarName, Environment);
-
-            // Check that the station exists
-            AstronomicalObject station = s.FindObjectByName(e.StationName, AstronomicalObjectType.Station);
-            if (station == null)
-                station = AstronomicalObject.CreateStation(e.StarName, s);
-
-            // Check that this commodity exists
-            Commodity com = Environment.FindCommodityByName(e.ItemName);
-            if(com == null)
-                Environment.CreateCommodity(e.ItemName, e.CategoryName);
-
-            // Check that the commodity isn't already available
-            Trade t = station.FindCommodity(com);
-            if(t == null)
-            {
-                t = station.CreateTrade(com, e.SellPrice, e.BuyPrice, e.StationStock);
-            }
-            else
-            {
-                t.BuyingPrice = e.BuyPrice;
-                t.SellingPrice = e.SellPrice;
-                t.Stock = e.StationStock;
-            }
-            t.DataDate = DateTime.Now;
-            t.DataSourceName = "Local";
         }
 
         public string SaveFileLocation { get; private set; }
@@ -278,8 +193,6 @@ namespace CmdrCompanion.Interface.ViewModel
 
         public override void Cleanup()
         {
-            CurrentServiceLocator.GetInstance<MarketDump>().Dispose();
-
             Settings.Default.Save();
             Save();
 

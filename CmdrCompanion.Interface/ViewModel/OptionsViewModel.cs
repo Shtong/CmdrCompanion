@@ -36,43 +36,8 @@ namespace CmdrCompanion.Interface.ViewModel
                     else
                         updater.Disable();
 
-                    UpdateMarketdumpState();
-
                     RaisePropertyChanged("EmdnEnabled");
                 }
-            }
-        }
-
-        public bool UseMarketdumpWithEmdn
-        {
-            get
-            {
-                return CurrentSettings.UseMartketdumpWithEmdn;
-            }
-
-            set
-            {
-                if(value != CurrentSettings.UseMartketdumpWithEmdn)
-                {
-                    CurrentSettings.UseMartketdumpWithEmdn = value;
-                    UpdateMarketdumpState();
-                    RaisePropertyChanged("UseMarketdumpWithEmdn");
-                }
-            }
-        }
-
-        private void UpdateMarketdumpState()
-        {
-            MarketDump wrapper = CurrentServiceLocator.GetInstance<MarketDump>();
-
-            bool shouldRun = EmdnEnabled && UseMarketdumpWithEmdn;
-
-            if(wrapper.Running != shouldRun)
-            {
-                if (shouldRun)
-                    wrapper.Start();
-                else
-                    wrapper.Stop();
             }
         }
     }
